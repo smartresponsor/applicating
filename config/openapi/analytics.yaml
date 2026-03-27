@@ -1,0 +1,9 @@
+openapi: 3.0.3
+info: { title: Product Intelligence API, version: v28.0 }
+paths:
+  /api/analytics/product/summary:
+    get: { summary: Aggregated summary by tenant/product/day }
+  /api/analytics/product/summary.csv:
+    get: { summary: CSV export of aggregated summary }
+  /api/analytics/product/cohort:
+    get: { summary: First-payment cohorts }

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+OUT_DIR="$(dirname "$0")/../openapi"
+OUT_FILE="$OUT_DIR/catalog.yaml"
+
+mkdir -p "$OUT_DIR"
+# Пример команды (если установлен swagger-php):
+# ./vendor/bin/openapi --format yaml -o "$OUT_FILE" src
+# Пока — просто объединяем base.yaml c существующим описанием (если есть):
+if [ -f "$OUT_DIR/catalog.yaml" ]; then
+  echo "# regenerated at $(date -Iseconds)" >> "$OUT_FILE"
+else
+  cp "$OUT_DIR/base.yaml" "$OUT_FILE"
+fi
+echo "OpenAPI written to $OUT_FILE"

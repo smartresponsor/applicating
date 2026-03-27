@@ -1,0 +1,5 @@
+orchestrator:
+  thresholds:
+    auto: 0.4   # ниже — apply
+    manual: 0.7 # выше — reject
+  defaultImpact: 0.5

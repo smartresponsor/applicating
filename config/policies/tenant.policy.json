@@ -1,0 +1,7 @@
+{
+  "policies": [
+    { "id": "rate.limit.standard", "when": "tenant.plan == 'standard'", "allow": "qps <= 20" },
+    { "id": "discount.vip", "when": "tenant.plan == 'vip' && trustscore > 0.8", "effect": "discount=0.1" },
+    { "id": "deny.excess", "deny": "qps > 500" }
+  ]
+}

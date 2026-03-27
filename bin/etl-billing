@@ -1,0 +1,30 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\ETL\Connector\BillingCSVConnector;
+use App\Component\Product\ETL\Connector\StripeConnector;
+use App\Component\Product\ETL\Job\IngestBillingJob;
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$csv = new BillingCSVConnector();
+$stripe = new StripeConnector();
+$job = new IngestBillingJob($db);
+
+$mode = $argv[1] ?? 'csv'; // csv|stripe
+$tenant = $argv[2] ?? 'tenantA';
+
+$rows = [];
+if ($mode === 'csv') {
+  $file = $argv[3] ?? __DIR__.'/../var/ingest/billing/sample.csv';
+  $rows = $csv->parse($file);
+} else {
+  $from = $argv[3] ?? date('Y-m-01');
+  $rows = $stripe->fetchInvoices($tenant, $from);
+}
+$loaded = $job->load($rows);
+$upsert = $job->upsertFact();
+
+echo json_encode(['loaded'=>$loaded,'upserted'=>$upsert], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

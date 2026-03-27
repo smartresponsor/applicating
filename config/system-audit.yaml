@@ -1,0 +1,5 @@
+systemAudit:
+  verifyDepth: 1000
+  enabled: true
+  sinks:
+    - trust_ledger

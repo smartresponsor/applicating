@@ -1,0 +1,5 @@
+# config/tenant.yaml
+tenant:
+  mode: rls   # 'rls' или 'schema'
+  default: public
+  header: X-Tenant-Id

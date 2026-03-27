@@ -1,0 +1,31 @@
+-- SLA engine storage
+CREATE TABLE IF NOT EXISTS sla_contracts (
+  id BIGSERIAL PRIMARY KEY,
+  tenant_id TEXT NOT NULL,
+  tier TEXT NOT NULL DEFAULT 'SLA-99.5',
+  contract_min NUMERIC NOT NULL DEFAULT 99.5
+);
+
+CREATE TABLE IF NOT EXISTS sla_events (
+  id BIGSERIAL PRIMARY KEY,
+  ts TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+  tenant_id TEXT NOT NULL,
+  uptime NUMERIC NOT NULL,
+  mttr_min NUMERIC NOT NULL,
+  mtbf_hr NUMERIC NOT NULL,
+  recommended_tier TEXT NOT NULL,
+  credit_cents INT NOT NULL,
+  breach BOOLEAN NOT NULL,
+  details JSONB NOT NULL DEFAULT '{}'::jsonb
+);
+
+CREATE TABLE IF NOT EXISTS slo_cost_snapshots (
+  id BIGSERIAL PRIMARY KEY,
+  ts TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+  tenant_id TEXT NOT NULL,
+  p95_latency_ms NUMERIC NOT NULL,
+  error_rate NUMERIC NOT NULL,
+  rps INT NOT NULL,
+  cost_per_day NUMERIC NOT NULL,
+  tips JSONB NOT NULL DEFAULT '[]'::jsonb
+);

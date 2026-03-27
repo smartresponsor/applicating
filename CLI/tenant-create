@@ -1,0 +1,21 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\Tenant\TenantRegistry;
+use App\Component\Product\Tenant\ShardManager;
+
+$tenant = $argv[1] ?? null;
+$region = $argv[2] ?? 'us-east';
+$dsn = $argv[3] ?? 'pdo-sqlite:///:memory:';
+if (!$tenant){ fwrite(STDERR,"Usage: tenant-create <tenantId> [region] [pg_dsn]\n"); exit(1); }
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$registry = new TenantRegistry($db);
+$registry->add($tenant, ['region'=>$region, 'pg_dsn'=>$dsn]);
+$sm = new ShardManager($db);
+$pick = $sm->pickShard($tenant, $region);
+
+echo json_encode(['ok'=>true,'tenant'=>$tenant,'region'=>$region,'picked_shard'=>$pick], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

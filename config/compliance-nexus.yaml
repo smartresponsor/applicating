@@ -1,0 +1,4 @@
+compliance:
+  standards: [gdpr, hipaa, soc2, esg]
+  retentionDefaultDays: 30
+  consentRequiredPurposes: [analytics, marketing]

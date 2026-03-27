@@ -1,0 +1,30 @@
+@startuml
+title Smartresponsor v26.x Integration Map
+
+package "Telemetry Bridge (26.1)" {
+  [TelemetryCollector] --> (telemetry_qps)
+  [TelemetryCollector] --> (telemetry_errors)
+  [TelemetryAPI] --> [Gateway]
+}
+
+package "AI Feedback Loop (26.2)" {
+  [AIEventConsumer] --> (ai_feedback_queue)
+  [AIFeedbackLoopService] --> [PolicyRewriter]
+}
+
+package "Cloud Autopilot (26.3)" {
+  [AutoScalerService] --> [K8s API]
+  [K8sClient] --> [Deployment/ReplicaSets]
+}
+
+package "Adaptive Governance (26.4)" {
+  [AITrustPredictor] --> (trust_predictions)
+  [AIPolicySyncService] --> (gov_policies)
+}
+
+package "Global Dashboard (26.5)" {
+  [GraphQLTelemetryResolver] --> (telemetry_*)
+  [AIDashboard.tsx] --> [Gateway]
+}
+
+@enduml

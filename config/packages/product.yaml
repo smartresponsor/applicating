@@ -1,0 +1,4 @@
+# config/packages/product.yaml
+parameters:
+  product.rate_limit.capacity: 100
+  product.rate_limit.refill_per_minute: 60

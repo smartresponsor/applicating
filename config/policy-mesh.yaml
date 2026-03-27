@@ -1,0 +1,4 @@
+mesh:
+  quorum: 3
+  crdt: lww_map
+  regions: ["us","eu","apac"]

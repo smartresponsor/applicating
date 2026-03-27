@@ -1,0 +1,3 @@
+scheduler:
+  batchPercent: 20
+  timeoutSec: 3

@@ -1,0 +1,26 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\AI\ABI\ABIRunner;
+use App\Component\Product\AI\ABI\Forecast\RevenueForecast;
+use App\Component\Product\AI\ABI\Policy\BusinessPolicyEngine;
+use App\Component\Product\AI\ABI\Action\BusinessActionOrchestrator;
+
+$tenant = $argv[1] ?? 'tenantA';
+$seriesArg = $argv[2] ?? '1200,1300,1500,1700,2000';
+$margin = (float)($argv[3] ?? '0.35');
+$priority = $argv[4] ?? 'standard';
+$series = array_map('floatval', explode(',', $seriesArg));
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$runner = new ABIRunner(
+  $db,
+  new RevenueForecast(),
+  new BusinessPolicyEngine(),
+  new BusinessActionOrchestrator($db)
+);
+$res = $runner->runOnce($tenant, $series, $margin, $priority);
+echo json_encode($res, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

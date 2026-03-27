@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\Stream\FeedbackHandler;
+
+$tenant = $argv[1] ?? 'tenantA';
+$target = $argv[2] ?? 'revenue';
+$actual = (float)($argv[3] ?? 95.0);
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$fh = new FeedbackHandler($db);
+$res = $fh->apply($tenant, $target, $actual);
+echo json_encode(['ok'=>$res,'tenant'=>$tenant,'target'=>$target,'actual'=>$actual], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

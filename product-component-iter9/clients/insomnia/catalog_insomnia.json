@@ -1,0 +1,38 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-10-08T05:47:20.853539Z",
+  "__export_source": "chatgpt",
+  "resources": [
+    {
+      "_id": "wrk_00000000000000000000000000",
+      "_type": "workspace",
+      "name": "Smartresponsor Catalog API",
+      "scope": "design"
+    },
+    {
+      "_id": "req_list",
+      "_type": "request",
+      "parentId": "wrk_00000000000000000000000000",
+      "name": "List catalog",
+      "method": "GET",
+      "url": "http://localhost/api/catalog?limit=10"
+    },
+    {
+      "_id": "req_show",
+      "_type": "request",
+      "parentId": "wrk_00000000000000000000000000",
+      "name": "Show item",
+      "method": "GET",
+      "url": "http://localhost/api/catalog/{id}"
+    },
+    {
+      "_id": "req_facets",
+      "_type": "request",
+      "parentId": "wrk_00000000000000000000000000",
+      "name": "Facets",
+      "method": "GET",
+      "url": "http://localhost/api/catalog/facets"
+    }
+  ]
+}

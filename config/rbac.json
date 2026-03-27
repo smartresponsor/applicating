@@ -1,0 +1,37 @@
+[
+  {
+    "role": "product-admin",
+    "allow": [
+      "product:*",
+      "price:*",
+      "plugin:*",
+      "connector:*"
+    ],
+    "deny": []
+  },
+  {
+    "role": "catalog-editor",
+    "allow": [
+      "product:read",
+      "product:write",
+      "price:read",
+      "price:write"
+    ],
+    "deny": [
+      "plugin:*",
+      "connector:*"
+    ]
+  },
+  {
+    "role": "viewer",
+    "allow": [
+      "product:read"
+    ],
+    "deny": [
+      "product:write",
+      "price:*",
+      "plugin:*",
+      "connector:*"
+    ]
+  }
+]

@@ -1,0 +1,12 @@
+# config/services_security.yaml
+services:
+  App\Component\Product\Http\Product\Middleware\SecurityHeadersMiddleware: ~
+  App\Component\Product\Http\Product\Middleware\PerAccountRateLimitMiddleware:
+    arguments:
+      $store: '@App\Component\Product\Http\Product\Middleware\RedisTokenBucketStore'
+      $capacity: 120
+      $refillPerMinute: 120
+  App\Component\Product\Security\PiiMasker: ~
+  App\Component\Product\Audit\AuditLogger: ~
+  App\Component\Product\Http\Product\Middleware\AuditTrailMiddleware: ~
+  App\Component\Product\Commands\AuditPruneCommand: ~

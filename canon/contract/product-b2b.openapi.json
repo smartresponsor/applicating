@@ -1,0 +1,29 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "B2B Pricing API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/product/price": {
+      "post": {
+        "summary": "Compute price for account/segment",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/product/price-list": {
+      "post": {
+        "summary": "Create/Update price list",
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use App\Component\Product\PublicAPI\Security\HmacSigner;
+
+$secret = $argv[1] ?? 'dev_secret';
+$payload = $argv[2] ?? '{"type":"demo"}';
+echo HmacSigner::sign($secret, $payload), PHP_EOL;

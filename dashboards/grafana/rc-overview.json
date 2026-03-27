@@ -1,0 +1,24 @@
+{
+  "title": "Product RC Overview",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "p95 Read (ms)",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(product_read_ms_bucket[5m])) by (le)) * 1000"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Import Error Rate",
+      "targets": [
+        {
+          "expr": "sum(rate(product_import_errors_total[5m])) / sum(rate(product_import_total[5m]))"
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 27
+}

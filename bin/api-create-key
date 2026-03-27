@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+
+$tenant = $argv[1] ?? 'tenantA';
+$label  = $argv[2] ?? 'default';
+$key = bin2hex(random_bytes(16));
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$db->insert('api_keys', ['api_key'=>$key,'tenant_id'=>$tenant,'label'=>$label,'disabled'=>0]);
+echo json_encode(['api_key'=>$key,'tenant_id'=>$tenant,'label'=>$label], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

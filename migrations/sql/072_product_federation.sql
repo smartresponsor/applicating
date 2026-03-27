@@ -1,0 +1,1 @@
+CREATE TABLE product_federation_map(id BIGSERIAL PRIMARY KEY, product_id BIGINT NOT NULL, federation_id TEXT UNIQUE NOT NULL, tenant_id TEXT NOT NULL, region VARCHAR(16), scope JSONB NOT NULL DEFAULT '{}'::jsonb, last_synced TIMESTAMP DEFAULT NOW());

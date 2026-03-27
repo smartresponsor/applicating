@@ -1,0 +1,7 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+echo json_encode([
+  'ok'=>true,
+  'services'=>['gateway'=>'http://gateway:8080/health','orchestrator'=>'http://orchestrator:8081/health']
+], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

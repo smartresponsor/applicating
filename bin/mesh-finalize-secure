@@ -1,0 +1,4 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+echo json_encode(['ok'=>true,'usage'=>'POST /api/policy/mesh/secure/finalize {proposal_id, quorum} with header X-Role: region_admin'], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

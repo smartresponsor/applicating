@@ -1,0 +1,20 @@
+{
+  "name": "product-canon-m0",
+  "createdAt": "2025-10-19T18:53:23.370336Z",
+  "artifact": "product-backend-m0-canon-sync.zip",
+  "schemas": [
+    "product.schema.json",
+    "variant.schema.json",
+    "attribute.schema.json",
+    "option.schema.json",
+    "price.schema.json",
+    "media.schema.json",
+    "i18n.schema.json"
+  ],
+  "contract": [
+    "product.openapi.json"
+  ],
+  "rules": [
+    ".canonrules"
+  ]
+}

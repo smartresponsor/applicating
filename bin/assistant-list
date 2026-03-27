@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use App\Component\Product\LLM\PluginManager;
+use App\Component\Product\LLM\Builtin\AdvisorPricing;
+use App\Component\Product\LLM\Builtin\AdvisorChurn;
+use App\Component\Product\LLM\Builtin\AdvisorSLA;
+
+$pm = new PluginManager();
+$pm->register(new AdvisorPricing());
+$pm->register(new AdvisorChurn());
+$pm->register(new AdvisorSLA());
+
+$out = array_map(fn($p)=>$p->metadata(), $pm->all());
+echo json_encode(['plugins'=>$out], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

@@ -1,0 +1,11 @@
+{
+  "id": "p-2048",
+  "slug": "pro-tee-ga",
+  "title": "Pro Tee GA",
+  "type": "configurable",
+  "variant": [],
+  "price": {
+    "amount": 19.99,
+    "currency": "USD"
+  }
+}

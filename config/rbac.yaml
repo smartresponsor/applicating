@@ -1,0 +1,5 @@
+rules:
+  "GET /api/catalog*": [VIEWER, MANAGER, ADMIN, SERVICE]
+  "POST /api/catalog*": [MANAGER, ADMIN, SERVICE]
+  "PUT /api/catalog*": [MANAGER, ADMIN, SERVICE]
+  "DELETE /api/catalog*": [ADMIN]

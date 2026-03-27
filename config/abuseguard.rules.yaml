@@ -1,0 +1,19 @@
+# v27.4 Anti-DDoS & Abuse Guard rules
+ip_whitelist:
+  - "10.0.0.0/8"
+  - "127.0.0.1/32"
+ip_blacklist: []
+burst_penalty:
+  threshold_qps: 50
+  penalty_seconds: 30
+captcha:
+  enabled: true
+  verify_url: "https://captcha.local/verify"
+  secret: "demo-secret"
+tenants:
+  vip:
+    extra_qps: 30
+  pro:
+    extra_qps: 10
+  standard:
+    extra_qps: 0

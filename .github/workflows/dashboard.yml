@@ -1,0 +1,11 @@
+name: dashboard
+on:
+  schedule:
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: php bin/dashboard-refresh

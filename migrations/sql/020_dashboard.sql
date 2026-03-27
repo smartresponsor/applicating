@@ -1,0 +1,4 @@
+-- Placeholder for materialized views or indexes for dashboard performance
+-- CREATE MATERIALIZED VIEW mv_abi_daily AS
+--   SELECT date_trunc('day', ts) AS d, tenant_id, AVG(revenue_forecast) avg_forecast
+--   FROM abi_audit_events GROUP BY d, tenant_id;

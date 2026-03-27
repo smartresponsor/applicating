@@ -1,0 +1,21 @@
+# config/billing.yaml
+billing:
+  plans:
+    free:
+      name: "Free"
+      price: 0
+      rate: 60
+      quota: 5000
+    pro:
+      name: "Pro"
+      price: 4900
+      rate: 300
+      quota: 50000
+    enterprise:
+      name: "Enterprise"
+      price: 19900
+      rate: 1200
+      quota: 500000
+  stripe:
+    api_key_env: "STRIPE_API_KEY"
+    webhook_secret_env: "STRIPE_WEBHOOK_SECRET"

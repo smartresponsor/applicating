@@ -1,0 +1,2 @@
+name: meta_coord
+on: {workflow_dispatch: {}}

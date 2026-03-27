@@ -1,0 +1,14 @@
+queue:
+  driver: rabbitmq
+  rabbitmq:
+    dsn: amqp://app:app@localhost:5672/
+    exchange: product.events
+  redis:
+    stream: product.events
+    group: catalog-consumers
+    consumer: c1
+retry:
+  max_attempts: 5
+  base_backoff_sec: 5
+outbox:
+  batch_size: 100

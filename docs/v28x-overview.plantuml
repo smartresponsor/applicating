@@ -1,0 +1,20 @@
+@startuml
+title Smartresponsor v28.x Overview
+
+package "Policy-as-Code Engine (28.0)" {
+  [PolicyEngine] --> [PolicyRegistry]
+  [ZeroTrustGuard] --> [API]
+}
+
+package "Policy Flow Orchestrator (28.1)" {
+  [PolicyFlowEngine] --> [BillingConnector]
+  [PolicyFlowEngine] --> [TrustConnector]
+  [PolicyFlowEngine] --> [RateConnector]
+}
+
+[PolicyEngine] --> [PolicyFlowEngine]
+[TrustConnector] --> [TrustMesh (v27.2)]
+[RateConnector] --> [RateControl (v27.5)]
+[BillingConnector] --> [Billing (v25.x)]
+
+@enduml

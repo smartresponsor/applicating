@@ -1,0 +1,11 @@
+services:
+  App\Federation\Product\TenantScopeResolver: ~
+  App\Federation\Product\FederationHttpClient:
+    arguments:
+      $jwtServiceToken: '%env(resolve:FEDERATION_JWT_TOKEN)%'
+  App\Federation\Product\ProductFederationService:
+    arguments:
+      $mapRepo: '@App\Federation\Product\Repository\ProductFederationMapRepository'
+      $registry: '@App\Federation\Product\Repository\FederationRegistryRepository'
+      $client: '@App\Federation\Product\FederationHttpClient'
+      $resolver: '@App\Federation\Product\TenantScopeResolver'

@@ -1,0 +1,4 @@
+services:
+  App\Component\Product\Integration\Symfony\KernelEventSubscriber:
+    tags:
+      - { name: kernel.event_subscriber }

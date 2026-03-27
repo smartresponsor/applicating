@@ -1,0 +1,6 @@
+# config/vault.yaml
+vault:
+  addr: http://localhost:8200
+  token: root
+  namespace: ""
+  renew_interval_sec: 1800

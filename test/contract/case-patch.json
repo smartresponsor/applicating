@@ -1,0 +1,11 @@
+{
+  "name": "patch product ok",
+  "request": "/product/p-100",
+  "method": "PATCH",
+  "body": {
+    "title": "T-Shirt Basic Premium"
+  },
+  "expect": {
+    "status": 200
+  }
+}

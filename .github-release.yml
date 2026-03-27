@@ -1,0 +1,25 @@
+name: release
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare release
+        run: |
+          mkdir artifacts || true
+          cp -r docs artifacts/
+          cp product-suite-final-cut.zip artifacts/ || true
+          cp product-suite-roadmap*.zip artifacts/ || true
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v18.0.0
+          name: "Smartresponsor Product Suite v18.0.0"
+          draft: true
+          files: |
+            artifacts/*
+          body_path: docs/RELEASE_NOTES.md

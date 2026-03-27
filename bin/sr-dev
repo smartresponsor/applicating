@@ -1,0 +1,38 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+$cmd = $argv[1] ?? 'help';
+switch ($cmd) {
+  case 'init':
+    $name = $argv[2] ?? 'my-plugin';
+    $manifest = [
+      'name'=>$name, 'version'=>'0.1.0','author'=>'you','price_usd'=>0,
+      'permissions'=>['read:forecast'],'meta'=>['compat'=>'>=23.0']
+    ];
+    file_put_contents($name.'/plugin.json', json_encode($manifest, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
+    file_put_contents($name.'/README.md', "# $name\n\nПлагин для Smartresponsor.\n");
+    echo "Initialized $name\n";
+    break;
+  case 'login':
+    $token = $argv[2] ?? '';
+    file_put_contents(getenv('HOME').'/.sr-dev', $token);
+    echo "Token saved\n";
+    break;
+  case 'publish':
+    $dir = rtrim($argv[2] ?? '.', '/');
+    $json = file_get_contents($dir.'/plugin.json') ?: '{}';
+    $pubkey = 'dev';
+    $sig = hash('sha256', $json.'#'.$pubkey);
+    echo json_encode(['manifest'=>json_decode($json,true),'signature'=>$sig], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;
+    echo "Use POST /api/devhub/plugin/publish to upload.\n";
+    break;
+  case 'test':
+    $sdlFile = $argv[2] ?? 'schema.graphqls';
+    $sdl = file_exists($sdlFile) ? file_get_contents($sdlFile) : '';
+    $ok = (strpos($sdl, 'type Query') !== false);
+    echo json_encode(['ok'=>$ok,'note'=>'basic SDL check'], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;
+    break;
+  default:
+    echo "sr-dev commands: init|login|publish|test\n";
+}

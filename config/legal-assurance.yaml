@@ -1,0 +1,5 @@
+legal:
+  defaultCompanyName: "YourCompany"
+  assuranceRules:
+    minRetention: 30
+    maxDpia: 0.7

@@ -1,0 +1,35 @@
+replicaCount: 2
+
+image:
+  repository: your-docker-repo/catalog
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: nginx
+  hosts:
+    - host: catalog.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+env: {}
+resources:
+  limits:
+    cpu: 500m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 60

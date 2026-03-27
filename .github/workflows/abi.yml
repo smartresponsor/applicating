@@ -1,0 +1,14 @@
+name: abi
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: ABI demo run
+        run: |
+          php bin/abi-run tenantA 1200,1300,1500,1700,2000 0.35 gold || true
+          echo 'ABI cycle simulated'

@@ -1,0 +1,15 @@
+{
+  "id": "pl-m6-usd",
+  "currency": "USD",
+  "account": "acc-demo",
+  "segment": "vip",
+  "rules": [
+    {
+      "selector": {
+        "slug": "pro-tee-m6"
+      },
+      "price": 18.9,
+      "compareAt": 21.0
+    }
+  ]
+}

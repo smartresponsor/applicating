@@ -1,0 +1,1 @@
+CREATE TABLE federation_registry(id BIGSERIAL PRIMARY KEY, node_id TEXT UNIQUE NOT NULL, base_url TEXT NOT NULL, public_key TEXT, region VARCHAR(16), meta JSONB NOT NULL DEFAULT '{}'::jsonb, last_seen TIMESTAMP DEFAULT NOW());

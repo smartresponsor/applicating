@@ -1,0 +1,6 @@
+# config/rbac_scopes.yaml
+scopes:
+  "GET /api/catalog*": ["catalog:read"]
+  "POST /api/catalog*": ["catalog:write"]
+  "PUT /api/catalog*": ["catalog:write"]
+  "DELETE /api/catalog*": ["catalog:admin"]

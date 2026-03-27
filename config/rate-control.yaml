@@ -1,0 +1,9 @@
+# v27.5 Global Rate Control
+global:
+  soft_threshold_cpu_pct: 80
+  hard_threshold_cpu_pct: 95
+  soft_throttle_factor: 0.7  # 70% of normal rate
+plans:
+  standard: { rate: 20, burst: 60 }
+  pro:      { rate: 50, burst: 120 }
+  vip:      { rate: 100, burst: 200 }

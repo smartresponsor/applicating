@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: smartpolicy-sentient-loop
+spec:
+  schedule: "*/10 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: sentient-loop
+              image: curlimages/curl:8.9.1
+              command: ["/bin/sh","-c"]
+              args:
+                - >
+                  THS=$(curl -s -X POST "http://smartpolicy-gateway:8080/api/intelligence/train" -d window=180 | jq -c .thresholds);
+                  curl -s -X POST "http://smartpolicy-gateway:8080/api/intelligence/adjust" -d thresholds="$THS";

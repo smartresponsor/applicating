@@ -1,0 +1,58 @@
+name: cd
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment (staging|prod)"
+        required: true
+        default: "staging"
+  push:
+    branches: [ main ]
+    paths:
+      - 'helm/**'
+      - '.github/workflows/cd.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set kube context
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'v1.30.0'
+      - uses: azure/setup-helm@v4
+        with:
+          version: 'v3.14.4'
+
+      - name: Configure KUBECONFIG
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG_BASE64 }}" | base64 -d > ~/.kube/config
+
+      - name: Select values file
+        id: envsel
+        run: |
+          if [ "${{ github.event.inputs.environment || 'staging' }}" = "prod" ]; then
+            echo "VALUES=helm/catalog/values-prod.yaml" >> $GITHUB_OUTPUT
+            echo "NAMESPACE=prod" >> $GITHUB_OUTPUT
+            echo "RELEASE=catalog-prod" >> $GITHUB_OUTPUT
+          else
+            echo "VALUES=helm/catalog/values-staging.yaml" >> $GITHUB_OUTPUT
+            echo "NAMESPACE=staging" >> $GITHUB_OUTPUT
+            echo "RELEASE=catalog-staging" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create namespace if missing
+        run: |
+          kubectl get ns ${{ steps.envsel.outputs.NAMESPACE }} || kubectl create ns ${{ steps.envsel.outputs.NAMESPACE }}
+
+      - name: Apply SealedSecret (optional)
+        if: ${{ env.APPLY_SEALED_SECRETS == '1' }}
+        run: |
+          kubectl apply -n ${{ steps.envsel.outputs.NAMESPACE }} -f k8s/sealedsecrets/catalog-secrets.yaml || true
+
+      - name: Helm upgrade
+        run: |
+          helm upgrade --install ${{ steps.envsel.outputs.RELEASE }} ./helm/catalog             -n ${{ steps.envsel.outputs.NAMESPACE }}             -f ${{ steps.envsel.outputs.VALUES }}

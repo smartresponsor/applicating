@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RbacPolicy",
+  "type": "object",
+  "properties": {
+    "role": {
+      "type": "string"
+    },
+    "allow": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "deny": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

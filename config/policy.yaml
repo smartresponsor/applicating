@@ -1,0 +1,7 @@
+policies:
+  - name: tenant-priority-gold
+    condition: "tenant_priority == 'gold' and predicted_cpu > 70"
+    action: "scale-up"
+  - name: cost-guard
+    condition: "predicted_cpu < 30"
+    action: "scale-down"

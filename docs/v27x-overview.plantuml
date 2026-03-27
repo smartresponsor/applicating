@@ -1,0 +1,27 @@
+@startuml
+title Smartresponsor v27.x Overview
+
+package "Neural Fabric (27.0)" {
+  [TenantAgent] --> [FabricHub]
+  [TrainingPipeline] --> [FabricHub]
+}
+package "Federated Learning (27.1)" {
+  [FederatedSyncService] --> [FabricHub]
+  [PrivacyLayer] --> [FederatedSyncService]
+  [SignatureService] --> [FederatedSyncService]
+}
+package "TrustMesh (27.2)" {
+  [TrustMeshService] --> [TrustScoreAggregator]
+}
+package "Traffic (27.3-27.5)" {
+  [PriorityQueues] --> [TrafficShaper]
+  [AbuseGuard] --> [RateGuard]
+  [GlobalRateController] --> [RateGuard]
+  [QuarantineManager] --> [RateGuard]
+  [EnvoyRateSync] --> [Envoy/Redis]
+}
+
+[Governance Hooks] --> [Policies]
+[Billing Hooks] --> [Invoices]
+
+@enduml

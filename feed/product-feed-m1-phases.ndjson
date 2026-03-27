@@ -1,0 +1,6 @@
+{"phase": "m1_1", "title": "er-freeze", "ts": "2025-10-19T18:57:03.135867Z"}
+{"phase": "m1_2", "title": "api-v1-freeze", "ts": "2025-10-19T18:57:03.135867Z"}
+{"phase": "m1_3", "title": "deprecation-policy", "ts": "2025-10-19T18:57:03.135867Z"}
+{"phase": "m1_4", "title": "contract-tests-scaffold", "ts": "2025-10-19T18:57:03.135867Z"}
+{"phase": "m1_5", "title": "doc-cookbook", "ts": "2025-10-19T18:57:03.135867Z"}
+{"phase": "m1_6", "title": "smoke-script", "ts": "2025-10-19T18:57:03.135867Z"}

@@ -1,0 +1,7 @@
+name: billing-check
+on: { workflow_dispatch: {} }
+jobs:
+  ok:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'billing scaffolding ready'

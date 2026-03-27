@@ -1,0 +1,1 @@
+-- meta_coord_status table

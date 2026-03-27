@@ -1,0 +1,11 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+// В демо просто пишет JSON-кэш
+$cacheFile = __DIR__ . '/../cache/dashboard.json';
+$data = ['refreshed_at'=>gmdate('c'),'note'=>'demo cache file'];
+if (!is_dir(dirname($cacheFile))) { mkdir(dirname($cacheFile), 0777, true); }
+file_put_contents($cacheFile, json_encode($data, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
+echo "Dashboard cache refreshed: $cacheFile\n";

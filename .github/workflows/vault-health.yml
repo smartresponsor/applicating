@@ -1,0 +1,10 @@
+name: vault-health
+on:
+  workflow_dispatch:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Vault sys/health
+        run: |
+          curl -sS http://localhost:8200/v1/sys/health || true

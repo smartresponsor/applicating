@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\Observability\AlertManager;
+
+$name = $argv[1] ?? 'app_error_rate';
+$threshold = (float)($argv[2] ?? 0.05);
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$am = new AlertManager($db);
+$res = $am->evaluate($name, $threshold);
+echo json_encode(['ok'=>true,'name'=>$name,'threshold'=>$threshold,'fired'=>$res['fired'],'value'=>$res['value']], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

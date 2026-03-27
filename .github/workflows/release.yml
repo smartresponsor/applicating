@@ -1,0 +1,15 @@
+name: release
+on:
+  push:
+    tags: [ 'v*' ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: zip -r product-suite.zip . -x '.git/*'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: product-suite
+          path: product-suite.zip

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: smartcloud-api
+  namespace: smartcloud
+spec:
+  selector: { app: smartcloud-api }
+  ports: [{ port: 8090, targetPort: 8090, protocol: TCP }]
+  type: ClusterIP

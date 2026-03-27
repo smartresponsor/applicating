@@ -1,0 +1,57 @@
+{
+  "id": null,
+  "title": "Catalog API Overview",
+  "timezone": "browser",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "RPS",
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total{job=\"catalog\"}[1m]))"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 12,
+        "h": 6
+      }
+    },
+    {
+      "type": "graph",
+      "title": "5xx rate (%)",
+      "targets": [
+        {
+          "expr": "100 * sum(rate(http_requests_total{job=\"catalog\",status=~\"5..\"}[1m])) / sum(rate(http_requests_total{job=\"catalog\"}[1m]))"
+        }
+      ],
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 12,
+        "h": 6
+      }
+    },
+    {
+      "type": "graph",
+      "title": "Latency p95 / p99 (s)",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job=\"catalog\"}[5m])) by (le))"
+        },
+        {
+          "expr": "histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket{job=\"catalog\"}[5m])) by (le))"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 6,
+        "w": 24,
+        "h": 8
+      }
+    }
+  ],
+  "schemaVersion": 39,
+  "version": 1
+}

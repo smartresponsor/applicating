@@ -1,0 +1,12 @@
+openapi: 3.0.3
+info: { title: Product Federation API, version: v24.0 }
+paths:
+  /api/product/federation/{id}:
+    get:
+      summary: Get federation context for product
+  /api/product/federation/{id}/sync:
+    post:
+      summary: Force federation sync for the product
+  /api/product/federation/{id}/bind:
+    post:
+      summary: Bind a product to federation context

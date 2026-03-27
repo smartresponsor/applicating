@@ -1,0 +1,37 @@
+{
+  "config": {
+    "target": "http://localhost",
+    "phases": [
+      {
+        "duration": 30,
+        "arrivalRate": 5
+      },
+      {
+        "duration": 60,
+        "arrivalRate": 20
+      }
+    ]
+  },
+  "scenarios": [
+    {
+      "name": "List catalog",
+      "flow": [
+        {
+          "get": {
+            "url": "/api/catalog?limit=5"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Facets",
+      "flow": [
+        {
+          "get": {
+            "url": "/api/catalog/facets"
+          }
+        }
+      ]
+    }
+  ]
+}

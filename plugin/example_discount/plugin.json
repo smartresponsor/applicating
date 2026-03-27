@@ -1,0 +1,9 @@
+{
+  "name": "example_discount",
+  "version": "1.0.0",
+  "entry": "plugin.py",
+  "hooks": [
+    "on_price_compute",
+    "on_product_read"
+  ]
+}

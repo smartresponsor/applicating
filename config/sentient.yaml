@@ -1,0 +1,5 @@
+sentient:
+  trainWindowMin: 180
+  predictWindowMin: 60
+  orchestratorWebhook: "http://smartpolicy-gateway:8080/api/policy/orchestrator/update-thresholds"
+  governanceWebhook: "http://smartpolicy-gateway:8080/api/policy/governance/enforce"

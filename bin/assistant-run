@@ -1,0 +1,35 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\LLM\ContextBuilder;
+use App\Component\Product\LLM\PluginManager;
+use App\Component\Product\LLM\DecisionLogger;
+use App\Component\Product\LLM\Builtin\AdvisorPricing;
+use App\Component\Product\LLM\Builtin\AdvisorChurn;
+use App\Component\Product\LLM\Builtin\AdvisorSLA;
+
+$tenant = $argv[1] ?? 'tenantA';
+$prompt = $argv[2] ?? 'auto';
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$ctx = new ContextBuilder($db);
+$pm  = new PluginManager();
+$pm->register(new AdvisorPricing());
+$pm->register(new AdvisorChurn());
+$pm->register(new AdvisorSLA());
+$log = new DecisionLogger($db);
+
+$context = $ctx->build($tenant);
+$results = [];
+foreach ($pm->all() as $p) {
+  $decs = $p->analyze($context);
+  foreach ($decs as $d) {
+    $log->log($tenant, $p->metadata()['name'] ?? 'advisor', $prompt, $d, 'llm');
+    $results[] = ['advisor'=>$p->metadata(),'decision'=>$d];
+  }
+}
+
+echo json_encode(['tenant'=>$tenant,'results'=>$results], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

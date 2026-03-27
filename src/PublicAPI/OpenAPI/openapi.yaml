@@ -1,0 +1,50 @@
+openapi: 3.0.3
+info:
+  title: Smartresponsor Public API
+  version: v22.7
+servers:
+  - url: https://api.smartresponsor.example
+paths:
+  /api/public/v1/abi/forecast:
+    get:
+      summary: Average revenue forecast (ABI)
+      parameters:
+        - in: query
+          name: tenant
+          schema: { type: string }
+      responses:
+        '200':
+          description: OK
+  /api/public/v1/cla/churn:
+    get:
+      summary: Average churn score (CLA)
+      parameters:
+        - in: query
+          name: tenant
+          schema: { type: string }
+      responses:
+        '200': { description: OK }
+  /api/public/v1/pricing/price:
+    get:
+      summary: Base price for SKU
+      parameters:
+        - in: query
+          name: tenant
+          schema: { type: string }
+        - in: query
+          name: sku
+          schema: { type: string }
+      responses:
+        '200': { description: OK }
+  /api/public/v1/webhooks/ingest:
+    post:
+      summary: Ingest external event via HMAC-signed webhook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200': { description: OK }
+components: {}

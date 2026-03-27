@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\Security\DLP\DLPScanner;
+
+$source = $argv[1] ?? 'webhook';
+$payload = $argv[2] ?? 'test payload: user@example.com, 4242-4242-4242-4242';
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$dlp = new DLPScanner($db);
+$found = $dlp->scanPayload($source,$payload);
+echo json_encode(['ok'=>true,'matches'=>$found], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

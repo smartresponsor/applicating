@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+# Usage: legal-seed-templates <psql-conn-string>
+CONN=${1:-"postgres://user:pass@localhost:5432/db"}
+DPA=$(sed 's/\x27/\x27\x27/g' templates/legal/dpa.html)
+SLA=$(sed 's/\x27/\x27\x27/g' templates/legal/sla.html)
+psql "$CONN" -v ON_ERROR_STOP=1 <<SQL
+INSERT INTO legal_templates(name, body) VALUES
+  ('dpa', '$DPA')
+ON CONFLICT (name) DO UPDATE SET body=EXCLUDED.body;
+INSERT INTO legal_templates(name, body) VALUES
+  ('sla', '$SLA')
+ON CONFLICT (name) DO UPDATE SET body=EXCLUDED.body;
+SQL
+echo "Seeded DPA/SLA templates"

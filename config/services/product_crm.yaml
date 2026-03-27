@@ -1,0 +1,8 @@
+
+services:
+  App\Product\CRM\Service\PipelineService:
+    arguments: { $db: '@doctrine.dbal.default_connection' }
+  App\Product\CRM\Service\DealService:
+    arguments: { $db: '@doctrine.dbal.default_connection' }
+  App\Product\CRM\Service\ActivityService:
+    arguments: { $db: '@doctrine.dbal.default_connection' }

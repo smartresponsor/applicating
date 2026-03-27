@@ -1,0 +1,8 @@
+/vendor/
+/.phpunit.cache/
+/.php-cs-fixer.cache
+/.rector/
+/.phpunit.result.cache
+/product-suite.zip
+/var/
+/report/

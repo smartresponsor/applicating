@@ -1,0 +1,39 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "SmartResponsor Product Import/Export",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/product/import": {
+      "post": {
+        "summary": "Start import task (NDJSON or CSV)",
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          }
+        }
+      }
+    },
+    "/product/export": {
+      "get": {
+        "summary": "Export products (NDJSON)",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/product/indexer/rebuild": {
+      "post": {
+        "summary": "Rebuild read index",
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          }
+        }
+      }
+    }
+  }
+}

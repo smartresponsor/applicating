@@ -1,0 +1,13 @@
+openapi: 3.0.3
+info: { title: Product Billing Bridge API, version: v25.0 }
+paths:
+  /api/billing/usage:
+    post:
+      summary: Track usage (tenant, product, units)
+      requestBody: { required: true }
+      responses: { '200': { description: Usage accepted } }
+  /api/billing/invoice/settle:
+    post:
+      summary: Create & finalize invoice for tenant
+      requestBody: { required: true }
+      responses: { '200': { description: Invoice finalized } }

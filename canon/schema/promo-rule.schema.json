@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PromoRule",
+  "type": "object",
+  "required": [
+    "id",
+    "priority",
+    "effect"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "priority": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "stackable": {
+      "type": "boolean",
+      "default": true
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "startsAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "endsAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "condition": {
+      "type": "object",
+      "properties": {
+        "attributeEquals": {
+          "type": "object"
+        },
+        "attributeIn": {
+          "type": "object"
+        },
+        "minSubtotal": {
+          "type": "number"
+        }
+      }
+    },
+    "effect": {
+      "type": "object",
+      "oneOf": [
+        {
+          "properties": {
+            "percent": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          },
+          "required": [
+            "percent"
+          ]
+        },
+        {
+          "properties": {
+            "fixed": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "fixed"
+          ]
+        }
+      ]
+    }
+  }
+}

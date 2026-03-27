@@ -1,0 +1,119 @@
+openapi: 3.1.0
+info:
+  title: Smartresponsor Catalog API
+  version: "1.0.0"
+  description: REST API для каталога продуктов (фильтры, курсоры, фасеты).
+servers:
+  - url: https://api.example.com
+paths:
+  /api/catalog:
+    get:
+      summary: List catalog items
+      parameters:
+        - in: query
+          name: q
+          schema: { type: string }
+        - in: query
+          name: status
+          schema: { type: string, enum: [draft, active, archived] }
+        - in: query
+          name: min_price
+          schema: { type: integer }
+        - in: query
+          name: max_price
+          schema: { type: integer }
+        - in: query
+          name: category_ids
+          schema:
+            type: array
+            items: { type: string }
+          style: form
+          explode: true
+        - in: query
+          name: sort
+          schema: { type: string, enum: [price_asc, price_desc, stock_asc, stock_desc, updated_asc, updated_desc] }
+        - in: query
+          name: limit
+          schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+        - in: query
+          name: cursor
+          schema: { type: string }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ProductRead"
+                  next_cursor: { type: [string, "null"] }
+                  sort: { type: string }
+                  limit: { type: integer }
+                  filters: { type: object }
+                  facets: { $ref: "#/components/schemas/Facets" }
+  /api/catalog/{id}:
+    get:
+      summary: Show single product
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductRead"
+        "404":
+          description: Not found
+  /api/catalog/facets:
+    get:
+      summary: Get facet stats
+      parameters:
+        - in: query
+          name: q
+          schema: { type: string }
+        - in: query
+          name: status
+          schema: { type: string }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  facets:
+                    $ref: "#/components/schemas/Facets"
+components:
+  schemas:
+    ProductRead:
+      type: object
+      properties:
+        id: { type: string }
+        product_sku: { type: string }
+        product_title: { type: string }
+        product_price_amount: { type: integer }
+        product_price_currency: { type: string, minLength: 3, maxLength: 3 }
+        product_status: { type: string }
+        product_stock: { type: integer }
+        updated_at: { type: string, format: date-time }
+    Facets:
+      type: object
+      properties:
+        status:
+          type: array
+          items: { type: object, properties: { product_status: { type: string }, cnt: { type: integer } } }
+        priceBuckets:
+          type: array
+          items: { type: object, properties: { bucket: { type: integer }, cnt: { type: integer } } }
+        categories:
+          type: array
+          items: { type: object, properties: { cat: { type: string }, cnt: { type: integer } } }

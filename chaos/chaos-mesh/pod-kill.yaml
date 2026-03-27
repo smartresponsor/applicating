@@ -1,0 +1,16 @@
+
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: catalog-pod-kill
+  namespace: staging
+spec:
+  action: pod-kill
+  mode: one
+  selector:
+    namespaces: ["staging"]
+    labelSelectors:
+      app: "catalog"
+  duration: "30s"
+  scheduler:
+    cron: "@weekly"

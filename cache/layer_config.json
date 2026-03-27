@@ -1,0 +1,10 @@
+{
+  "layers": [
+    "app",
+    "edge"
+  ],
+  "ttl": {
+    "product": 60,
+    "variant": 60
+  }
+}

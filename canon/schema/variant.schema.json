@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Variant",
+  "type": "object",
+  "required": [
+    "sku",
+    "option"
+  ],
+  "properties": {
+    "sku": {
+      "type": "string"
+    },
+    "option": {
+      "type": "array",
+      "items": {
+        "$ref": "option.schema.json"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  }
+}

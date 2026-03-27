@@ -1,0 +1,41 @@
+
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: catalog-slo-rules
+  namespace: monitoring
+spec:
+  groups:
+  - name: catalog-sli
+    rules:
+    - record: job:http_request_rate:sum
+      expr: sum(rate(http_requests_total{job="catalog"}[5m]))
+    - record: job:http_5xx_rate:ratio
+      expr: |
+        sum(rate(http_requests_total{job="catalog",status=~"5.."}[5m])) 
+        / clamp_min(sum(rate(http_requests_total{job="catalog"}[5m])), 1)
+    - record: job:http_latency_p95_seconds
+      expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job="catalog"}[5m])) by (le))
+    - record: job:http_latency_p99_seconds
+      expr: histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket{job="catalog"}[5m])) by (le))
+  - name: catalog-slo-alerts
+    rules:
+    - alert: CatalogHighErrorRateFastBurn
+      expr: (job:http_5xx_rate:ratio) > 0.05
+      for: 10m
+      labels: {severity: page}
+      annotations:
+        summary: "Catalog: 5xx error rate > 5% (fast burn)"
+    - alert: CatalogHighLatencyP99
+      expr: job:http_latency_p99_seconds > 1.0
+      for: 15m
+      labels: {severity: page}
+      annotations:
+        summary: "Catalog: P99 latency > 1s"
+    - alert: CatalogErrorBudgetBurn
+      expr: |
+        (job:http_5xx_rate:ratio) > (1 - 0.999) * 14  # ~14x burn for 99.9% SLO
+      for: 30m
+      labels: {severity: warn}
+      annotations:
+        summary: "Catalog: Error budget burning too fast (target 99.9%/30d)"

@@ -1,0 +1,2 @@
+name: ethical_ai
+on: {workflow_dispatch: {}}

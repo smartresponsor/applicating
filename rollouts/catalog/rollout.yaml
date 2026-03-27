@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: catalog
+  namespace: staging
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: catalog
+  template:
+    metadata:
+      labels:
+        app: catalog
+    spec:
+      containers:
+        - name: app
+          image: your-docker-repo/catalog:staging
+          ports:
+            - containerPort: 8080
+  strategy:
+    canary:
+      canaryService: catalog-canary
+      stableService: catalog-stable
+      steps:
+        - setWeight: 10
+        - pause: {duration: 60}
+        - analysis:
+            templates:
+              - templateName: http-5xx-rate
+        - setWeight: 30
+        - pause: {duration: 120}
+        - setWeight: 60
+        - pause: {duration: 180}
+      trafficRouting:
+        nginx: {}

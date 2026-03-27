@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: smartpolicy-legal-assurance-verify
+spec:
+  schedule: "0 3 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: assurance-verify
+              image: curlimages/curl:8.9.1
+              command: ["/bin/sh","-c"]
+              args:
+                - curl -s -X POST "http://smartpolicy-gateway:8080/api/legal/assurance/check" -d rules='{"minRetention":30,"maxDpia":0.7}'

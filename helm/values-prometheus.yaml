@@ -1,0 +1,8 @@
+prometheus:
+  federation:
+    sources:
+      - http://prometheus-service.monitoring.svc:9090
+      - http://prometheus-service.vendor.svc:9090
+    match:
+      - '{__name__=~".*http.*"}'
+      - '{__name__=~".*db.*"}'

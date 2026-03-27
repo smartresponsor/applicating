@@ -1,0 +1,12 @@
+name: orchestration
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Process orchestration events
+        run: php bin/orch-run || true

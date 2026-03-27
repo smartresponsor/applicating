@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+require __DIR__.'/../vendor/autoload.php';
+use App\Component\Product\AI\SelfHealing\Clients\KubernetesClient;
+
+$hpa = $argv[1] ?? 'app-hpa';
+$min = (int)($argv[2] ?? 2);
+$max = (int)($argv[3] ?? 6);
+$cpu = (int)($argv[4] ?? 70);
+$k8s = new KubernetesClient(getenv('K8S_NAMESPACE') ?: 'default');
+[$code,$out,$err] = $k8s->kubectl(['patch','hpa',$hpa,'-p', json_encode(['spec'=>['minReplicas'=>$min,'maxReplicas'=>$max,'targetCPUUtilizationPercentage'=>$cpu]]), '--type=merge']);
+echo $out ?: $err, PHP_EOL;
+exit($code);

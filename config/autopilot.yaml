@@ -1,0 +1,11 @@
+schedule: "0 2 * * *"   # nightly 02:00 UTC
+thresholds:
+  scale_up: 75
+  scale_down: 25
+tenants:
+  - id: tenantA
+    priority: gold
+  - id: tenantB
+    priority: standard
+k8s:
+  namespace: default

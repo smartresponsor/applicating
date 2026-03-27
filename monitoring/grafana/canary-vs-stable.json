@@ -1,0 +1,44 @@
+{
+  "id": null,
+  "title": "Canary vs Stable",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "RPS (canary vs stable)",
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total{service=\"catalog-canary\"}[1m]))"
+        },
+        {
+          "expr": "sum(rate(http_requests_total{service=\"catalog-stable\"}[1m]))"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 6
+      }
+    },
+    {
+      "type": "graph",
+      "title": "5xx rate (%)",
+      "targets": [
+        {
+          "expr": "100 * sum(rate(http_requests_total{service=\"catalog-canary\",status=~\"5..\"}[1m])) / sum(rate(http_requests_total{service=\"catalog-canary\"}[1m]))"
+        },
+        {
+          "expr": "100 * sum(rate(http_requests_total{service=\"catalog-stable\",status=~\"5..\"}[1m])) / sum(rate(http_requests_total{service=\"catalog-stable\"}[1m]))"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 6,
+        "w": 24,
+        "h": 6
+      }
+    }
+  ],
+  "schemaVersion": 39,
+  "version": 1
+}

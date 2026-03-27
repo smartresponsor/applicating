@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smartcloud-api
+  namespace: smartcloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: smartcloud-api }
+  template:
+    metadata:
+      labels: { app: smartcloud-api }
+    spec:
+      containers:
+        - name: api
+          image: ghcr.io/demo/smartcloud-api:latest
+          ports: [{ containerPort: 8090 }]
+          readinessProbe:
+            httpGet: { path: /api/cloud/health, port: 8090 }
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /api/cloud/health, port: 8090 }
+            initialDelaySeconds: 10
+            periodSeconds: 15

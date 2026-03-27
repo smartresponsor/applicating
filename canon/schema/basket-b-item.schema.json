@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BasketBItem",
+  "type": "object",
+  "required": [
+    "sku",
+    "qty",
+    "price"
+  ],
+  "properties": {
+    "sku": {
+      "type": "string"
+    },
+    "qty": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "price": {
+      "type": "number"
+    }
+  }
+}

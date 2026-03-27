@@ -1,0 +1,8 @@
+{"phase": "m6_1", "title": "basket-b-schema", "ts": "2025-10-19T19:21:16.457887Z"}
+{"phase": "m6_2", "title": "pim-export", "ts": "2025-10-19T19:21:16.457887Z"}
+{"phase": "m6_3", "title": "import-dry-run", "ts": "2025-10-19T19:21:16.457887Z"}
+{"phase": "m6_4", "title": "index-search-reindex", "ts": "2025-10-19T19:21:16.457887Z"}
+{"phase": "m6_5", "title": "plugin-price-compute", "ts": "2025-10-19T19:21:16.457887Z"}
+{"phase": "m6_6", "title": "erp-sync", "ts": "2025-10-19T19:21:16.457887Z"}
+{"phase": "m6_7", "title": "webhook-publish", "ts": "2025-10-19T19:21:16.457887Z"}
+{"phase": "m6_8", "title": "orchestrator-docs", "ts": "2025-10-19T19:21:16.457887Z"}

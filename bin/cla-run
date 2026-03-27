@@ -1,0 +1,57 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\AI\CLA\LifecycleDetector;
+use App\Component\Product\AI\CLA\ChurnPredictor;
+use App\Component\Product\AI\CLA\CampaignOrchestrator;
+use App\Component\Product\AI\CLA\Channel\EmailChannel;
+use App\Component\Product\AI\CLA\Channel\WebhookChannel;
+
+$tenant = $argv[1] ?? 'tenantA';
+$customer = $argv[2] ?? 'cust-001';
+$daysSignup = (int)($argv[3] ?? 10);
+$daysLast = (int)($argv[4] ?? 45);
+$orders = (int)($argv[5] ?? 2);
+$aov = (float)($argv[6] ?? 40.0);
+$tickets = (int)($argv[7] ?? 0);
+$email = $argv[8] ?? 'user@example.com';
+$webhook = $argv[9] ?? 'https://example.tld/hook';
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+
+$det = new LifecycleDetector();
+$st = $det->detect($daysSignup, $daysLast, $orders);
+
+$ch = new ChurnPredictor();
+$score = $ch->score($aov, $daysLast, $tickets);
+
+$orc = new CampaignOrchestrator(new EmailChannel(), new WebhookChannel());
+$pick = $orc->choose(['stage'=>$st['stage'],'churn'=>$score,'locale'=>'ru','email'=>$email,'webhook'=>$webhook]);
+$del = $orc->deliver($pick['channel'], $pick['payload'], ['email'=>$email,'webhook'=>$webhook]);
+
+$event = [
+  'ts'=>gmdate('c'),
+  'tenant_id'=>$tenant,
+  'customer_id'=>$customer,
+  'stage'=>$st['stage'],
+  'churn_score'=>$score,
+  'campaign'=>$pick['campaign'],
+  'channel'=>$pick['channel'],
+  'delivery'=>$del,
+  'details'=>['rationale'=>$st['rationale'],'payload'=>$pick['payload']]
+];
+
+$db->insert('customer_lifecycle_events', [
+  'tenant_id'=>$tenant,
+  'customer_id'=>$customer,
+  'stage'=>$st['stage'],
+  'churn_score'=>$score,
+  'campaign'=>$pick['campaign'],
+  'channel'=>$pick['channel'],
+  'details'=>json_encode($event['details'], JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES)
+]);
+
+echo json_encode($event, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

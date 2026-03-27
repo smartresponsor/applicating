@@ -1,0 +1,4 @@
+services:
+  App\Analytics\Product\ProductAnalyticsAggregator:
+    arguments:
+      $db: '@doctrine.dbal.default_connection'

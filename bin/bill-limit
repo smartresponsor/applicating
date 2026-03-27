@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+use Doctrine\DBAL\DriverManager;
+
+$tenant = $argv[1] ?? 'tenantA';
+$limit = (float)($argv[2] ?? 100.0);
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$db->executeStatement('INSERT INTO billing_limits(tenant_id, monthly_limit_usd) VALUES(?, ?) ON CONFLICT(tenant_id) DO UPDATE SET monthly_limit_usd=EXCLUDED.monthly_limit_usd', [$tenant, $limit]);
+echo json_encode(['ok'=>true,'tenant'=>$tenant,'monthly_limit_usd'=>$limit], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

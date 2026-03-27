@@ -1,0 +1,22 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\Guard\ApprovalService;
+
+$id = (int)($argv[1] ?? 0);
+$who = $argv[2] ?? 'admin@example.com';
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$svc = new ApprovalService($db);
+
+if ($id <= 0){ fwrite(STDERR, "Usage: bin/guard-approve <id> [who]\n"); exit(1); }
+
+if ($svc->approve($id, $who)) {
+  $exec = $svc->executeApproved($id);
+  echo json_encode(['approved'=>true,'execute'=>$exec], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;
+} else {
+  echo json_encode(['approved'=>false], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;
+}

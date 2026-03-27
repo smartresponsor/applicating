@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\Marketplace\Installer;
+
+$tenant = $argv[1] ?? 'tenantA';
+$pluginId = (int)($argv[2] ?? 1);
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$inst = new Installer($db);
+$ok = $inst->uninstall($tenant, $pluginId);
+echo json_encode(['ok'=>$ok], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

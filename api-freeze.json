@@ -1,0 +1,16 @@
+{
+  "apiFreeze": true,
+  "frozenAt": "2025-10-19T19:24:15.675111Z",
+  "contracts": [
+    "M1: product.openapi.json (core)",
+    "M2: import-export.openapi.json",
+    "M3: product-types.openapi.json",
+    "M4: product-ga.openapi.json",
+    "M5: product-plugins.openapi.json, product-b2b.openapi.json"
+  ],
+  "rules": [
+    "No breaking changes on frozen endpoints without new versioned path",
+    "Additive changes allowed (new fields optional)",
+    "Deprecation window: ≥ 2 minor releases before removal"
+  ]
+}

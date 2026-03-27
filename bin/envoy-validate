@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+test -f deploy/envoy/envoy.yaml && echo "envoy.yaml found" || (echo "missing envoy.yaml"; exit 1)
+echo "OK"

@@ -1,0 +1,21 @@
+groups:
+- name: product-rc
+  rules:
+  - alert: ProductReadLatencyHigh
+    expr: histogram_quantile(0.95, sum(rate(product_read_ms_bucket[5m])) by (le)) > 0.03
+    for: 5m
+    labels: {severity: page}
+    annotations:
+      summary: "p95 product read latency > 30ms"
+  - alert: ImportErrorRateHigh
+    expr: sum(rate(product_import_errors_total[5m])) / sum(rate(product_import_total[5m])) > 0.01
+    for: 10m
+    labels: {severity: ticket}
+    annotations:
+      summary: "Import error rate > 1%"
+  - alert: WebhookDelayHigh
+    expr: histogram_quantile(0.95, sum(rate(product_webhook_delay_ms_bucket[5m])) by (le)) > 3
+    for: 10m
+    labels: {severity: ticket}
+    annotations:
+      summary: "Webhook dispatch p95 > 3s"

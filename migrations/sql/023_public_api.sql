@@ -1,0 +1,23 @@
+-- API keys, rate limit, webhooks
+CREATE TABLE IF NOT EXISTS api_keys (
+  id BIGSERIAL PRIMARY KEY,
+  api_key TEXT NOT NULL UNIQUE,
+  tenant_id TEXT NOT NULL,
+  label TEXT,
+  disabled BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
+);
+CREATE TABLE IF NOT EXISTS ratelimit (
+  key TEXT PRIMARY KEY,
+  count INT NOT NULL,
+  window TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS webhook_events (
+  id BIGSERIAL PRIMARY KEY,
+  ts TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+  source TEXT NOT NULL,
+  type TEXT NOT NULL,
+  payload TEXT NOT NULL,
+  delivery_status TEXT NOT NULL,
+  last_error TEXT
+);

@@ -1,0 +1,14 @@
+name: cla
+on:
+  schedule:
+    - cron: "0 4 * * *"
+  workflow_dispatch:
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: CLA demo
+        run: |
+          php bin/cla-run tenantA cust-001 10 45 2 40 0 user@example.com https://example.tld/hook || true
+          echo 'cla cycle simulated'

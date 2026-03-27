@@ -1,0 +1,6 @@
+intelligence:
+  windowMinDefault: 60
+  thresholds:
+    predictiveScore: 0.55
+    queueDepth: 50
+    replicaFails: 5

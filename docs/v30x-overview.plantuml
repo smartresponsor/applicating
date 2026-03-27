@@ -1,0 +1,14 @@
+@startuml
+title Smartresponsor v30.x — Self-Learning Federation
+
+[PolicyFlow] --> [Adaptive Learning]
+[Adaptive Learning] --> [Feedback DB]
+[Feedback DB] --> [CrossRegionSync] : export
+[CrossRegionSync] ..> [MetricsSigner]
+[Scheduler] --> [Federation Push] : canary
+[Federation Push] --> [Peers]
+[Peers] --> [Federation Learning API] : apply
+[Federation Learning API] --> [Federation Learner] : update alpha/beta
+[Federation Learner] --> [Policy Variants]
+
+@enduml

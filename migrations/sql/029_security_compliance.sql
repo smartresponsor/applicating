@@ -1,0 +1,58 @@
+-- Security & Compliance core
+CREATE TABLE IF NOT EXISTS audit_logs (
+  id BIGSERIAL PRIMARY KEY,
+  ts TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+  tenant_id TEXT NOT NULL,
+  actor TEXT NOT NULL,
+  action TEXT NOT NULL,
+  meta JSONB NOT NULL DEFAULT '{}'::jsonb
+);
+CREATE INDEX IF NOT EXISTS idx_audit_tenant_ts ON audit_logs(tenant_id, ts DESC);
+
+CREATE TABLE IF NOT EXISTS access_policies (
+  id BIGSERIAL PRIMARY KEY,
+  name TEXT NOT NULL UNIQUE,
+  rules JSONB NOT NULL DEFAULT '{}'::jsonb,
+  created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS secrets_kv (
+  id BIGSERIAL PRIMARY KEY,
+  key TEXT NOT NULL,
+  ciphertext TEXT NOT NULL,
+  meta JSONB NOT NULL DEFAULT '{}'::jsonb,
+  rotated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_secrets_key ON secrets_kv(key);
+
+CREATE TABLE IF NOT EXISTS key_rotations (
+  id BIGSERIAL PRIMARY KEY,
+  key TEXT NOT NULL,
+  rotated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+  status TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS consents (
+  id BIGSERIAL PRIMARY KEY,
+  ts TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+  tenant_id TEXT NOT NULL,
+  subject_id TEXT NOT NULL,
+  purpose TEXT NOT NULL,
+  granted BOOLEAN NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_consents_tenant_subject ON consents(tenant_id, subject_id, ts DESC);
+
+CREATE TABLE IF NOT EXISTS retention_runs (
+  id BIGSERIAL PRIMARY KEY,
+  ts TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+  policy_key TEXT NOT NULL,
+  deleted_rows INT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS dlp_events (
+  id BIGSERIAL PRIMARY KEY,
+  ts TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+  source TEXT NOT NULL,
+  payload_snippet TEXT NOT NULL,
+  matches INT NOT NULL
+);

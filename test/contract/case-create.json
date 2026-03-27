@@ -1,0 +1,32 @@
+{
+  "name": "create product ok",
+  "request": "/product",
+  "method": "POST",
+  "body": {
+    "id": "p-100",
+    "slug": "t-shirt-basic",
+    "title": "T-Shirt Basic",
+    "variant": [
+      {
+        "sku": "SKU-100-S-BLACK",
+        "option": [
+          {
+            "code": "size",
+            "value": "S"
+          },
+          {
+            "code": "color",
+            "value": "black"
+          }
+        ]
+      }
+    ],
+    "price": {
+      "amount": 19.99,
+      "currency": "USD"
+    }
+  },
+  "expect": {
+    "status": 201
+  }
+}

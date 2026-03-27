@@ -1,0 +1,39 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+use App\Component\Product\AI\Autopilot\AutopilotRunner;
+
+require_once __DIR__.'/../vendor/autoload.php';
+
+// Demo: read env or use mock series
+$tenant = $argv[1] ?? 'tenantA';
+$seriesArg = $argv[2] ?? '40,48,55,63,71';
+$series = array_map('floatval', explode(',', $seriesArg));
+
+$runner = new AutopilotRunner();
+$res = $runner->runOnce($tenant, $series);
+
+// Persist to SQLite mock if DB available
+$dbPath = getenv('SQLITE_PATH') ?: __DIR__.'/../autopilot.sqlite';
+try {
+  $pdo = new PDO('sqlite:'.$dbPath);
+  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  $pdo->exec("CREATE TABLE IF NOT EXISTS autopilot_events (id INTEGER PRIMARY KEY AUTOINCREMENT, ts TEXT, tenant_id TEXT, avg REAL, slope REAL, predicted REAL, decision TEXT, action TEXT, outcome TEXT, details TEXT)");
+  $stmt = $pdo->prepare("INSERT INTO autopilot_events (ts, tenant_id, avg, slope, predicted, decision, action, outcome, details) VALUES (:ts,:tenant,:avg,:slope,:pred,:dec,:act,:out,:det)");
+  $stmt->execute([
+    ':ts'=>gmdate('c'),
+    ':tenant'=>$res['tenant_id'],
+    ':avg'=>$res['avg'],
+    ':slope'=>$res['slope'],
+    ':pred'=>$res['predicted'],
+    ':dec'=>$res['decision'],
+    ':act'=>$res['action'],
+    ':out'=>$res['outcome'],
+    ':det'=>json_encode($res['details'], JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES)
+  ]);
+} catch (Throwable $e) {
+  // ignore if sqlite not available
+}
+
+echo json_encode($res, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

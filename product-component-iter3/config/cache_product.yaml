@@ -1,0 +1,12 @@
+# config/cache_product.yaml
+framework:
+  cache:
+    pools:
+      cache.product.pool:
+        adapter: cache.adapter.redis
+        provider: '%env(REDIS_DSN)%'
+
+services:
+  App\Component\Product\Cache\Product\ProductCacheService:
+    arguments:
+      $pool: '@cache.product.pool'

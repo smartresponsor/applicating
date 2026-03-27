@@ -1,0 +1,8 @@
+qa:
+	vendor/bin/phpstan analyse --level=max src
+	vendor/bin/rector process src --dry-run
+	vendor/bin/ecs check src
+	vendor/bin/phpunit --colors=always
+
+clean:
+	rm -rf var/cache vendor/bin/.phpunit.result.cache

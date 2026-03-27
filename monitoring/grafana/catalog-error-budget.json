@@ -1,0 +1,23 @@
+{
+  "id": null,
+  "title": "Catalog Error Budget Burn",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "Error budget burn (fast)",
+      "targets": [
+        {
+          "expr": "(sum(rate(http_requests_total{job=\"catalog\",status=~\"5..\"}[5m])) / sum(rate(http_requests_total{job=\"catalog\"}[5m]))) / (1-0.999)"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 8
+      }
+    }
+  ],
+  "schemaVersion": 39,
+  "version": 1
+}

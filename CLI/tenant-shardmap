@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\Tenant\ShardManager;
+
+$region = $argv[1] ?? 'us-east';
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$sm = new ShardManager($db);
+echo json_encode(['region'=>$region,'shards'=>$sm->listShards($region)], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

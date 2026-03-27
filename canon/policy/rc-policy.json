@@ -1,0 +1,19 @@
+{
+  "semver": "MAJOR.MINOR.PATCH",
+  "rcTag": "1.0.0-rc.1",
+  "deprecation": {
+    "minGraceMinorReleases": 2,
+    "announceChannels": [
+      "CHANGELOG",
+      "ReleaseNotes",
+      "NDJSON feed"
+    ],
+    "breakingChangeProcess": [
+      "design doc",
+      "approval",
+      "beta flag",
+      "dual-run",
+      "remove"
+    ]
+  }
+}

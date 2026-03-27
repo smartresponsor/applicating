@@ -1,0 +1,5 @@
+# .sops.yaml — пример для age
+creation_rules:
+  - path_regex: secrets/.*\.enc\.yaml$
+    encrypted_regex: '^(data|stringData)$'
+    age: ['age1exampleexampleexampleexampleexamplexxxxxxxxxxxxxx']

@@ -1,0 +1,27 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\ETL\Connector\CRMWebhookConnector;
+use App\Component\Product\ETL\Job\IngestCRMJob;
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$norm = new CRMWebhookConnector();
+$job = new IngestCRMJob($db);
+
+// demo payload
+$payloads = [[
+  'tenant_id'=>'tenantA','customer_id'=>'cust-1','event'=>'page_view',
+  'ts'=>gmdate('c'),'meta'=>['utm'=>'email']
+],[
+  'tenant_id'=>'tenantA','customer_id'=>'cust-1','event'=>'add_to_cart',
+  'ts'=>gmdate('c'),'meta'=>['sku'=>'SKU-001']
+]];
+
+$rows = array_map(fn($p)=>$norm->normalize($p), $payloads);
+$loaded = $job->load($rows);
+$synced = $job->syncDimCustomer();
+
+echo json_encode(['loaded'=>$loaded,'synced'=>$synced], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

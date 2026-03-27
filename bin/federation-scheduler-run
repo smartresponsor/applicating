@@ -1,0 +1,4 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+echo json_encode(['ok'=>true,'usage'=>'POST /api/policy/federation/scheduler/tick or run via cron every minute'], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

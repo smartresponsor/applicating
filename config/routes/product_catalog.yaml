@@ -1,0 +1,4 @@
+# config/routes/product_catalog.yaml
+api_catalog:
+  resource: '../../src/Http/Product/ApiProductCatalogController.php'
+  type: attribute

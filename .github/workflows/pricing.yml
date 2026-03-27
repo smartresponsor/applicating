@@ -1,0 +1,12 @@
+name: pricing
+on:
+  workflow_dispatch:
+jobs:
+  dryrun:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pricing demo
+        run: |
+          php bin/pricing-run tenantA SKU-001 10 -1.2 1.15 0.3 6 7 25 gold || true
+          echo 'pricing engine simulated'

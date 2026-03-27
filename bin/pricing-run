@@ -1,0 +1,42 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\AI\ABI\Pricing\PricingEngine;
+use App\Component\Product\AI\ABI\Pricing\Guardrails;
+use App\Component\Product\AI\ABI\Policy\PricingPolicy;
+
+$tenant = $argv[1] ?? 'tenantA';
+$sku = $argv[2] ?? 'SKU-001';
+$base = (float)($argv[3] ?? 10.00);
+$elasticity = (float)($argv[4] ?? -1.2);
+$demand = (float)($argv[5] ?? 1.15);
+$minMargin = (float)($argv[6] ?? 0.30);
+$unitCost = (float)($argv[7] ?? 6.00);
+$floor = (float)($argv[8] ?? 7.00);
+$ceil = (float)($argv[9] ?? 25.00);
+$priority = $argv[10] ?? 'standard';
+
+$policy = new PricingPolicy();
+$r = $policy->rules(['tenant_priority'=>$priority,'min_margin'=>$minMargin,'floor'=>$floor,'ceil'=>$ceil]);
+
+$engine = new PricingEngine();
+$res = $engine->compute($base, $elasticity, $demand, $minMargin, $unitCost, $r['caps']);
+
+$guard = new Guardrails();
+$clamped = $guard->clampByFloorCeil($res['price'], $r['floor'], $r['ceil']);
+
+$out = [
+  'tenant_id'=>$tenant,
+  'sku'=>$sku,
+  'base'=>$base,
+  'demand_index'=>$demand,
+  'price_before_guard'=>$res['price'],
+  'price_final'=>$clamped['price'],
+  'delta_pct'=>$res['delta_pct'],
+  'guard'=>$res['guard'].'/'.$clamped['guard']
+];
+
+echo json_encode($out, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

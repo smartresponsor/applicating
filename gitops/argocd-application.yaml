@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: smartpolicy-v30-final
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/your-org/smartpolicy-infra.git
+    path: helm/patches
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values-ledger.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: smartpolicy
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }

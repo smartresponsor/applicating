@@ -1,0 +1,3 @@
+billing_routes:
+  resource: ../../src/Controller/Billing/BillingController.php
+  type: annotation

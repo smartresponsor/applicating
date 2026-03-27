@@ -1,0 +1,33 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\Orchestration\EventBus;
+use App\Component\Product\Orchestration\TriggerRegistry;
+use App\Component\Product\Orchestration\RuleEngine;
+use App\Component\Product\Orchestration\Integration\GuardBridge;
+use App\Component\Product\Orchestration\ActionExecutor;
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$bus = new EventBus($db);
+$tr = new TriggerRegistry();
+$rules = new RuleEngine();
+$guard = new GuardBridge($db);
+$exec = new ActionExecutor($db, $guard);
+
+$queued = $bus->fetchQueued(50);
+$results = [];
+foreach ($queued as $row) {
+  $event = ['id'=>$row['id'], 'tenant_id'=>$row['tenant_id'], 'type'=>$row['type'], 'payload'=>json_decode($row['payload'] ?? '{}', true)];
+  $applied = [];
+  foreach (($tr->rules()[$event['type']] ?? []) as $rule) {
+    if ($rules->match($rule['rule'], $event, $rule['params'])) {
+      $applied[] = ['rule'=>$rule['rule'], 'action'=>$rule['action'], 'result'=>$exec->execute($rule['action'], $event, $rule['params'])];
+    }
+  }
+  $bus->markProcessed((int)$row['id'], 'processed', json_encode($applied, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+  $results[] = ['event_id'=>$row['id'], 'applied'=>$applied];
+}
+echo json_encode(['ok'=>true,'processed'=>count($results),'results'=>$results], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

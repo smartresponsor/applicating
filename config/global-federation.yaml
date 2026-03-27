@@ -1,0 +1,2 @@
+federation:
+  trustHashEndpoint: /api/fed/trust/hash

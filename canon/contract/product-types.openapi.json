@@ -1,0 +1,46 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "SmartResponsor Product Types API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/product/{id}/bundle": {
+      "post": {
+        "summary": "Add bundle item",
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/product/{id}/grouped": {
+      "post": {
+        "summary": "Link grouped product",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/product/{id}/variant/generate": {
+      "post": {
+        "summary": "Generate variants from matrices",
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Product": {
+        "$ref": "../schema/product.schema.json"
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\Observability\TraceLogger;
+use App\Component\Product\Observability\DTO\TraceSpan;
+
+$trace = $argv[1] ?? bin2hex(random_bytes(8));
+$span = $argv[2] ?? bin2hex(random_bytes(4));
+$name = $argv[3] ?? 'demo_span';
+$dur  = (int)($argv[4] ?? 123);
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$tl = new TraceLogger($db);
+$tl->write(new TraceSpan($trace, $span, '', $name, gmdate('c'), $dur, ['service'=>'product-suite']));
+echo json_encode(['ok'=>true,'trace_id'=>$trace,'span_id'=>$span], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

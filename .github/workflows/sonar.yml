@@ -1,0 +1,19 @@
+name: sonar
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse --level=max src
+      - name: Upload report to SonarCloud
+        uses: SonarSource/sonarcloud-github-action@v2
+        with:
+          projectBaseDir: .
+          args: >
+            -Dsonar.organization=smartresponsor
+            -Dsonar.projectKey=smartresponsor_product-suite

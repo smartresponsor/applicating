@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Product",
+  "type": "object",
+  "required": [
+    "id",
+    "slug",
+    "title",
+    "type"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "title": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "simple",
+        "configurable",
+        "bundle",
+        "grouped",
+        "virtual",
+        "downloadable"
+      ]
+    },
+    "variant": {
+      "type": "array",
+      "items": {
+        "$ref": "variant.schema.json"
+      },
+      "uniqueItems": true
+    },
+    "price": {
+      "$ref": "price.schema.json"
+    }
+  }
+}

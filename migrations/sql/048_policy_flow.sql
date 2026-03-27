@@ -1,0 +1,17 @@
+-- Policy Flow Engine
+CREATE TABLE IF NOT EXISTS policy_flows (
+  id BIGSERIAL PRIMARY KEY,
+  ts TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+  policy TEXT NOT NULL,
+  tenant_id TEXT NOT NULL,
+  status TEXT NOT NULL,
+  summary JSONB NOT NULL DEFAULT '{}'::jsonb
+);
+CREATE TABLE IF NOT EXISTS policy_flow_log (
+  id BIGSERIAL PRIMARY KEY,
+  ts TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+  policy TEXT NOT NULL,
+  step TEXT NOT NULL,
+  status TEXT NOT NULL,
+  payload TEXT
+);

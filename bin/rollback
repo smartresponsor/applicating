@@ -1,0 +1,11 @@
+#!/usr/bin/env php
+<?php
+require __DIR__.'/../vendor/autoload.php';
+use App\Component\Product\AI\SelfHealing\Clients\KubernetesClient;
+$release = $argv[1] ?? 'smartresponsor';
+$rev = $argv[2] ?? 'LAST_SUCCESS';
+$pod = $argv[3] ?? 'helm-runner';
+$k8s = new KubernetesClient(getenv('K8S_NAMESPACE') ?: 'default');
+[$code,$out,$err] = $k8s->kubectl(['exec','deploy/'.$pod,'--','helm','rollback',$release,$rev,'--wait']);
+echo $out ?: $err, PHP_EOL;
+exit($code);

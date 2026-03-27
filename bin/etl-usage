@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\ETL\Connector\UsageJSONConnector;
+use App\Component\Product\ETL\Job\IngestUsageJob;
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$conn = new UsageJSONConnector();
+$job = new IngestUsageJob($db, $conn);
+
+$file = $argv[1] ?? __DIR__.'/../var/ingest/usage/sample.json';
+$rows = $conn->parse($file);
+$loaded = $job->load($rows);
+$rolled = $job->rollupDaily($rows[0]['tenant_id'] ?? 'tenantA');
+
+echo json_encode(['loaded'=>$loaded,'rolled'=>$rolled], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

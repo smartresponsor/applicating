@@ -1,0 +1,10 @@
+# config/services_product.yaml
+services:
+  App\Component\Product\Interface\Product\ProductServiceInterface:
+    alias: App\Component\Product\Service\Product\ProductService
+
+  App\Component\Product\Interface\Product\ProductRepositoryInterface:
+    alias: App\Component\Product\Repository\Product\ProductRepository
+
+  App\Component\Product\Interface\Product\ProductCacheProviderInterface:
+    alias: App\Component\Product\Cache\Product\ProductCacheService

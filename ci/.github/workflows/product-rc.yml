@@ -1,0 +1,16 @@
+name: product-rc
+on:
+  workflow_dispatch:
+  push:
+    tags: [ "v1.0.0-rc.*" ]
+jobs:
+  rc-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify API freeze manifest exists
+        run: test -f api-freeze.json
+      - name: Lint alerts
+        run: yamllint alerts/prometheus/alerts-m7-rc.yml || true
+      - name: Print version
+        run: cat VERSION

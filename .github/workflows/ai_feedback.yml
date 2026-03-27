@@ -1,0 +1,12 @@
+name: ai_feedback_scheduler
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+jobs:
+  feedback:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run AI Feedback
+        run: php -r "echo 'AI feedback tick\n';" # интегрируй вызов AIEventScheduler в проде

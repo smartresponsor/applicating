@@ -1,0 +1,1 @@
+CREATE TABLE product_metrics(id SERIAL PRIMARY KEY);

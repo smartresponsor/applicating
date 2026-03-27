@@ -1,0 +1,31 @@
+# Auth
+admin_login:
+  path: /api/admin/auth/login
+  controller: App\Component\Product\Security\Admin\AdminJwtController::login
+  methods: [POST]
+
+# Data
+admin_tenants:
+  path: /api/admin/tenants
+  controller: App\Component\Product\Controller\Admin\TenantController::list
+  methods: [GET]
+
+admin_billing_invoices:
+  path: /api/admin/billing/invoices
+  controller: App\Component\Product\Controller\Admin\BillingController::invoices
+  methods: [GET]
+
+admin_billing_stripe:
+  path: /api/admin/billing/stripe/{tenantId}
+  controller: App\Component\Product\Billing\Stripe\AdminStripeController::show
+  methods: [GET]
+
+admin_usage:
+  path: /api/admin/usage
+  controller: App\Component\Product\Controller\Admin\UsageController::current
+  methods: [GET]
+
+admin_incidents:
+  path: /api/admin/incidents
+  controller: App\Component\Product\Incident\AdminIncidentController::list
+  methods: [GET]

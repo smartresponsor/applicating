@@ -1,0 +1,43 @@
+{
+  "title": "Policy Intelligence Hub",
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Predictive Avg Score",
+      "targets": [
+        {
+          "expr": "avg(policy_simulation_log_score)"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Replica Queue Depth",
+      "targets": [
+        {
+          "expr": "sum(policy_replica_queue_depth)"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Replication Failures (5m)",
+      "targets": [
+        {
+          "expr": "sum(policy_replication_failures_total)"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Ledger Blocks Appended",
+      "targets": [
+        {
+          "expr": "increase(ledger_blocks_appended_total[1h])"
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 36,
+  "version": 1
+}

@@ -1,0 +1,10 @@
+name: otel-check
+on:
+  workflow_dispatch:
+jobs:
+  ping-collector:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Curl OTLP health (expected 404/405 but reachable)
+        run: |
+          curl -s -o /dev/null -w "%{http_code}\n" http://localhost:4318/v1/traces || true

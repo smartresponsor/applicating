@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\Billing\UsageTracker;
+use App\Component\Product\Billing\PricingRules;
+
+$tenant = $argv[1] ?? 'tenantA';
+$feature = $argv[2] ?? 'llm.call';
+$qty = (int)($argv[3] ?? 1);
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$pricing = new PricingRules($db);
+$usage = new UsageTracker($db);
+$price = $pricing->unitPrice($feature);
+$usage->track($tenant, $feature, $qty, $price, gmdate('c'));
+echo json_encode(['ok'=>true,'charged'=>$price*$qty], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

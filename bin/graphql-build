@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\GraphQL\Federation\SchemaComposer;
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$composer = new SchemaComposer($db);
+$gw = file_get_contents(__DIR__.'/../src/GraphQL/Schema/schema.graphqls') ?: '';
+$full = $composer->compose($gw);
+echo $full, PHP_EOL;

@@ -1,0 +1,5 @@
+# config/audit_sink.yaml
+s3:
+  bucket: "s3://my-bucket"
+  prefix: "audit/"
+  # set env S3_SYNC_CMD="aws s3 cp" or "mc cp"

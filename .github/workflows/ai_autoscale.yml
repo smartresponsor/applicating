@@ -1,0 +1,10 @@
+name: ai_autoscale
+on:
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: php -v
+      - run: echo 'AI governance ready'

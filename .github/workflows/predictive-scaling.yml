@@ -1,0 +1,16 @@
+name: predictive-scaling
+on:
+  schedule:
+    - cron: "0 2 * * *"  # nightly
+  workflow_dispatch:
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Forecast & Policy
+        run: |
+          php bin/predictive-scale-run 40,45,55,60,70 || true
+          php bin/policy-check gold 82 || true
+      - name: OK
+        run: echo 'predictive scaling executed'

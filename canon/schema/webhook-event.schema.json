@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WebhookEvent",
+  "type": "object",
+  "required": [
+    "id",
+    "type",
+    "createdAt",
+    "payload"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "product.changed",
+        "variant.changed",
+        "product.import.completed",
+        "product.index.rebuilt"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "payload": {
+      "type": "object"
+    },
+    "signature": {
+      "type": "string"
+    }
+  }
+}

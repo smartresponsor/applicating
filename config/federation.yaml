@@ -1,0 +1,3 @@
+signing:
+  secret: "federation-secret"
+peers: []

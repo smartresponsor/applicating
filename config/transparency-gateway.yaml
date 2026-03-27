@@ -1,0 +1,5 @@
+transparency:
+  enablePublicAPI: true
+  defaultWindowMin: 60
+  rateLimitRps: 5
+  cacheTtlSec: 60

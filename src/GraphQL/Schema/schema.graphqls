@@ -1,0 +1,42 @@
+# Gateway federated schema (stitch of subgraphs)
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Query {
+  health: String!
+  me: Me!
+  abiForecast(tenant: ID!): Forecast!
+  claStatus(tenant: ID!): CLA!
+}
+
+type Mutation {
+  orchestrationEmit(tenant: ID!, type: String!, payload: JSON): EmitResult!
+}
+
+scalar JSON
+
+type Me {
+  id: ID!
+  roles: [String!]!
+  tenant: ID!
+}
+
+type Forecast {
+  tenant: ID!
+  predictedRevenue: Float!
+  model: String!
+  ts: String!
+}
+
+type CLA {
+  tenant: ID!
+  churnAvg: Float!
+  atRisk: Boolean!
+}
+
+type EmitResult {
+  ok: Boolean!
+  id: Int
+}

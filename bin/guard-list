@@ -1,0 +1,11 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$tenant = $argv[1] ?? 'tenantA';
+$rows = $db->fetchAllAssociative('SELECT * FROM approval_requests WHERE tenant_id=? AND status=? ORDER BY ts_request ASC', [$tenant,'pending']);
+echo json_encode($rows, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

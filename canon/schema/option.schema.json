@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Option",
+  "type": "object",
+  "required": [
+    "code",
+    "value"
+  ],
+  "properties": {
+    "code": {
+      "type": "string"
+    },
+    "value": {
+      "type": [
+        "string",
+        "number",
+        "boolean"
+      ]
+    }
+  }
+}

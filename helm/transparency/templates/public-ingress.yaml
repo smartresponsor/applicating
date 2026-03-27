@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: smartpolicy-transparency-public
+  annotations:
+    nginx.ingress.kubernetes.io/limit-rps: "5"
+spec:
+  rules:
+    - host: public.smartpolicy.local
+      http:
+        paths:
+          - path: /api/public
+            pathType: Prefix
+            backend:
+              service:
+                name: smartpolicy-gateway
+                port:
+                  number: 8080

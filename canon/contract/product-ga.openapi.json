@@ -1,0 +1,72 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "SmartResponsor Product GA",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/product/webhook/subscribe": {
+      "post": {
+        "summary": "Subscribe to product events",
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/product/webhook/subscriptions": {
+      "get": {
+        "summary": "List subscriptions",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/product/promo/rule": {
+      "post": {
+        "summary": "Add promo rule",
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/product/tax/rule": {
+      "post": {
+        "summary": "Add tax rule",
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/product/variant/generate/v2": {
+      "post": {
+        "summary": "Generate up to 2048 variants",
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "WebhookEvent": {
+        "$ref": "../schema/webhook-event.schema.json"
+      },
+      "PromoRule": {
+        "$ref": "../schema/promo-rule.schema.json"
+      },
+      "TaxRule": {
+        "$ref": "../schema/tax-rule.schema.json"
+      }
+    }
+  }
+}

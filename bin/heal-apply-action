@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+require __DIR__.'/../vendor/autoload.php';
+use App\Component\Product\AI\SelfHealing\Clients\KubernetesClient;
+use App\Component\Product\AI\SelfHealing\Orchestrator\ActionOrchestrator;
+use Doctrine\DBAL\DriverManager;
+
+$action = $argv[1] ?? 'restart';
+$ctxJson = $argv[2] ?? '{}';
+$ctx = json_decode($ctxJson, true) ?: [];
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$k8s = new KubernetesClient(getenv('K8S_NAMESPACE') ?: 'default');
+$orc = new ActionOrchestrator($db, $k8s);
+$res = $orc->apply($action, $ctx);
+echo json_encode($res, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

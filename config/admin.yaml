@@ -1,0 +1,6 @@
+admin:
+  roles:
+    superadmin: [TENANT_READ, BILLING_READ, USAGE_READ, INCIDENT_READ]
+    tenant_owner: [TENANT_READ, BILLING_READ, USAGE_READ]
+  page_size: 50
+  api_base: /api/admin

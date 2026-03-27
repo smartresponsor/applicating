@@ -1,0 +1,27 @@
+# Map high-level decisions to concrete orchestrator actions
+mappings:
+  scale-up:
+    action: hpa-patch
+    ctx:
+      hpa: app-hpa
+      min: 2
+      max: 8
+      cpu: 65
+  scale-down:
+    action: hpa-patch
+    ctx:
+      hpa: app-hpa
+      min: 1
+      max: 4
+      cpu: 50
+  restart:
+    action: restart
+  rollback:
+    action: helm-rollback
+    ctx:
+      release: smartresponsor
+      revision: LAST_SUCCESS
+  circuit-on:
+    action: circuit-breaker-on
+  circuit-off:
+    action: circuit-breaker-off

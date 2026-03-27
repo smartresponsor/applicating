@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\SelfHealing\AnomalyDetector;
+
+$tenant = $argv[1] ?? 'tenantA';
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$det = new AnomalyDetector($db);
+$inc = $det->scan($tenant);
+echo json_encode(['tenant'=>$tenant,'incidents'=>array_map(fn($i)=>['tenant'=>$i->tenantId,'component'=>$i->component,'status'=>$i->status,'error'=>$i->error,'ts'=>$i->ts], $inc)], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

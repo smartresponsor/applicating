@@ -1,0 +1,13 @@
+meshSecurity:
+  mtls:
+    enabled: true
+    caSecretRef: smartpolicy-mesh-ca
+  ipAllowlist:
+    enabled: true
+    cidrs: ["10.0.0.0/8","192.168.0.0/16"]
+  rbac:
+    defaultRole: observer
+  ttlHours: 24
+  trustLedger:
+    outboxEnabled: true
+    endpoint: "http://smartpolicy-gateway:8080/api/trust-ledger/append"

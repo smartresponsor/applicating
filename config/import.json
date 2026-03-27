@@ -1,0 +1,13 @@
+{
+  "batchSize": 5000,
+  "dryRun": true,
+  "maxVariantsPerProduct": 2048,
+  "currency": "USD",
+  "index": {
+    "shards": 1,
+    "replicas": 0
+  },
+  "report": {
+    "path": "./data/report.json"
+  }
+}

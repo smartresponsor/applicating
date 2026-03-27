@@ -1,0 +1,19 @@
+
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: catalog-network-delay
+  namespace: staging
+spec:
+  action: delay
+  mode: all
+  selector:
+    namespaces: ["staging"]
+    labelSelectors:
+      app: "catalog"
+  delay:
+    latency: "200ms"
+    jitter: "50ms"
+  duration: "2m"
+  scheduler:
+    cron: "0 3 * * 1"  # каждое понедельник 03:00

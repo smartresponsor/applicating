@@ -1,0 +1,33 @@
+@startuml
+title Smartresponsor v24.x Architecture
+
+package "Federated GraphQL" {
+  [Gateway] --> [Billing]
+  [Gateway] --> [Marketplace]
+}
+
+package "Billing & Usage" {
+  [Billing] --> [Governance]
+}
+
+package "Marketplace" {
+  [Marketplace] --> [DeveloperHub]
+  [Marketplace] --> [Governance]
+}
+
+package "Developer Hub & SDK" {
+  [DeveloperHub] --> [Marketplace]
+  [DeveloperHub] --> [Deployment]
+}
+
+package "Deployment & Mesh" {
+  [Deployment] --> [Governance]
+  [Deployment] --> [Gateway]
+}
+
+package "Governance Layer" {
+  [Governance] --> [Marketplace]
+  [Governance] --> [Billing]
+}
+
+@enduml

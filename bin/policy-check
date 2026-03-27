@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+require_once __DIR__ . '/../vendor/autoload.php';
+use App\Component\Product\AI\PolicyEngine\PolicyEngine;
+
+$ctx = [
+  'tenant_priority' => $argv[1] ?? 'standard',
+  'predicted_cpu' => (float)($argv[2] ?? 42),
+];
+$policies = [
+  ['name'=>'tenant-priority-gold','condition'=>"tenant_priority == 'gold' and predicted_cpu > 70",'action'=>'scale-up'],
+  ['name'=>'cost-guard','condition'=>"predicted_cpu < 30",'action'=>'scale-down'],
+];
+$engine = new PolicyEngine($policies);
+echo json_encode($engine->decide($ctx), JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

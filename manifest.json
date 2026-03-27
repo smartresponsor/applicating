@@ -1,0 +1,20 @@
+{
+  "name": "backend-m0-canon-sync",
+  "createdAt": "2025-10-19T18:53:23.370336Z",
+  "paths": [
+    "bundle-manifest.json",
+    "canon/manifest-drive.json",
+    "canon/schema/product.schema.json",
+    "canon/schema/variant.schema.json",
+    "canon/schema/attribute.schema.json",
+    "canon/schema/option.schema.json",
+    "canon/schema/price.schema.json",
+    "canon/schema/media.schema.json",
+    "canon/schema/i18n.schema.json",
+    "canon/contract/product.openapi.json",
+    "canon/lint/.canonrules",
+    "ci/.github/workflows/product-release.yml",
+    "script/smoke/smoke_check.sh",
+    "script/smoke/smoke_check.ps1"
+  ]
+}

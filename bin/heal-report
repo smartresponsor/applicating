@@ -1,0 +1,11 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$inc = $db->fetchAllAssociative('SELECT * FROM healing_incidents ORDER BY ts DESC LIMIT 50');
+$act = $db->fetchAllAssociative('SELECT * FROM healing_actions ORDER BY ts DESC LIMIT 50');
+echo json_encode(['incidents'=>$inc,'actions'=>$act], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

@@ -1,0 +1,9 @@
+services:
+  App\Billing\Product\StripeGateway:
+    arguments:
+      $apiKey: '%env(resolve:STRIPE_SECRET_KEY)%'
+
+  App\Billing\Product\UsageOrchestrator:
+    arguments:
+      $db: '@doctrine.dbal.default_connection'
+      $gateway: '@App\Billing\Product\StripeGateway'

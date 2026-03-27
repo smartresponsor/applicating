@@ -1,0 +1,6 @@
+predictive:
+  weights:
+    reward: 0.6
+    deny: -0.3
+    latency: -0.1
+  defaultRuns: 1000

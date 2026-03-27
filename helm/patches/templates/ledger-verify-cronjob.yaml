@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: smartpolicy-ledger-verify
+spec:
+  schedule: {{ .Values.ledger.verifySchedule | quote }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: verify
+              image: curlimages/curl:8.9.1
+              command: ["/bin/sh","-c"]
+              args:
+                - >
+                  echo "Verify ledger..." &&
+                  curl -s "http://{{ .Values.ledger.endpoint.host }}/api/trust-ledger/verify?depth=1000" &&
+                  echo "done"

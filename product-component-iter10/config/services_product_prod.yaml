@@ -1,0 +1,15 @@
+# config/services_product_prod.yaml
+services:
+  App\Component\Product\Http\Product\Middleware\JwtAuthMiddleware: ~
+  App\Component\Product\Http\Product\Middleware\RateLimitMiddleware:
+    arguments:
+      $store: '@App\Component\Product\Http\Product\Middleware\RedisTokenBucketStore'
+      $capacity: 100
+      $refillPerMinute: 60
+  App\Component\Product\Http\Product\Middleware\RedisTokenBucketStore:
+    arguments: ['@redis']
+  App\Component\Product\Http\Product\Subscriber\SimpleTraceIdProvider: ~
+  App\Component\Product\Http\Product\Subscriber\ExceptionSubscriber:
+    arguments:
+      $events: '@event_dispatcher'
+      $trace: '@App\Component\Product\Http\Product\Subscriber\SimpleTraceIdProvider'

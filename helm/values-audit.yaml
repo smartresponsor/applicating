@@ -1,0 +1,5 @@
+auditSync:
+  schedule: "0 2 * * *"
+  s3Bucket: "s3://my-audit-bucket"
+  retentionDays: 30
+  syncCmd: "aws s3 cp"

@@ -1,0 +1,19 @@
+@startuml
+title Smartresponsor v29.x — Federation + Adaptive
+
+package "Policy Federation (29.0)" {
+  [PeerRegistry] --> [FederationAPI]
+  [PolicyReplicator] --> [Queue]
+  [FederationSigner] ..> [HMAC]
+}
+
+package "Adaptive Learning (29.1)" {
+  [AdaptiveLearner] --> [Policy Variants]
+  [FeedbackIngestor] --> [Feedback DB]
+  [AdaptiveAPI] --> [Assignments]
+}
+
+[PolicyFlow (28.1)] --> [AdaptiveAPI]
+[FederationAPI] --> [PolicyRegistry (28.0)]
+
+@enduml

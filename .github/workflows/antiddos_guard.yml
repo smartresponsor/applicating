@@ -1,0 +1,9 @@
+name: antiddos_guard
+on:
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo 'Anti-DDoS & Abuse Guard ready'

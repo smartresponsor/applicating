@@ -1,0 +1,3 @@
+learning:
+  secret: "learning-secret"
+  windowHours: 24

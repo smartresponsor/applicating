@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: audit-sync
+spec:
+  schedule: "0 2 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: audit-sync
+              image: myapp:latest
+              command: ["/bin/sh","-c"]
+              args: ["php bin/audit-export && aws s3 cp /tmp/audit_$(date +%Y%m%d).ndjson.gz $S3_BUCKET/$PREFIX"]
+              env:
+                - name: S3_BUCKET
+                  valueFrom: { configMapKeyRef: { name: audit-config, key: S3_BUCKET } }
+          restartPolicy: OnFailure

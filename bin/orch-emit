@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\Orchestration\DTO\EventDTO;
+use App\Component\Product\Orchestration\EventBus;
+
+$type = $argv[1] ?? 'abi.forecast.ready';
+$tenant = $argv[2] ?? 'tenantA';
+$payload = $argv[3] ?? '{"slope":0.12}';
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$bus = new EventBus($db);
+$id = $bus->emit(new EventDTO($type, $tenant, json_decode($payload, true) ?: [], gmdate('c')));
+echo json_encode(['ok'=>true,'id'=>$id], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

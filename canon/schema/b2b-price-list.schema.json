@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "B2BPriceList",
+  "type": "object",
+  "required": [
+    "id",
+    "currency",
+    "rules"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$"
+    },
+    "account": {
+      "type": "string"
+    },
+    "segment": {
+      "type": "string"
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "selector",
+          "price"
+        ],
+        "properties": {
+          "selector": {
+            "type": "object",
+            "properties": {
+              "slug": {
+                "type": "string"
+              },
+              "sku": {
+                "type": "string"
+              },
+              "attribute": {
+                "type": "object"
+              }
+            }
+          },
+          "price": {
+            "type": "number"
+          },
+          "compareAt": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}

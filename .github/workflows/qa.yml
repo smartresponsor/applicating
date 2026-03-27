@@ -1,0 +1,14 @@
+name: qa
+on:
+  workflow_dispatch:
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint
+        run: vendor/bin/ecs check src
+      - name: Rector dry-run
+        run: vendor/bin/rector process src --dry-run
+      - name: Tests
+        run: vendor/bin/phpunit --colors=always

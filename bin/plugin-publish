@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\Marketplace\ManifestParser;
+use App\Component\Product\Marketplace\SignatureVerifier;
+use App\Component\Product\Marketplace\Registry;
+
+$json = $argv[1] ?? '{"name":"Demo Plugin","version":"1.0.0","author":"You","price_usd":0,"permissions":["read:forecast"]}';
+$pubkey = $argv[2] ?? 'demo';
+$sig = hash('sha256', $json.'#'.$pubkey);
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$parser = new ManifestParser();
+$ver = new SignatureVerifier();
+if (!$ver->verify($json,$sig,$pubkey)) { fwrite(STDERR,"bad signature\n"); exit(1); }
+$reg = new Registry($db);
+$id = $reg->publish($parser->parse($json), $sig);
+echo json_encode(['ok'=>true,'plugin_id'=>$id], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

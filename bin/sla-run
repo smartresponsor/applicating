@@ -1,0 +1,48 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\AI\ABI\SLA\SLAEngine;
+use App\Component\Product\AI\ABI\SLA\SLOCostSimulator;
+
+$tenant = $argv[1] ?? 'tenantA';
+$uptime = (float)($argv[2] ?? 99.4);
+$contractMin = (float)($argv[3] ?? 99.5);
+$mttr = (float)($argv[4] ?? 12.0);
+$mtbf = (float)($argv[5] ?? 120.0);
+$priority = $argv[6] ?? 'standard';
+
+$p95 = (float)($argv[7] ?? 450.0);
+$err = (float)($argv[8] ?? 0.018);
+$rps = (int)($argv[9] ?? 800);
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+
+$engine = new SLAEngine();
+$res = $engine->evaluate($uptime, $contractMin, $mttr, $mtbf, $priority);
+
+$sim = new SLOCostSimulator();
+$slo = $sim->simulate($p95, $err, $rps);
+
+$db->insert('sla_events', [
+  'tenant_id'=>$tenant,
+  'uptime'=>$uptime,
+  'mttr_min'=>$mttr,
+  'mtbf_hr'=>$mtbf,
+  'recommended_tier'=>$res['recommended_tier'],
+  'credit_cents'=>$res['credit_cents'],
+  'breach'=>$res['breach'],
+  'details'=>json_encode($res['details'], JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES)
+]);
+$db->insert('slo_cost_snapshots', [
+  'tenant_id'=>$tenant,
+  'p95_latency_ms'=>$p95,
+  'error_rate'=>$err,
+  'rps'=>$rps,
+  'cost_per_day'=>$slo['cost_per_day'],
+  'tips'=>json_encode($slo['tips'], JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES)
+]);
+
+echo json_encode(['sla'=>$res,'slo'=>$slo], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

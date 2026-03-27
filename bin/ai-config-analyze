@@ -1,0 +1,2 @@
+#!/usr/bin/env php
+<?php echo "AI Config Analyzer run (stub)\n";

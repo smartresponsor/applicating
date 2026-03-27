@@ -1,0 +1,5 @@
+{"phase": "m0_1", "title": "canon-schema-init", "ts": "2025-10-19T18:53:23.370336Z"}
+{"phase": "m0_2", "title": "openapi-init", "ts": "2025-10-19T18:53:23.370336Z"}
+{"phase": "m0_3", "title": "canon-rules-lint", "ts": "2025-10-19T18:53:23.370336Z"}
+{"phase": "m0_4", "title": "ci-workflow-scaffold", "ts": "2025-10-19T18:53:23.370336Z"}
+{"phase": "m0_5", "title": "smoke-scripts", "ts": "2025-10-19T18:53:23.370336Z"}

@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: http-5xx-rate
+  namespace: staging
+spec:
+  args:
+    - name: svc
+      value: catalog-canary
+  metrics:
+    - name: http_5xx_rate
+      interval: 30s
+      count: 5
+      successCondition: result < 0.01
+      provider:
+        prometheus:
+          address: http://prometheus-server.prometheus:9090
+          query: |
+            sum(rate(http_requests_total{service="{{args.svc}}",status=~"5.."}[1m])) / sum(rate(http_requests_total{service="{{args.svc}}"}[1m]))

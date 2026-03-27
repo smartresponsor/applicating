@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: smartpolicy-auto-remediation
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: auto-remediation
+              image: curlimages/curl:8.9.1
+              command: ["/bin/sh","-c"]
+              args:
+                - >
+                  AGG=$(curl -s "http://smartpolicy-gateway:8080/api/policy/intelligence/aggregate?window=30") &&
+                  INS=$(curl -s "http://smartpolicy-gateway:8080/api/policy/intelligence/insights?window=30") &&
+                  curl -s -X POST "http://smartpolicy-gateway:8080/api/policy/remediation/run"
+                  -d aggregate="$(echo $AGG | jq -c .aggregate)"
+                  -d insights="$(echo $INS | jq -c .insights)"

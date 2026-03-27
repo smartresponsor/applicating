@@ -1,0 +1,168 @@
+{
+  "project": "SmartResponsor/Product",
+  "generatedAt": "2025-10-19T19:21:16.457887Z",
+  "milestones": [
+    {
+      "milestone": "M0",
+      "artifacts": [
+        {
+          "file": "product-backend-m0-canon-sync.zip",
+          "layer": "backend",
+          "label": "canon-sync",
+          "size": 5577,
+          "sha256": "89ddb5615a40c9f146508b4a3fedccc0496f02cb61530f2ea667dcf10833ce63"
+        },
+        {
+          "file": "product-doc-m0-canon-sync.zip",
+          "layer": "doc",
+          "label": "canon-sync",
+          "size": 1091,
+          "sha256": "dcb59c204c2be95762e981c2f7cbe0328aefabe119e2f697d519086c9d85f900"
+        },
+        {
+          "file": "product-smoke-m0-canon-sync.zip",
+          "layer": "smoke",
+          "label": "canon-sync",
+          "size": 914,
+          "sha256": "d1cb0d455ef0c8f7fd13479983d03b1463be769957dc1d7851e6bb2c345c9677"
+        }
+      ],
+      "feed": "/mnt/data/product-core/m0_docs_workspace/feed/product-feed-m0-phases.ndjson"
+    },
+    {
+      "milestone": "M1",
+      "artifacts": [
+        {
+          "file": "product-backend-m1-core-freeze.zip",
+          "layer": "backend",
+          "label": "core-freeze",
+          "size": 5374,
+          "sha256": "122eee71afa5a8d78163c90419191429b3b476ed94352735979e52123793c748"
+        },
+        {
+          "file": "product-doc-m1-core-freeze.zip",
+          "layer": "doc",
+          "label": "core-freeze",
+          "size": 1292,
+          "sha256": "01928623d5c36d9454e9c9e6a33742c2b42c1d1edb2036138f844ef0cff3a1f2"
+        },
+        {
+          "file": "product-smoke-m1-core-freeze.zip",
+          "layer": "smoke",
+          "label": "core-freeze",
+          "size": 184,
+          "sha256": "60419d988a6e539f92550d372e9d038f5e6854e80358666e2f51beafe4ae5db4"
+        }
+      ],
+      "feed": "/mnt/data/product-core/m1_docs_workspace/feed/product-feed-m1-phases.ndjson"
+    },
+    {
+      "milestone": "M2",
+      "artifacts": [
+        {
+          "file": "product-backend-m2-import-indexer.zip",
+          "layer": "backend",
+          "label": "import-indexer",
+          "size": 6542,
+          "sha256": "f9d2d9bc975c4537915ef6d179620d8940d96ae3bd52c44e5a376d80be3be7ee"
+        },
+        {
+          "file": "product-doc-m2-import-indexer.zip",
+          "layer": "doc",
+          "label": "import-indexer",
+          "size": 1117,
+          "sha256": "7d8ab6e79993c9928c8ddb50a55ffccdab5108305128417dc3207a99525838f3"
+        },
+        {
+          "file": "product-smoke-m2-import-indexer.zip",
+          "layer": "smoke",
+          "label": "import-indexer",
+          "size": 319,
+          "sha256": "0e77d6fac40aed2c20d8fff3083485cc2ae15a23209ed3917be906b6b3d344f7"
+        }
+      ],
+      "feed": "/mnt/data/product-core/m2_docs_workspace/feed/product-feed-m2-phases.ndjson"
+    },
+    {
+      "milestone": "M3",
+      "artifacts": [
+        {
+          "file": "product-backend-m3-types-scale600.zip",
+          "layer": "backend",
+          "label": "types-scale600",
+          "size": 8663,
+          "sha256": "78fde2d0c6f7263efc128217095556fd3953c532f5c15729ba51353b22c6cc10"
+        },
+        {
+          "file": "product-doc-m3-types-scale600.zip",
+          "layer": "doc",
+          "label": "types-scale600",
+          "size": 1711,
+          "sha256": "4daaa9efa94791f137ee5254ca8baad38a91740b309ac2d941225d874ef6d0fb"
+        },
+        {
+          "file": "product-smoke-m3-types-scale600.zip",
+          "layer": "smoke",
+          "label": "types-scale600",
+          "size": 395,
+          "sha256": "f58011195f32e66b397f60371c59cc2ef7f7c41d17b1d90e7b43c1932c7e818e"
+        }
+      ],
+      "feed": "/mnt/data/product-core/m3_docs_workspace/feed/product-feed-m3-phases.ndjson"
+    },
+    {
+      "milestone": "M4",
+      "artifacts": [
+        {
+          "file": "product-backend-m4-ga.zip",
+          "layer": "backend",
+          "label": "ga",
+          "size": 8508,
+          "sha256": "f07e9101201d92ca5b3e2246855ad794217d5e246686d362e6f21598e3b7ea17"
+        },
+        {
+          "file": "product-doc-m4-ga.zip",
+          "layer": "doc",
+          "label": "ga",
+          "size": 1388,
+          "sha256": "8bc1a5e8cd0dc4609e6401c27923f27fdb340a3593a9feb7c4d061decb7358e1"
+        },
+        {
+          "file": "product-smoke-m4-ga.zip",
+          "layer": "smoke",
+          "label": "ga",
+          "size": 386,
+          "sha256": "a7a701d2d0b3a323090cee8401d4114fcff1483a0528f32489c616177d8495cf"
+        }
+      ],
+      "feed": "/mnt/data/product-core/m4_docs_workspace/feed/product-feed-m4-phases.ndjson"
+    },
+    {
+      "milestone": "M5",
+      "artifacts": [
+        {
+          "file": "product-backend-m5-competitive.zip",
+          "layer": "backend",
+          "label": "competitive",
+          "size": 9273,
+          "sha256": "e031fc6bd8e1526fb744037a93226c05aabbb2b7fbbf03c8f3bc7262adc9de55"
+        },
+        {
+          "file": "product-doc-m5-competitive.zip",
+          "layer": "doc",
+          "label": "competitive",
+          "size": 2277,
+          "sha256": "c79cf8ba44608f04543248d398853304dcde8465fbce2265826caf0203a64da7"
+        },
+        {
+          "file": "product-smoke-m5-competitive.zip",
+          "layer": "smoke",
+          "label": "competitive",
+          "size": 186,
+          "sha256": "b52d919ad242cc26e27627f2666ff50b399075e1ae6634a358fe7aa3be8a374d"
+        }
+      ],
+      "feed": "/mnt/data/product-core/m5_docs_workspace/feed/product-feed-m5-phases.ndjson"
+    }
+  ]
+}

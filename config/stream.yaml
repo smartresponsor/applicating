@@ -1,0 +1,9 @@
+brokers:
+  - localhost:9092   # или redpanda:29092
+topics:
+  events: smart.events
+  forecasts: smart.forecasts
+  feedback: smart.feedback
+options:
+  consumer_group: smart-consumer
+  batch_size: 100

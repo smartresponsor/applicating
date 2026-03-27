@@ -1,0 +1,12 @@
+name: sla
+on:
+  workflow_dispatch:
+jobs:
+  simulate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: SLA demo
+        run: |
+          php bin/sla-run tenantA 99.4 99.5 12 120 standard 450 0.018 800 || true
+          echo 'sla engine simulated'

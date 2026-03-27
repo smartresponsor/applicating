@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+require_once __DIR__ . '/../vendor/autoload.php';
+use App\Component\Product\AI\PredictiveScaling\ScalingEngine;
+
+$series = array_map('floatval', explode(',', $argv[1] ?? '40,45,55,60,70'));
+$engine = new ScalingEngine();
+$res = $engine->forecast($series);
+echo json_encode($res, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

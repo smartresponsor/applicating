@@ -1,0 +1,9 @@
+remediation:
+  enabled: true
+  cooldownSec: 60
+  priorities:
+    STOP_ROLLOUT: 100
+    SCALE_SCHEDULER: 80
+    CHECK_FEDERATION: 70
+    VERIFY_LEDGER: 50
+  defaultOverridePercent: 20

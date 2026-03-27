@@ -1,0 +1,3 @@
+product_federation:
+  resource: ../../src/Controller/Federation/ProductFederationController.php
+  type: annotation

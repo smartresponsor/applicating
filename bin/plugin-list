@@ -1,0 +1,10 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\Marketplace\Registry;
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$reg = new Registry($db);
+echo json_encode(['plugins'=>$reg->list()], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

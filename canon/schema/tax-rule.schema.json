@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TaxRule",
+  "type": "object",
+  "required": [
+    "region",
+    "rate"
+  ],
+  "properties": {
+    "region": {
+      "type": "string"
+    },
+    "rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "condition": {
+      "type": "object"
+    }
+  }
+}

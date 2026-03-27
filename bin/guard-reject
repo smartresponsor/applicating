@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\Guard\ApprovalService;
+
+$id = (int)($argv[1] ?? 0);
+$who = $argv[2] ?? 'admin@example.com';
+$reason = $argv[3] ?? '';
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$svc = new ApprovalService($db);
+
+if ($id <= 0){ fwrite(STDERR, "Usage: bin/guard-reject <id> [who] [reason]\n"); exit(1); }
+
+$res = $svc->reject($id, $who, $reason);
+echo json_encode(['rejected'=>$res], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

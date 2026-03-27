@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: smartpolicy-governance-loop
+spec:
+  schedule: "*/12 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: governance
+              image: curlimages/curl:8.9.1
+              command: ["/bin/sh","-c"]
+              args:
+                - >
+                  RES=$(curl -s -X POST "http://smartpolicy-gateway:8080/api/policy/governance/evaluate" -d policy=discount.vip -d region=us);
+                  META=$(echo "$RES" | jq -r .aggregate.metaScore);
+                  curl -s -X POST "http://smartpolicy-gateway:8080/api/policy/governance/enforce" -d policy=discount.vip -d meta="$META";

@@ -1,0 +1,7 @@
+ledger:
+  enabled: true
+  secret: "trust-ledger-secret"
+  verifySchedule: "*/10 * * * *"
+  appendOnEvents: true
+  endpoint:
+    host: "smartpolicy-gateway:8080"

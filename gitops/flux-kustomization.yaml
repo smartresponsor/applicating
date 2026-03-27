@@ -1,0 +1,12 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: smartpolicy-v30-final
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: ./helm/patches
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: smartpolicy-repo

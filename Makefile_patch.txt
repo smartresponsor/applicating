@@ -1,0 +1,5 @@
+release-notify:
+	php -r "echo 'Notify release stub'.PHP_EOL;"
+
+smoke:
+	curl -fsSL http://localhost:8080/health && echo OK

@@ -1,0 +1,9 @@
+governance:
+  slo:
+    maxFailsPerHour: 5
+    maxLatencyMs: 500
+  canary:
+    low: 0
+    mid: 10
+    base: 20
+    high: 50

@@ -1,0 +1,4 @@
+admin_access:
+  rules:
+    "GET /api/admin/*": ["ROLE_SUPERADMIN","ROLE_TENANT_OWNER","ROLE_SUPPORT"]
+    "POST /api/admin/*": ["ROLE_SUPERADMIN"]

@@ -1,0 +1,4 @@
+
+product_crm_routes:
+  resource: ../../src/Controller/Product/CrmController.php
+  type: annotation

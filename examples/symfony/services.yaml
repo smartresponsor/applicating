@@ -1,0 +1,34 @@
+# examples/symfony/services.yaml
+services:
+  # Catalog adapters
+  App\Component\Product\Catalog\Product\ProductCatalogAdapter: ~
+  App\Component\Product\Controller\Product\ProductCatalogController: ~
+
+  # Middleware & subscribers
+  App\Component\Product\Http\Product\Middleware\JwtAuthMiddleware: ~
+  App\Component\Product\Http\Product\Middleware\RateLimitMiddleware:
+    arguments:
+      $store: '@App\Component\Product\Http\Product\Middleware\RedisTokenBucketStore'
+      $capacity: 100
+      $refillPerMinute: 60
+  App\Component\Product\Http\Product\Middleware\PerAccountRateLimitMiddleware:
+    arguments:
+      $store: '@App\Component\Product\Http\Product\Middleware\RedisTokenBucketStore'
+      $capacity: 120
+      $refillPerMinute: 120
+  App\Component\Product\Http\Product\Middleware\SecurityHeadersMiddleware: ~
+  App\Component\Product\Http\Product\Subscriber\SimpleTraceIdProvider: ~
+  App\Component\Product\Http\Product\Subscriber\ExceptionSubscriber:
+    arguments:
+      $events: '@event_dispatcher'
+      $trace: '@App\Component\Product\Http\Product\Subscriber\SimpleTraceIdProvider'
+
+  # Rate-limit store & JWT
+  App\Component\Product\Http\Product\Middleware\RedisTokenBucketStore:
+    arguments: ['@redis']
+  App\Component\Product\Http\Product\Security\JwtHelper:
+    arguments: ['%env(JWT_SECRET)%']
+
+  # Audit
+  App\Component\Product\Audit\AuditLogger: ~
+  App\Component\Product\Http\Product\Middleware\AuditTrailMiddleware: ~

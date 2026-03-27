@@ -1,0 +1,27 @@
+name: ci-precheck
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify Helm chart
+        run: |
+          test -f charts/smartresponsor/Chart.yaml || (echo "❌ Helm Chart.yaml missing" && exit 1)
+          test -f charts/smartresponsor/values.yaml || (echo "❌ values.yaml missing" && exit 1)
+          echo "✅ Helm chart OK"
+
+      - name: Verify Terraform
+        run: |
+          test -f terraform/environments/prod/main.tf || (echo "❌ Terraform env missing" && exit 1)
+          echo "✅ Terraform OK"
+
+      - name: Verify .env template
+        run: |
+          test -f config/.env.template || (echo "❌ .env.template missing" && exit 1)
+          echo "✅ Env template OK"

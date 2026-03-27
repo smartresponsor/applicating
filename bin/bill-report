@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+use Doctrine\DBAL\DriverManager;
+
+$tenant = $argv[1] ?? 'tenantA';
+$month  = $argv[2] ?? gmdate('Y-m');
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$rows = $db->fetchAllAssociative('SELECT feature, SUM(quantity) qty, SUM(amount_usd) amount FROM billing_usage WHERE tenant_id=? AND to_char(ts,\'YYYY-MM\')=? GROUP BY feature ORDER BY amount DESC', [$tenant,$month]);
+$bal = (float)($db->fetchOne('SELECT balance_usd FROM billing_wallets WHERE tenant_id=?', [$tenant]) ?? 0.0);
+echo json_encode(['tenant'=>$tenant,'month'=>$month,'balance_usd'=>$bal,'usage'=>$rows], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\Tenant\MigrationHelper;
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$mh = new MigrationHelper($db);
+
+$path = $argv[1] ?? __DIR__.'/../migrations/sql/025_tenant_sharding.sql';
+$n = $mh->runSqlFile($path);
+echo json_encode(['ok'=>true,'statements'=>$n], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

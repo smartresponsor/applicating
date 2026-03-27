@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gateway-config
+  namespace: smartresponsor
+data:
+  APP_ENV: "prod"
+  APP_NAME: "Smartresponsor"

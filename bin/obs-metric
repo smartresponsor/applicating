@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\Observability\MetricsCollector;
+use App\Component\Product\Observability\DTO\MetricPoint;
+
+$name = $argv[1] ?? 'app_requests_total';
+$labels = isset($argv[2]) ? json_decode($argv[2], true) ?: ['tenant'=>'tenantA'] : ['tenant'=>'tenantA'];
+$value = (float)($argv[3] ?? 1.0);
+$ts = gmdate('c');
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$mc = new MetricsCollector($db);
+$mc->write(new MetricPoint($name, $labels, $value, $ts));
+echo json_encode(['ok'=>true,'name'=>$name,'value'=>$value], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

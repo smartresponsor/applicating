@@ -1,0 +1,34 @@
+{
+  "title": "Predictive Governance",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "Expected Reward",
+      "targets": [
+        {
+          "expr": "avg(policy_simulation_log_expected_reward)"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Expected Deny Rate",
+      "targets": [
+        {
+          "expr": "avg(policy_simulation_log_expected_deny_rate)"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Predictive Score",
+      "targets": [
+        {
+          "expr": "avg(policy_simulation_log_score)"
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 36,
+  "version": 1
+}

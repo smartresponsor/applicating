@@ -1,0 +1,11 @@
+name: billing_engine
+on:
+  schedule:
+    - cron: "0 1 * * *"
+  workflow_dispatch:
+jobs:
+  invoice:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: php bin/bill-invoice tenantA $(date +'%Y-%m') || true

@@ -1,0 +1,29 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\SelfHealing\AnomalyDetector;
+use App\Component\Product\SelfHealing\HealingRules;
+use App\Component\Product\SelfHealing\RecoveryExecutor;
+use App\Component\Product\SelfHealing\HealthMonitor;
+
+$tenant = $argv[1] ?? 'tenantA';
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$det = new AnomalyDetector($db);
+$rules = new HealingRules();
+$exec = new RecoveryExecutor($db);
+$mon  = new HealthMonitor($db);
+
+$inc = $det->scan($tenant);
+$results = [];
+foreach ($inc as $i) {
+  $a = $rules->decide($i);
+  $mon->markIncident($i->tenantId, $i->component, $i->status, $i->error, $a->rule);
+  $res = $exec->execute($i->tenantId, $i->component, $a);
+  $results[] = ['component'=>$i->component,'rule'=>$a->rule,'action'=>$a->action,'result'=>$res];
+}
+
+echo json_encode(['tenant'=>$tenant,'results'=>$results], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

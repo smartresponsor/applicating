@@ -1,0 +1,14 @@
+name: audit-rotation
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply CronJobs
+        run: |
+          kubectl apply -f k8s/cronjob-audit-sync.yaml
+          kubectl apply -f k8s/cronjob-vault-renew.yaml

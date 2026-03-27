@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\Security\Policy\AccessPolicy;
+use App\Component\Product\Security\Policy\PolicyEngine;
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$policy = new AccessPolicy('admin-only', ['roles'=>['admin'],'allow'=>['read','write']]);
+$engine = new PolicyEngine();
+$ctx = ['role'=>$argv[1] ?? 'viewer','tenant'=>'tenantA','action'=>$argv[2] ?? 'read'];
+echo json_encode(['allowed'=>$engine->evaluate($policy,$ctx),'ctx'=>$ctx], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

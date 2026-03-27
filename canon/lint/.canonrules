@@ -1,0 +1,7 @@
+Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
+
+Rule: single hyphen in file names only.
+Rule: no plural segments in code paths (e.g., src/entity/product/, not src/entities/).
+Rule: mirror interface layer (each Service has ServiceInterface, etc.).
+Rule: branch = master; comments in English only.
+Rule: contracts and schemas must be changed via Canon with deprecation policy.

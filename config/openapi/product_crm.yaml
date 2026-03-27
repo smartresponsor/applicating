@@ -1,0 +1,11 @@
+openapi: 3.0.3
+info: { title: Product CRM API, version: v35.0 }
+paths:
+  /api/product/crm/pipelines/default: { post: { summary: Ensure default pipeline (and stages) } }
+  /api/product/crm/stages: { get: { summary: List stages for pipeline (pipeline_id required) } }
+  /api/product/crm/deals:
+    post: { summary: Create deal }
+    get:  { summary: List deals (filters: tenant_id, product_id, status) }
+  /api/product/crm/deals/{id}/move: { post: { summary: Move deal to stage; auto-win/lose } }
+  /api/product/crm/deals/{id}/activities: { post: { summary: Add activity (note/call/email/meeting/task) } }
+  /api/product/crm/funnel: { get: { summary: Funnel for last 30 days } }

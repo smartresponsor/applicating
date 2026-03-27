@@ -1,0 +1,39 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Product Plugins API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/product/plugin": {
+      "get": {
+        "summary": "List installed plugins",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/product/plugin/install": {
+      "post": {
+        "summary": "Install plugin",
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/product/plugin/{name}/enable": {
+      "post": {
+        "summary": "Enable plugin",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}

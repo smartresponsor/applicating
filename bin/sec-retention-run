@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\Security\Retention\DataRetention;
+
+$policy = $argv[1] ?? 'metrics_90d';
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$dr = new DataRetention($db);
+$deleted = $dr->apply($policy);
+echo json_encode(['ok'=>true,'policy'=>$policy,'deleted'=>$deleted], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

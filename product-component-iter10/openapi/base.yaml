@@ -1,0 +1,15 @@
+openapi: 3.1.0
+info:
+  title: Smartresponsor Catalog API
+  version: "1.1.0"
+  description: REST API каталога (JWT, rate-limit, facets).
+servers:
+  - url: https://api.example.com
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []

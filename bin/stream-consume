@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\Stream\Consumer;
+use App\Component\Product\Stream\ForecastWorker;
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$consumer = new Consumer($db);
+$worker = new ForecastWorker($db);
+
+$batch = $consumer->poll('smart.events', 50);
+$results = [];
+foreach ($batch as $msg) {
+  $event = ['tenant_id'=>$msg['tenant_id'],'type'=>$msg['type'],'payload'=>json_decode($msg['payload'] ?? '{}', true) ?: []];
+  $results[] = ['id'=>$msg['id'],'result'=>$worker->handle($event)];
+  $consumer->ack((int)$msg['id']);
+}
+echo json_encode(['ok'=>true,'processed'=>count($results),'results'=>$results], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

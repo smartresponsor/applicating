@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\GraphQL\Federation\SubgraphRegistry;
+
+$name = $argv[1] ?? 'abi';
+$url  = $argv[2] ?? 'http://abi:8080/graphql';
+$sdl  = $argv[3] ?? 'type ABI { version: String }';
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$reg = new SubgraphRegistry($db);
+$reg->register($name, $url, $sdl, '1');
+echo json_encode(['ok'=>true,'name'=>$name,'url'=>$url], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;

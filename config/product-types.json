@@ -1,0 +1,44 @@
+{
+  "variantScaleTarget": 650,
+  "optionMatrix": {
+    "size": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "3XL",
+      "4XL",
+      "5XL"
+    ],
+    "color": [
+      "black",
+      "white",
+      "gray",
+      "navy",
+      "red",
+      "green",
+      "blue",
+      "yellow",
+      "purple",
+      "orange",
+      "brown",
+      "olive",
+      "beige"
+    ],
+    "fit": [
+      "regular",
+      "slim",
+      "oversize"
+    ],
+    "fabric": [
+      "cotton",
+      "wool",
+      "linen",
+      "polyester",
+      "silk"
+    ]
+  },
+  "skuTemplate": "{slug}-{size}-{color}-{fit}-{fabric}"
+}

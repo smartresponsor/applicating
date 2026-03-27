@@ -1,0 +1,11 @@
+name: smoke-postdeploy
+on:
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Health check
+        run: curl -fsSL http://your-app-domain/health || exit 1
+      - name: Catalog check
+        run: curl -fsSL http://your-app-domain/api/catalog | jq . || exit 1

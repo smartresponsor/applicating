@@ -1,0 +1,19 @@
+@startuml
+title SmartCloud Edition v25.x
+
+package "SmartCloud Core" {
+  [Orchestrator] --> [TenantService]
+  [TenantService] --> [BillingDaemon]
+  [BillingDaemon] --> [Invoices]
+}
+
+package "Infrastructure" {
+  [Kubernetes] --> [Orchestrator]
+  [Envoy Mesh] --> [Gateway]
+}
+
+package "Governance & Marketplace" {
+  [Governance Layer] --> [SmartCloud Core]
+  [Marketplace] --> [SmartCloud Core]
+}
+@enduml

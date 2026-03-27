@@ -1,0 +1,11 @@
+name: smartcloud_edition
+on:
+  schedule:
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+jobs:
+  daily_billing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: php -r "echo 'Daily billing run\n';"

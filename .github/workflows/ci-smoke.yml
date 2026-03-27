@@ -1,0 +1,21 @@
+name: ci-smoke
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+      - name: Validate syntax
+        run: find src -type f -name "*.php" -exec php -l {} \;
+      - name: Test API
+        run: |
+          php -S 0.0.0.0:8080 -t public &
+          sleep 3
+          curl -f http://localhost:8080/api/catalog | jq .

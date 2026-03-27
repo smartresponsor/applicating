@@ -1,0 +1,13 @@
+name: build
+on: [push, pull_request]
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: ./repo-template
+          load: true
+          tags: demo:latest

@@ -1,0 +1,38 @@
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: catalog-zdt-migration
+  namespace: staging
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: migrator
+          image: ghcr.io/github/gh-ost:latest
+          args:
+            - "--conf=/config/ghost.cnf"
+          volumeMounts:
+            - name: config
+              mountPath: /config
+      volumes:
+        - name: config
+          configMap:
+            name: catalog-zdt-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: catalog-zdt-config
+  namespace: staging
+data:
+  ghost.cnf: |
+    # пример: онлайн-миграция (MySQL). Для PostgreSQL используйте sqitch/pg-osc, шаблон аналогичен.
+    database=app
+    host=postgres
+    user=app
+    password=app
+    table=product
+    alter=ADD COLUMN foo_tmp INT NULL
+    allow-on-master=true

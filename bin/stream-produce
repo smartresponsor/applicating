@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+require __DIR__.'/../vendor/autoload.php';
+use Doctrine\DBAL\DriverManager;
+use App\Component\Product\Stream\Producer;
+use App\Component\Product\Stream\DTO\EventMessage;
+
+$tenant = $argv[1] ?? 'tenantA';
+$type = $argv[2] ?? 'forecast.request';
+$value = (float)($argv[3] ?? 100);
+
+$db = DriverManager::getConnection(['url'=>getenv('DATABASE_URL') ?: 'pdo-sqlite:///:memory:']);
+$producer = new Producer($db);
+$producer->send('smart.events', new EventMessage($type, $tenant, ['target'=>'revenue','value'=>$value], gmdate('c')));
+echo json_encode(['ok'=>true,'queued'=>true], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE), PHP_EOL;
