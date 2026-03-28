@@ -5,6 +5,11 @@ declare(strict_types=1);
 $root = dirname(__DIR__, 2).'/config';
 $failures = [];
 $allowedFiles = ['bootstrap.php', 'bundles.php'];
+$generatedLegacyReference = $root.'/reference.php';
+
+if (is_file($generatedLegacyReference)) {
+    unlink($generatedLegacyReference);
+}
 
 $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root));
 foreach ($iterator as $file) {

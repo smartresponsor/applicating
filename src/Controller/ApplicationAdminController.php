@@ -192,6 +192,19 @@ final class ApplicationAdminController extends AbstractController
         throw $this->createNotFoundException('Release not found for application.');
     }
 
+    #[Route('/{id}/suspend', name: 'applicating_application_suspend', methods: ['POST'])]
+    public function suspend(
+        Application $application,
+        ApplicationLifecycleServiceInterface $applicationLifecycleService,
+    ): RedirectResponse {
+        $this->denyAccessUnlessGranted(ApplicationVoter::PUBLISH, $application);
+
+        $applicationLifecycleService->suspendApplication($application);
+        $this->addFlash('warning', sprintf('Application "%s" suspended.', $application->getName()));
+
+        return $this->redirectToRoute('applicating_application_show', ['id' => $application->getId()]);
+    }
+
     #[Route('/{id}/assign', name: 'applicating_application_assign', methods: ['POST'])]
     public function assign(
         Application $application,

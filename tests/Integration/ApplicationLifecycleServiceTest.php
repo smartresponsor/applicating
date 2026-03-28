@@ -77,5 +77,8 @@ final class ApplicationLifecycleServiceTest extends KernelTestCase
         self::assertSame('io.applicating.demo.application', $manifest->getIdentifier());
         self::assertSame('tenant-alpha', $assignment->getTenantKey());
         self::assertTrue($assignment->isEnabled());
+
+        $this->applicationLifecycleService->suspendApplication($application);
+        self::assertSame('suspended', $application->getPublicationState()->value);
     }
 }

@@ -87,6 +87,12 @@ final class ApplicationLifecycleService implements ApplicationLifecycleServiceIn
         $this->entityManager->flush();
     }
 
+    public function suspendApplication(Application $application): void
+    {
+        $application->suspend();
+        $this->entityManager->flush();
+    }
+
     public function createManifest(Application $application, ApplicationManifestData $data): ApplicationManifest
     {
         $payload = $this->applicationManifestService->normalizeManifestPayload($data);

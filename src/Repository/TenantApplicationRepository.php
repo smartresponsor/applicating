@@ -32,4 +32,20 @@ final class TenantApplicationRepository extends ServiceEntityRepository
 
         return $result;
     }
+
+    public function findOneForTenantAndApplication(string $tenantKey, string $applicationSlug): ?TenantApplication
+    {
+        /** @var TenantApplication|null $tenantApplication */
+        $tenantApplication = $this->createQueryBuilder('tenantApplication')
+            ->leftJoin('tenantApplication.application', 'application')->addSelect('application')
+            ->where('tenantApplication.tenantKey = :tenantKey')
+            ->andWhere('application.slug = :applicationSlug')
+            ->setParameter('tenantKey', $tenantKey)
+            ->setParameter('applicationSlug', $applicationSlug)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $tenantApplication;
+    }
 }

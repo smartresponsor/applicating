@@ -23,6 +23,8 @@ interface ApplicationLifecycleServiceInterface
 
     public function publishApplication(Application $application, ApplicationRelease $release): void;
 
+    public function suspendApplication(Application $application): void;
+
     public function createManifest(Application $application, ApplicationManifestData $data): ApplicationManifest;
 
     public function assignTenant(Application $application, TenantApplicationAssignmentData $data): TenantApplication;
