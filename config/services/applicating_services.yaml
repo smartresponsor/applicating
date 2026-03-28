@@ -1,0 +1,29 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\:
+        resource: '../../src/'
+        exclude:
+            - '../../src/Entity/'
+            - '../../src/Kernel.php'
+
+    App\ServiceInterface\ApplicationLifecycleServiceInterface:
+        alias: App\Service\ApplicationLifecycleService
+        public: true
+
+    App\ServiceInterface\ApplicationManifestServiceInterface:
+        alias: App\Service\ApplicationManifestService
+        public: true
+
+    App\ServiceInterface\ApplicationDiagnosticsServiceInterface:
+        alias: App\Service\ApplicationDiagnosticsService
+        public: true
+
+    App\ServiceInterface\ApplicationReportServiceInterface:
+        alias: App\Service\ApplicationReportService
+        public: true
+
+    Doctrine\Bundle\FixturesBundle\Loader\SymfonyFixturesLoader:
+        alias: doctrine.fixtures.loader

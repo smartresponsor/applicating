@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Application Reports{% endblock %}
+
+{% block body %}
+    <h1 class="h3 mb-3">Application ecosystem report</h1>
+    {% include 'application/_summary_cards.html.twig' with {summary: summary} %}
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <p class="mb-0">This report is intentionally centered on application lifecycle responsibilities: listing volume, publication throughput, tenant assignments and billing activation. Retail product counts and unrelated catalog metrics are not part of this component boundary.</p>
+        </div>
+    </div>
+{% endblock %}

@@ -1,4 +1,9 @@
 <?php
+
 declare(strict_types=1);
-header('Content-Type: application/json');
-echo json_encode(['ok' => true, 'time' => date(DATE_ATOM)]);
+
+use App\Kernel;
+
+require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
+
+return static fn (array $context): Kernel => new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);

@@ -1,37 +1,62 @@
-# Product CRM Core — v35.0
+# Applicating / Application
 
-Минимально рабочий CRM-слой для компонента Product: пайплайн/стадии, сделки, активности, история стадий, воронка 30д. Без заглушек — все эндпоинты пишут/читают реальные таблицы.
+Symfony-oriented application lifecycle component centered on `Application` as a software ecosystem unit, not a retail product.
 
-## Установка
-psql ... -f migrations/sql/088_product_crm_core.sql
+## Scope
 
-## Базовый сценарий
-1) Создать дефолтный пайплайн и стадии:
+- application catalog and listing metadata
+- manifest management and release/version publication
+- tenant assignment, installation and enable/disable lifecycle
+- runtime, sandbox, billing and governance hooks
+- admin UI, JSON admin API and Symfony Console operations
+- diagnostics, reports and demo fixtures
+
+Retail product CRM, goods catalog and legacy `Product` semantics from earlier iterations were moved out of the active runtime into `legacy/` so they no longer define container wiring, routes, tests or UI vocabulary.
+
+## Runtime
+
+1. Install dependencies:
    ```bash
-   curl -X POST http://localhost:8000/api/product/crm/pipelines/default -d 'tenant_id=demo&product_id=1'
+   composer install
    ```
-2) Создать сделку:
+2. Create schema:
    ```bash
-   curl -X POST http://localhost:8000/api/product/crm/deals      -H 'Content-Type: application/json'      -d '{"tenant_id":"demo","product_id":1,"title":"Демо-сделка","amount":1000,"currency":"USD"}'
+   php bin/console doctrine:migrations:migrate --no-interaction
    ```
-3) Перевести сделку на стадию (например, Won):
+3. Load demo data:
    ```bash
-   curl -X POST http://localhost:8000/api/product/crm/deals/1/move -d 'to_stage_id=4&actor_user_id=10'
+   php bin/console applicating:fixtures:load-demo
    ```
-4) Добавить активность:
+4. Start the app:
    ```bash
-   curl -X POST http://localhost:8000/api/product/crm/deals/1/activities      -d 'type=note' -d 'content[body]=Позвонил, договорились'
+   symfony server:start -d
    ```
-5) Воронка:
+   Fallback:
    ```bash
-   curl http://localhost:8000/api/product/crm/funnel
+   php -S 127.0.0.1:8000 -t public
    ```
 
-## Контракты/изоляция
-- Сервисы под домен `Product\CRM` в `src/Product/CRM/Service/*`.
-- Контроллеры изолированы в `src/Controller/Product/CrmController.php`.
-- Нейминг согласован с твоими контрактами (`Product*`, доменная папка `Product`).
+Login page: `/login`
 
-## OpenAPI
-`config/openapi/product_crm.yaml`
+Demo users:
 
+- `admin / admin`
+- `manager / manager`
+- `viewer / viewer`
+
+## Main flows
+
+- `/admin/applications` for application listing and management
+- `/admin/applications/{id}` for releases, manifests and tenant assignments
+- `/api/admin/applications` for admin JSON vocabulary centered on `Application`
+- `php bin/console applicating:*` for operational workflows
+
+## Quality gate
+
+Primary local pipeline:
+
+```bash
+composer pipeline:local:full
+```
+
+Reports are written to `var/reports/`.

@@ -1,0 +1,39 @@
+security:
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'plaintext'
+
+    providers:
+        applicating_in_memory:
+            memory:
+                users:
+                    admin:
+                        password: '%env(APP_ADMIN_PASSWORD)%'
+                        roles: ['ROLE_APPLICATION_ADMIN', 'ROLE_APPLICATION_MANAGER', 'ROLE_APPLICATION_VIEWER']
+                    manager:
+                        password: '%env(APP_MANAGER_PASSWORD)%'
+                        roles: ['ROLE_APPLICATION_MANAGER', 'ROLE_APPLICATION_VIEWER']
+                    viewer:
+                        password: '%env(APP_VIEWER_PASSWORD)%'
+                        roles: ['ROLE_APPLICATION_VIEWER']
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            lazy: true
+            provider: applicating_in_memory
+            form_login:
+                login_path: applicating_security_login
+                check_path: applicating_security_login
+                enable_csrf: true
+                default_target_path: applicating_application_index
+            logout:
+                path: applicating_security_logout
+                target: applicating_security_login
+
+    access_control:
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/admin, roles: ROLE_APPLICATION_MANAGER }
+        - { path: ^/admin, roles: ROLE_APPLICATION_VIEWER }
