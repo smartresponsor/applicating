@@ -1,27 +1,23 @@
-# CHANGELOG — Smartresponsor Product Suite v18.0.0
+# CHANGELOG — Applicating / Application
 
 ## Overview
-Final unified release consolidating iterations v1–v17:
-- Product domain complete
-- Installer + CI/CD meta-package
-- Helm charts, ArgoCD, Rollouts, Chaos Mesh
-- SLO/SLI observability
-- Dual-write Product schema v2
-- Security hardening (headers, audit, rate limit)
-- Demo bootstrap environment
-- Roadmap & timeline
+Applicating-oriented release baseline for the active Symfony application workspace:
+- Application entity and lifecycle center
+- Release, manifest and tenant-assignment flows
+- Admin UI, API and CLI around application ecosystem management
+- Applicating inspection, drift and pipeline reports
+- Security, diagnostics and local quality pipeline
 
 ## Major Components
 | Layer | Key Feature |
 |-------|--------------|
-| Domain | Product entity, Read model, Catalog adapter |
-| CI/CD | GitHub Actions matrix, Helm, Docker |
-| Observability | Prometheus, Grafana dashboards, SLO rules |
-| Security | AuditTrail, PII masking, rate-limits |
-| Demo | make demo-up, curl bootstrap |
-| Docs | INSTALL, RELIABILITY, ROADMAP, SECURITY, SCHEMA_V2_ROLLOUT |
+| Domain | Application, Release, Manifest, Tenant assignment |
+| Runtime | Symfony admin UI, API, forms and Twig management screens |
+| QA | Applicating inspection reports, canonical roots lint, drift probes |
+| Security | Voters, role-based management and publication controls |
+| Demo | Fixtures, diagnostics and application lifecycle scenarios |
+| Docs | Release notes, drift maps and patch manifests |
 
 ## Release Metadata
-**Tag:** v18.0.0  
-**Released:** 2025-10-08  
+**Track:** Applicating / Application  
 **Maintainer:** Smartresponsor Core  
