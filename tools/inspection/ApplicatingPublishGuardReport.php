@@ -8,10 +8,18 @@ $reportDir = $root . '/report/inspection';
 $out = $reportDir . '/applicating-publish-guard-report.json';
 
 $servicePath = $root . '/src/Service/ApplicationLifecycleService.php';
-$testPath = $root . '/tests/Integration/ApplicationLifecycleServiceTest.php';
+$testPaths = [
+    $root . '/tests/Integration/ApplicationLifecycleServiceTest.php',
+    $root . '/tests/Integration/ApplicationLifecyclePublishGuardTest.php',
+];
 
 $service = is_file($servicePath) ? (file_get_contents($servicePath) ?: '') : '';
-$test = is_file($testPath) ? (file_get_contents($testPath) ?: '') : '';
+$tests = '';
+foreach ($testPaths as $testPath) {
+    if (is_file($testPath)) {
+        $tests .= file_get_contents($testPath) ?: '';
+    }
+}
 
 $items = [
     [
@@ -31,8 +39,8 @@ $items = [
     ],
     [
         'name' => 'negative_publish_integration_tests',
-        'path' => 'tests/Integration/ApplicationLifecycleServiceTest.php',
-        'status' => (str_contains($test, 'expectException') || str_contains($test, 'cannot publish')) ? 'present' : 'missing',
+        'path' => 'tests/Integration/ApplicationLifecycleServiceTest.php + tests/Integration/ApplicationLifecyclePublishGuardTest.php',
+        'status' => (str_contains($tests, 'expectException') || str_contains($tests, 'cannot be published')) ? 'present' : 'missing',
     ],
 ];
 
