@@ -182,8 +182,12 @@ final class ApplicationAdminController extends AbstractController
 
         foreach ($application->getReleases() as $release) {
             if ($release->getId() === $releaseId) {
-                $applicationLifecycleService->publishApplication($application, $release);
-                $this->addFlash('success', sprintf('Application "%s" published with release %s.', $application->getName(), $release->getVersion()));
+                try {
+                    $applicationLifecycleService->publishApplication($application, $release);
+                    $this->addFlash('success', sprintf('Application "%s" published with release %s.', $application->getName(), $release->getVersion()));
+                } catch (\LogicException $exception) {
+                    $this->addFlash('danger', $exception->getMessage());
+                }
 
                 return $this->redirectToRoute('applicating_application_show', ['id' => $application->getId()]);
             }
