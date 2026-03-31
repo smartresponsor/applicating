@@ -2,28 +2,25 @@
 
 ## Focus
 
-The active fixture layer currently appears to conflict with the planned publish-guard direction.
+The fixture layer is now aligned with the active publish-guard direction.
 
-## Observed risk in `ApplicationFixtures`
+## Current fixture contract in `ApplicationFixtures`
 
-The fixture flow currently combines two signals:
+The fixture flow now combines these signals intentionally:
 
-- some manifests are created with `governanceState = review_required`;
-- the first four applications are still published automatically.
+- the first four applications receive `governanceState = approved` and are publish-eligible;
+- the remaining applications receive `governanceState = review_required` and remain unpublished.
 
-That means fixture data can currently produce published applications whose manifest governance is not approved.
+That means fixture data still preserves governance variety, but it no longer produces published applications whose manifest governance is not approved.
 
 ## Why this matters
 
-This is inconsistent with the next domain-quality direction already identified for `publishApplication()`:
+This now matches the active domain-quality direction enforced in `publishApplication()`:
 
-- publish should require manifest presence;
-- publish should require approved governance state;
-- negative tests should fail loudly when eligibility is not met.
+- publish requires manifest presence;
+- publish requires approved governance state;
+- negative tests fail loudly when eligibility is not met.
 
-## Follow-up target
+## Result
 
-When the wave 3 publish-guard rewrite is applied, `ApplicationFixtures` should be aligned in one of two ways:
-
-1. only publish fixture applications whose manifest governance is approved; or
-2. keep review-required fixture applications in draft/moderation state instead of published state.
+Fixture demos remain useful for runtime walkthroughs, while the demo landscape now respects the same publication eligibility rules as the service layer.

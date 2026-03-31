@@ -61,23 +61,30 @@ final class ApplicationFixturesIntegrationTest extends KernelTestCase
         self::assertCount(6, $this->tenantApplicationRepository->findAll());
 
         $publishedWithReviewRequiredGovernance = 0;
+        $reviewRequiredWithoutPublication = 0;
         foreach ($applications as $application) {
-            if ($application->getPublicationState()->value !== 'published') {
-                continue;
-            }
-
+            $hasReviewRequiredManifest = false;
             foreach ($application->getManifests() as $manifest) {
                 if ($manifest->getGovernanceState() === 'review_required') {
-                    ++$publishedWithReviewRequiredGovernance;
+                    $hasReviewRequiredManifest = true;
                     break;
                 }
             }
+
+            if ($hasReviewRequiredManifest && $application->getPublicationState()->value === 'published') {
+                ++$publishedWithReviewRequiredGovernance;
+            }
+
+            if ($hasReviewRequiredManifest && $application->getPublicationState()->value !== 'published') {
+                ++$reviewRequiredWithoutPublication;
+            }
         }
 
+        self::assertSame(0, $publishedWithReviewRequiredGovernance);
         self::assertGreaterThanOrEqual(
             1,
-            $publishedWithReviewRequiredGovernance,
-            'Current fixtures should expose the governance/publish risk until the publish-guard wave aligns fixture publication rules.'
+            $reviewRequiredWithoutPublication,
+            'Review-required fixture applications should remain unpublished after publish-guard hardening.'
         );
     }
 }

@@ -52,7 +52,7 @@ final class ApplicationFixtures extends Fixture
             $manifestData->permissions = "tenant:read\ntenant:write";
             $manifestData->runtimeHooks = "bootstrap\npost_install";
             $manifestData->sandboxProfile = $application->getSandboxProfile();
-            $manifestData->governanceState = 0 === $index % 2 ? 'approved' : 'review_required';
+            $manifestData->governanceState = $index <= 4 ? 'approved' : 'review_required';
             $this->applicationLifecycleService->createManifest($application, $manifestData);
 
             if ($index <= 4) {

@@ -22,9 +22,9 @@ $items = [
         'status' => str_contains($content, 'if ($index <= 4)') ? 'present' : 'missing',
     ],
     [
-        'name' => 'fixture_combines_publish_with_non_approved_governance_risk',
+        'name' => 'fixture_limits_publication_to_approved_governance_window',
         'path' => 'src/DataFixtures/ApplicationFixtures.php',
-        'status' => (str_contains($content, 'review_required') && str_contains($content, 'if ($index <= 4)')) ? 'risk' : 'clear',
+        'status' => str_contains($content, "governanceState = \$index <= 4 ? 'approved' : 'review_required'") ? 'guarded' : 'drift',
     ],
 ];
 
