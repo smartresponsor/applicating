@@ -14,6 +14,7 @@ $steps = @(
     @{ Name = 'lint'; Command = 'composer lint' },
     @{ Name = 'lint:app-namespace'; Command = 'composer lint:app-namespace' },
     @{ Name = 'lint:config-prefix'; Command = 'composer lint:config-prefix' },
+    @{ Name = 'lint:canonical-roots'; Command = 'composer lint:canonical-roots' },
     @{ Name = 'cs:check'; Command = 'composer cs:check' },
     @{ Name = 'stan'; Command = 'composer stan' },
     @{ Name = 'md'; Command = 'composer md' },
@@ -25,6 +26,19 @@ if ($IncludeSmokes) {
         @{ Name = 'smoke:runtime'; Command = 'composer smoke:runtime' },
         @{ Name = 'smoke:container'; Command = 'composer smoke:container' },
         @{ Name = 'smoke:doctrine'; Command = 'composer smoke:doctrine' }
+    )
+}
+
+if ($IncludeReports) {
+    $steps += @(
+        @{ Name = 'report:owner-overlap'; Command = 'composer report:owner-overlap' },
+        @{ Name = 'report:route-inventory'; Command = 'composer report:route-inventory' },
+        @{ Name = 'report:class-alias'; Command = 'composer report:class-alias' },
+        @{ Name = 'report:runtime-proof'; Command = 'composer report:runtime-proof' },
+        @{ Name = 'report:engineering-drift'; Command = 'composer report:engineering-drift' },
+        @{ Name = 'report:pipeline-wiring'; Command = 'composer report:pipeline-wiring' },
+        @{ Name = 'report:publish-guard'; Command = 'composer report:publish-guard' },
+        @{ Name = 'report:fixture-publish-guard'; Command = 'composer report:fixture-publish-guard' }
     )
 }
 
@@ -57,9 +71,7 @@ foreach ($step in $steps) {
     }
 }
 
-if ($IncludeReports) {
-    "Application pipeline completed at $(Get-Date -Format o)" | Set-Content (Join-Path $reportDir 'pipeline-summary.log')
-}
+"Application pipeline completed at $(Get-Date -Format o)" | Set-Content (Join-Path $reportDir 'pipeline-summary.log')
 
 if ($failed.Count -gt 0) {
     Write-Host "Failed steps: $($failed -join ', ')"

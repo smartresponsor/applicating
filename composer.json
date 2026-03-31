@@ -117,6 +117,7 @@
         "report:engineering-drift": "@php tools/php/php84.php tools/inspection/ApplicatingEngineeringDriftReport.php",
         "report:pipeline-wiring": "@php tools/php/php84.php tools/inspection/ApplicatingPipelineWiringReport.php",
         "report:publish-guard": "@php tools/php/php84.php tools/inspection/ApplicatingPublishGuardReport.php",
+        "report:fixture-publish-guard": "@php tools/php/php84.php tools/inspection/ApplicatingFixturePublishGuardReport.php",
         "pipeline:inspection:applicating": "powershell -ExecutionPolicy Bypass -File tools/ci/run-applicating-inspection-wave.ps1",
         "pipeline:local": "powershell -ExecutionPolicy Bypass -File tools/ci/run-application-local-pipeline.ps1",
         "pipeline:local:full": "powershell -ExecutionPolicy Bypass -File tools/ci/run-application-local-pipeline.ps1 -IncludeSmokes -IncludeReports -IncludeSecurity",

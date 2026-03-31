@@ -14,7 +14,10 @@ $steps = @(
     @{ Name = 'report:applicating-class-alias'; Command = '@php tools/php/php84.php tools/inspection/ApplicatingClassAliasReport.php' },
     @{ Name = 'report:applicating-runtime-proof'; Command = '@php tools/php/php84.php tools/inspection/ApplicatingRuntimeProofReport.php' },
     @{ Name = 'report:applicating-owner-overlap'; Command = '@php tools/php/php84.php tools/inspection/ApplicatingOwnerOverlapReport.php' },
-    @{ Name = 'report:applicating-engineering-drift'; Command = '@php tools/php/php84.php tools/inspection/ApplicatingEngineeringDriftReport.php' }
+    @{ Name = 'report:applicating-engineering-drift'; Command = '@php tools/php/php84.php tools/inspection/ApplicatingEngineeringDriftReport.php' },
+    @{ Name = 'report:applicating-pipeline-wiring'; Command = '@php tools/php/php84.php tools/inspection/ApplicatingPipelineWiringReport.php' },
+    @{ Name = 'report:applicating-publish-guard'; Command = '@php tools/php/php84.php tools/inspection/ApplicatingPublishGuardReport.php' },
+    @{ Name = 'report:applicating-fixture-publish-guard'; Command = '@php tools/php/php84.php tools/inspection/ApplicatingFixturePublishGuardReport.php' }
 )
 
 $failed = @()
