@@ -1,30 +1,31 @@
-# Governance Layer (v24.5)
-*обновлено 2025-10-09*
+# Governance Layer (v26.4)
+*обновлено 2026-04-01*
 
-## Что решает
-- Политики на уровне арендатора/глобально (запреты/разрешения для Marketplace/Plugins).
-- Роли и доступ (admin/editor/viewer/dev).
-- Trust Index плагинов (рейтинги, влияние на выдачу).
-- Голосования/предложения: минимальное DAO-поведение (open/close, кворум — за рамками демо).
-- Применение правил (enforcement) с аудитом.
+## Что решает сейчас
+- Определяет publish eligibility через manifest presence и `approved` governance state.
+- Участвует в lifecycle-переходах `draft -> published -> suspended`.
+- Даёт operator-facing причины, почему release сейчас нельзя публиковать.
+- Поддерживает inspection/report contour вокруг publish guards и eligibility.
 
-## Таблицы
-- gov_policies, gov_roles, gov_trust, gov_proposals, gov_votes, gov_enforcements.
+## Фактические опоры в runtime
+- `ApplicationLifecycleService::publishApplication()` проверяет:
+  - наличие manifest;
+  - наличие хотя бы одного `approved` manifest;
+  - состояние release;
+  - принадлежность release текущему application.
+- `ApplicationPublishEligibilityService` строит eligibility map для admin view.
+- Admin/CLI surfaces не падают сырыми исключениями, а показывают readable failure reason.
 
-## API (демо)
-- POST /api/gov/policy — создать/сохранить политику
-- POST /api/gov/roles/assign — выдать роль
-- POST /api/gov/trust/rate — поставить оценку плагину
-- POST /api/gov/proposal/create — создать предложение
-- POST /api/gov/proposal/vote — проголосовать
-- POST /api/gov/enforce/check — проверить действие
+## Поверхности
+- Admin publish action: `POST /admin/applications/{id}/publish/{releaseId}`
+- Eligibility hints: `/admin/applications/{id}`
+- CLI publish: `applicating:application:publish <slug>`
+- Inspection: `ApplicatingPublishGuardReport`
 
-## Примеры правил
-```json
-{ "deny": ["plugin.install", "marketplace.publish"] }
-```
+## Что не является текущим каноном
+- Не описывает DAO, голосования или Trust Index как активный runtime этого репозитория.
+- Не строится вокруг legacy `marketplace.publish` / `plugin.install` action-модели.
 
-## Интеграция
-- Marketplace проверяет `enforce` для действий install/publish.
-- Federated Gateway добавляет `X-Role` / `X-Tenant` на основе gov_roles.
-- Self-Healing может открывать proposals для спорных автодействий.
+## Дальше
+- Расширять governance только там, где есть реальный runtime contract.
+- Держать policy vocabulary aligned с `application`, `release`, `manifest`, `tenant assignment`.
