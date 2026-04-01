@@ -90,6 +90,7 @@ final class ApplicationAdminController extends AbstractController
             'releaseForm' => $releaseForm->createView(),
             'manifestForm' => $manifestForm->createView(),
             'assignmentForm' => $assignmentForm->createView(),
+            'publishEligibility' => $this->buildPublishEligibility($application),
         ]);
     }
 
@@ -248,5 +249,37 @@ final class ApplicationAdminController extends AbstractController
         ));
 
         return $this->redirectToRoute('applicating_application_show', ['id' => $tenantApplication->getApplication()->getId()]);
+    }
+
+    /**
+     * @return array<int, array{eligible: bool, reason: ?string}>
+     */
+    private function buildPublishEligibility(Application $application): array
+    {
+        $hasManifest = 0 !== $application->getManifests()->count();
+        $hasApprovedManifest = false;
+        foreach ($application->getManifests() as $manifest) {
+            if ('approved' === $manifest->getGovernanceState()) {
+                $hasApprovedManifest = true;
+                break;
+            }
+        }
+
+        $eligibility = [];
+        foreach ($application->getReleases() as $release) {
+            $reason = null;
+            if (!$hasManifest) {
+                $reason = 'Publish requires an attached manifest.';
+            } elseif (!$hasApprovedManifest) {
+                $reason = 'Publish requires an approved manifest.';
+            }
+
+            $eligibility[$release->getId() ?? 0] = [
+                'eligible' => null === $reason,
+                'reason' => $reason,
+            ];
+        }
+
+        return $eligibility;
     }
 }
