@@ -7,17 +7,32 @@ $reportDir = $root . '/report/inspection';
 @mkdir($reportDir, 0777, true);
 $out = $reportDir . '/applicating-publish-guard-report.json';
 
-$servicePath = $root . '/src/Service/ApplicationLifecycleService.php';
-$testPaths = [
+$lifecycleServicePath = $root . '/src/Service/ApplicationLifecycleService.php';
+$eligibilityServicePath = $root . '/src/Service/ApplicationPublishEligibilityService.php';
+$integrationTestPaths = [
     $root . '/tests/Integration/ApplicationLifecycleServiceTest.php',
     $root . '/tests/Integration/ApplicationLifecyclePublishGuardTest.php',
+    $root . '/tests/Integration/ApplicationPublishEligibilityServiceTest.php',
+    $root . '/tests/Integration/ApplicationPublishEligibilityServiceContainerTest.php',
+];
+$functionalTestPaths = [
+    $root . '/tests/Functional/ApplicationPublishGracefulHandlingTest.php',
+    $root . '/tests/Functional/ApplicatingApplicationPublishCommandFailureTest.php',
+    $root . '/tests/Functional/ApplicationPublishEligibilityViewTest.php',
 ];
 
-$service = is_file($servicePath) ? (file_get_contents($servicePath) ?: '') : '';
-$tests = '';
-foreach ($testPaths as $testPath) {
+$lifecycleService = is_file($lifecycleServicePath) ? (file_get_contents($lifecycleServicePath) ?: '') : '';
+$eligibilityService = is_file($eligibilityServicePath) ? (file_get_contents($eligibilityServicePath) ?: '') : '';
+$integrationTests = '';
+foreach ($integrationTestPaths as $testPath) {
     if (is_file($testPath)) {
-        $tests .= file_get_contents($testPath) ?: '';
+        $integrationTests .= file_get_contents($testPath) ?: '';
+    }
+}
+$functionalTests = '';
+foreach ($functionalTestPaths as $testPath) {
+    if (is_file($testPath)) {
+        $functionalTests .= file_get_contents($testPath) ?: '';
     }
 }
 
@@ -25,22 +40,57 @@ $items = [
     [
         'name' => 'publish_checks_manifest_presence',
         'path' => 'src/Service/ApplicationLifecycleService.php',
-        'status' => str_contains($service, 'getManifests()') ? 'guarded' : 'missing',
+        'status' => str_contains($lifecycleService, 'getManifests()') ? 'guarded' : 'missing',
     ],
     [
         'name' => 'publish_checks_governance_state',
         'path' => 'src/Service/ApplicationLifecycleService.php',
-        'status' => str_contains($service, 'getGovernanceState()') ? 'guarded' : 'missing',
+        'status' => str_contains($lifecycleService, 'getGovernanceState()') ? 'guarded' : 'missing',
     ],
     [
         'name' => 'publish_checks_release_state',
         'path' => 'src/Service/ApplicationLifecycleService.php',
-        'status' => str_contains($service, 'getPublicationState()') ? 'guarded' : 'missing',
+        'status' => str_contains($lifecycleService, 'getPublicationState()') ? 'guarded' : 'missing',
+    ],
+    [
+        'name' => 'publish_eligibility_service_exists',
+        'path' => 'src/Service/ApplicationPublishEligibilityService.php',
+        'status' => str_contains($eligibilityService, 'buildEligibilityMap') ? 'present' : 'missing',
+    ],
+    [
+        'name' => 'publish_eligibility_service_checks_published_release',
+        'path' => 'src/Service/ApplicationPublishEligibilityService.php',
+        'status' => str_contains($eligibilityService, 'Release is already published.') ? 'guarded' : 'missing',
     ],
     [
         'name' => 'negative_publish_integration_tests',
         'path' => 'tests/Integration/ApplicationLifecycleServiceTest.php + tests/Integration/ApplicationLifecyclePublishGuardTest.php',
-        'status' => (str_contains($tests, 'expectException') || str_contains($tests, 'cannot be published')) ? 'present' : 'missing',
+        'status' => (str_contains($integrationTests, 'cannot be published without a manifest') || str_contains($integrationTests, 'Application cannot be published without a manifest.')) ? 'present' : 'missing',
+    ],
+    [
+        'name' => 'publish_eligibility_service_integration_tests',
+        'path' => 'tests/Integration/ApplicationPublishEligibilityServiceTest.php',
+        'status' => str_contains($integrationTests, 'Release is already published.') ? 'present' : 'missing',
+    ],
+    [
+        'name' => 'publish_eligibility_container_wiring',
+        'path' => 'tests/Integration/ApplicationPublishEligibilityServiceContainerTest.php',
+        'status' => str_contains($integrationTests, 'ApplicationPublishEligibilityServiceInterface::class') ? 'present' : 'missing',
+    ],
+    [
+        'name' => 'admin_publish_failure_functional_tests',
+        'path' => 'tests/Functional/ApplicationPublishGracefulHandlingTest.php',
+        'status' => str_contains($functionalTests, 'Application cannot be published without an approved manifest.') ? 'present' : 'missing',
+    ],
+    [
+        'name' => 'cli_publish_failure_functional_tests',
+        'path' => 'tests/Functional/ApplicatingApplicationPublishCommandFailureTest.php',
+        'status' => str_contains($functionalTests, 'applicating:application:publish') ? 'present' : 'missing',
+    ],
+    [
+        'name' => 'publish_eligibility_view_functional_tests',
+        'path' => 'tests/Functional/ApplicationPublishEligibilityViewTest.php',
+        'status' => str_contains($functionalTests, 'Publish requires an attached manifest.') ? 'present' : 'missing',
     ],
 ];
 
