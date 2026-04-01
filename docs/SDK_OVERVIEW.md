@@ -1,19 +1,32 @@
-# Developer Hub & SDK (v24.3)
-*обновлено 2025-10-09*
+# Developer Surface & SDK Overview (v26.4)
+*обновлено 2026-04-01*
 
-## Быстрый старт
+## Текущий developer surface
+В текущем Applicating-репозитории developer surface сосредоточен не вокруг отдельного plugin-SDK, а вокруг Symfony-oriented application lifecycle runtime.
+
+## Что реально есть
+- Admin UI для управления application aggregate.
+- JSON API для admin inventory и report summary:
+  - `GET /api/admin/applications`
+  - `GET /api/admin/applications/report`
+- CLI publish entrypoint:
 ```bash
-bin/sr-dev init my-plugin
-bin/sr-dev publish my-plugin
+php bin/console applicating:application:publish <application-slug>
 ```
 
-## REST
-- `POST /api/devhub/keys/issue` — выдать API-ключ
-- `POST /api/devhub/keys/revoke` — отозвать ключ
-- `GET  /api/devhub/plugin/template` — сгенерировать `plugin.json`
-- `POST /api/devhub/plugin/publish` — публикация (через Publisher)
-- `POST /api/devhub/subgraph/test` — валидация SDL
+## Что важно для разработчика
+- `Application` — центральная сущность.
+- Release и manifest публикуются и валидируются через lifecycle service.
+- Publish eligibility вынесен в отдельный service contract:
+  - `ApplicationPublishEligibilityServiceInterface`
+  - `ApplicationPublishEligibilityService`
+- Container wiring и integration coverage уже фиксируют этот contract.
 
-## Интеграция
-- API-ключи пригодятся для Federated GraphQL и Marketplace.
-- Publisher пишет события в `devhub_audit`.
+## Чего здесь сейчас нет как канона
+- Нет подтверждённого `sr-dev init my-plugin` / `sr-dev publish my-plugin` developer workflow.
+- Нет подтверждённого `/api/devhub/plugin/*` operational surface как основы текущего runtime.
+- Нет основания описывать этот репозиторий как plugin marketplace SDK.
+
+## Дальше
+- Документировать только те developer entrypoints, которые реально существуют в code/runtime.
+- При появлении отдельного SDK слоя описывать его отдельно от application workspace.
