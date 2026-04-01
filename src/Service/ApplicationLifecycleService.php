@@ -81,6 +81,30 @@ final class ApplicationLifecycleService implements ApplicationLifecycleServiceIn
 
     public function publishApplication(Application $application, ApplicationRelease $release): void
     {
+        if ($release->getApplication() !== $application) {
+            throw new \LogicException('Application release does not belong to the selected application.');
+        }
+
+        if (0 === $application->getManifests()->count()) {
+            throw new \LogicException('Application cannot be published without a manifest.');
+        }
+
+        $approvedManifestPresent = false;
+        foreach ($application->getManifests() as $manifest) {
+            if ('approved' === $manifest->getGovernanceState()) {
+                $approvedManifestPresent = true;
+                break;
+            }
+        }
+
+        if (!$approvedManifestPresent) {
+            throw new \LogicException('Application cannot be published without an approved manifest.');
+        }
+
+        if ('published' === $release->getPublicationState()->value) {
+            throw new \LogicException('Application release is already published.');
+        }
+
         $application->markForModeration();
         $application->publish();
         $release->publish();

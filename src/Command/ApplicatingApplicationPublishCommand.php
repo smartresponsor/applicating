@@ -50,7 +50,14 @@ final class ApplicatingApplicationPublishCommand extends Command
             return Command::FAILURE;
         }
 
-        $this->applicationLifecycleService->publishApplication($application, $latestRelease);
+        try {
+            $this->applicationLifecycleService->publishApplication($application, $latestRelease);
+        } catch (\LogicException $exception) {
+            $output->writeln(sprintf('<error>%s</error>', $exception->getMessage()));
+
+            return Command::FAILURE;
+        }
+
         $output->writeln(sprintf('<info>Published %s with release %s.</info>', $application->getSlug(), $latestRelease->getVersion()));
 
         return Command::SUCCESS;

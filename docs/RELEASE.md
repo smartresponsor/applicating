@@ -1,12 +1,12 @@
-# GitHub Release v18.0.0
+# GitHub Release — Applicating / Application
 
 To publish:
 ```bash
-gh release create v18.0.0 --title "Smartresponsor Product Suite v18.0.0" --notes-file docs/CHANGELOG.md --draft
+gh release create v18.0.0 --title "Applicating / Application" --notes-file docs/CHANGELOG.md --draft
 ```
 
-Artifacts to attach:
-- product-suite-final-cut.zip
-- product-suite-roadmap.zip
-- product-suite-roadmap-timeline.zip
-- product-suite-demo-bootstrap.zip
+Suggested artifacts to attach:
+- applicating-application-runtime.zip
+- applicating-application-roadmap.zip
+- applicating-application-demo-bootstrap.zip
+- applicating-application-inspection-reports.zip
