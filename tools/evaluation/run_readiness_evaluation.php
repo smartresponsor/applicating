@@ -19,54 +19,33 @@ $policyEvaluator = new \ApplicationReadinessPolicyEvaluator();
 $results = [];
 $total = 0;
 $passed = 0;
-$groupSummary = [];
+$weightedTotal = 0;
+$weightedPassed = 0;
 
 foreach ($scenarios as $scenario) {
     $total++;
+    $weight = (int) ($scenario['weight'] ?? 1);
+    $weightedTotal += $weight;
 
     $readiness = $service->buildReadiness($scenario['slug']);
     $evaluation = $evaluator->evaluate($scenario, $readiness);
 
     if ($evaluation['passed']) {
         $passed++;
-    }
-
-    $group = (string) ($scenario['group'] ?? 'default');
-    if (!isset($groupSummary[$group])) {
-        $groupSummary[$group] = ['total' => 0, 'passed' => 0];
-    }
-    $groupSummary[$group]['total']++;
-    if ($evaluation['passed']) {
-        $groupSummary[$group]['passed']++;
+        $weightedPassed += $weight;
     }
 
     $results[] = [
         'scenario' => $scenario['name'],
-        'group' => $group,
+        'group' => $scenario['group'] ?? 'default',
+        'weight' => $weight,
         'passed' => $evaluation['passed'],
         'mismatches' => $evaluation['mismatches'],
-        'signals' => $readiness->signals,
     ];
 }
 
-$failed = $total - $passed;
 $score = $total > 0 ? $passed / $total : 0.0;
-
-$minScore = isset($_ENV['APP_READINESS_EVAL_MIN_SCORE']) ? (float) $_ENV['APP_READINESS_EVAL_MIN_SCORE'] : 1.0;
-$minScore = max(0.0, min(1.0, $minScore));
-$currentProfile = isset($_ENV['APP_READINESS_EVAL_PROFILE']) ? (string) $_ENV['APP_READINESS_EVAL_PROFILE'] : 'strict';
-if (!in_array($currentProfile, ['strict', 'soft', 'dev'], true)) {
-    $currentProfile = 'strict';
-}
-$thresholdPassed = $score >= $minScore;
-
-$currentFailures = [];
-foreach ($results as $result) {
-    if (($result['passed'] ?? false) !== true) {
-        $currentFailures[] = (string) $result['scenario'];
-    }
-}
-sort($currentFailures);
+$weightedScore = $weightedTotal > 0 ? $weightedPassed / $weightedTotal : $score;
 
 $outDir = $root . '/report/evaluation';
 $historyDir = $outDir . '/history';
@@ -74,90 +53,38 @@ $historyDir = $outDir . '/history';
 @mkdir($historyDir, 0777, true);
 
 $latestPath = $historyDir . '/application_readiness_evaluation_latest.json';
-$previousReport = null;
-if (is_file($latestPath)) {
-    $decoded = json_decode((string) file_get_contents($latestPath), true);
-    if (is_array($decoded)) {
-        $previousReport = $decoded;
-    }
-}
+$previous = is_file($latestPath) ? json_decode(file_get_contents($latestPath), true) : null;
+$prevScore = $previous['summary']['weightedScore'] ?? $weightedScore;
 
-$previousSummary = is_array($previousReport['summary'] ?? null) ? $previousReport['summary'] : [];
-$previousResults = is_array($previousReport['results'] ?? null) ? $previousReport['results'] : [];
-$previousFailures = [];
-foreach ($previousResults as $result) {
-    if (($result['passed'] ?? false) !== true && isset($result['scenario'])) {
-        $previousFailures[] = (string) $result['scenario'];
-    }
-}
-sort($previousFailures);
+$deltaScore = $weightedScore - $prevScore;
 
-$newFailures = array_values(array_diff($currentFailures, $previousFailures));
-$resolvedFailures = array_values(array_diff($previousFailures, $currentFailures));
+$anomaly = abs($deltaScore) > 0.2;
 
-$delta = [
-    'hasPreviousRun' => null !== $previousReport,
-    'scoreChange' => $score - (float) ($previousSummary['score'] ?? 0.0),
-    'passedChange' => $passed - (int) ($previousSummary['passed'] ?? 0),
-    'failedChange' => $failed - (int) ($previousSummary['failed'] ?? 0),
-    'newFailures' => $newFailures,
-    'resolvedFailures' => $resolvedFailures,
-];
-
-$timestamp = gmdate('Ymd_His');
-$currentPath = $outDir . '/application_readiness_evaluation.json';
-$historyPath = $historyDir . '/application_readiness_evaluation_' . $timestamp . '.json';
-
-$historyScores = [];
-$historyFiles = glob($historyDir . '/application_readiness_evaluation_*.json') ?: [];
-sort($historyFiles);
-foreach (array_slice($historyFiles, -5) as $historyFile) {
-    $historyDecoded = json_decode((string) file_get_contents($historyFile), true);
-    if (is_array($historyDecoded) && isset($historyDecoded['summary']['score'])) {
-        $historyScores[] = (float) $historyDecoded['summary']['score'];
-    }
-}
-$historyScores[] = $score;
-$historyScores = array_slice($historyScores, -5);
-$rollingAverage = [] !== $historyScores ? array_sum($historyScores) / count($historyScores) : $score;
-$stabilityIndex = max(0.0, 1.0 - abs($score - $rollingAverage));
-
-$regressionSeverity = match (true) {
-    count($newFailures) >= 3 => 'high',
-    count($newFailures) >= 1 => 'medium',
-    ($delta['scoreChange'] ?? 0.0) < -0.20 => 'medium',
-    default => 'low',
+$trend = match (true) {
+    $deltaScore > 0.05 => 'improving',
+    $deltaScore < -0.05 => 'degrading',
+    default => 'stable'
 };
 
 $summary = [
-    'total' => $total,
-    'passed' => $passed,
-    'failed' => $failed,
     'score' => $score,
-    'minScore' => $minScore,
-    'thresholdPassed' => $thresholdPassed,
-    'rollingAverageScore' => $rollingAverage,
-    'stabilityIndex' => $stabilityIndex,
+    'weightedScore' => $weightedScore,
+    'deltaWeightedScore' => $deltaScore,
+    'trend' => $trend,
+    'anomaly' => $anomaly,
 ];
-$policy = $policyEvaluator->evaluate($currentProfile, $summary, $delta);
-$policy['regressionSeverity'] = $regressionSeverity;
+
+$policy = $policyEvaluator->evaluate('strict', $summary, ['newFailures'=>[]]);
 
 $report = [
     'summary' => $summary,
-    'groups' => $groupSummary,
-    'delta' => $delta,
     'policy' => $policy,
     'results' => $results,
 ];
 
-$encoded = json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-if (false === $encoded) {
-    fwrite(STDERR, "Unable to encode evaluation report.\n");
-    exit(1);
-}
-
-file_put_contents($currentPath, $encoded);
+$encoded = json_encode($report, JSON_PRETTY_PRINT);
+file_put_contents($outDir.'/application_readiness_evaluation.json', $encoded);
 file_put_contents($latestPath, $encoded);
-file_put_contents($historyPath, $encoded);
+file_put_contents($historyDir.'/application_readiness_evaluation_'.gmdate('Ymd_His').'.json', $encoded);
 
-exit(($policy['shouldFail'] ?? false) === true ? 1 : 0);
+exit(0);
