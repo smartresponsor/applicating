@@ -10,7 +10,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 final class ApplicatingApplicationEvaluateReadinessCommandTest extends KernelTestCase
 {
-    public function testCommandRuns(): void
+    public function testCommandOutputsSummary(): void
     {
         self::bootKernel();
 
@@ -18,9 +18,11 @@ final class ApplicatingApplicationEvaluateReadinessCommandTest extends KernelTes
         $command = $application->find('applicating:application:evaluate-readiness');
 
         $tester = new CommandTester($command);
-        $exitCode = $tester->execute([]);
+        $tester->execute(['--min-score' => '0.0']);
 
-        self::assertTrue(in_array($exitCode, [0, 1], true));
-        self::assertStringContainsString('missing_application', $tester->getDisplay());
+        $display = $tester->getDisplay();
+
+        self::assertStringContainsString('Evaluation total', $display);
+        self::assertStringContainsString('Score', $display);
     }
 }
