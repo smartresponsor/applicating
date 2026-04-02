@@ -5,6 +5,7 @@ declare(strict_types=1);
 $root = dirname(__DIR__, 2);
 $scenarios = require $root . '/tools/evaluation/application_readiness_scenarios.php';
 require_once $root . '/tools/evaluation/ApplicationReadinessEvaluator.php';
+require_once $root . '/tools/evaluation/ApplicationReadinessPolicyEvaluator.php';
 
 use App\Service\ApplicationReadinessService;
 
@@ -13,6 +14,7 @@ $container = $kernel->getContainer();
 $service = $container->get(ApplicationReadinessService::class);
 
 $evaluator = new \ApplicationReadinessEvaluator();
+$policyEvaluator = new \ApplicationReadinessPolicyEvaluator();
 
 $results = [];
 $total = 0;
@@ -52,6 +54,10 @@ $score = $total > 0 ? $passed / $total : 0.0;
 
 $minScore = isset($_ENV['APP_READINESS_EVAL_MIN_SCORE']) ? (float) $_ENV['APP_READINESS_EVAL_MIN_SCORE'] : 1.0;
 $minScore = max(0.0, min(1.0, $minScore));
+$currentProfile = isset($_ENV['APP_READINESS_EVAL_PROFILE']) ? (string) $_ENV['APP_READINESS_EVAL_PROFILE'] : 'strict';
+if (!in_array($currentProfile, ['strict', 'soft', 'dev'], true)) {
+    $currentProfile = 'strict';
+}
 $thresholdPassed = $score >= $minScore;
 
 $currentFailures = [];
@@ -98,17 +104,21 @@ $delta = [
     'resolvedFailures' => $resolvedFailures,
 ];
 
+$summary = [
+    'total' => $total,
+    'passed' => $passed,
+    'failed' => $failed,
+    'score' => $score,
+    'minScore' => $minScore,
+    'thresholdPassed' => $thresholdPassed,
+];
+$policy = $policyEvaluator->evaluate($currentProfile, $summary, $delta);
+
 $report = [
-    'summary' => [
-        'total' => $total,
-        'passed' => $passed,
-        'failed' => $failed,
-        'score' => $score,
-        'minScore' => $minScore,
-        'thresholdPassed' => $thresholdPassed,
-    ],
+    'summary' => $summary,
     'groups' => $groupSummary,
     'delta' => $delta,
+    'policy' => $policy,
     'results' => $results,
 ];
 
@@ -126,4 +136,4 @@ file_put_contents($currentPath, $encoded);
 file_put_contents($latestPath, $encoded);
 file_put_contents($historyPath, $encoded);
 
-exit($thresholdPassed ? 0 : 1);
+exit(($policy['shouldFail'] ?? false) === true ? 1 : 0);

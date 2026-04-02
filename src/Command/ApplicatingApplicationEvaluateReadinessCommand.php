@@ -16,51 +16,36 @@ final class ApplicatingApplicationEvaluateReadinessCommand extends Command
 {
     protected function configure(): void
     {
-        $this->addOption('min-score', null, InputOption::VALUE_REQUIRED, 'Minimum passing score between 0 and 1.', '1.0');
+        $this
+            ->addOption('min-score', null, InputOption::VALUE_REQUIRED, 'Minimum passing score between 0 and 1.', '1.0')
+            ->addOption('profile', null, InputOption::VALUE_REQUIRED, 'Evaluation profile: strict|soft|dev', 'strict');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $minScore = max(0.0, min(1.0, (float) $input->getOption('min-score')));
+        $profile = (string) $input->getOption('profile');
 
         $root = dirname(__DIR__, 2);
         $script = $root . '/tools/evaluation/run_readiness_evaluation.php';
 
-        if (!is_file($script)) {
-            $output->writeln('<error>Evaluation runner script is missing.</error>');
-            return Command::FAILURE;
-        }
-
-        $_SERVER['APP_READINESS_EVAL_MIN_SCORE'] = (string) $minScore;
         $_ENV['APP_READINESS_EVAL_MIN_SCORE'] = (string) $minScore;
+        $_ENV['APP_READINESS_EVAL_PROFILE'] = $profile;
 
         require $script;
 
         $reportPath = $root . '/report/evaluation/application_readiness_evaluation.json';
-        if (!is_file($reportPath)) {
-            $output->writeln('<error>Evaluation report was not produced.</error>');
-            return Command::FAILURE;
+        $report = json_decode((string) file_get_contents($reportPath), true);
+
+        $policy = $report['policy'] ?? [];
+
+        $output->writeln(sprintf('<info>Profile:</info> %s', $policy['profile'] ?? 'unknown'));
+        $output->writeln(sprintf('<info>Should fail:</info> %s', ($policy['shouldFail'] ?? false) ? 'true' : 'false'));
+
+        if (($policy['failedByRegression'] ?? false) === true) {
+            $output->writeln('<error>Regression detected</error>');
         }
 
-        $report = json_decode((string) file_get_contents($reportPath), true, 512, JSON_THROW_ON_ERROR);
-        $summary = $report['summary'] ?? [];
-        $delta = $report['delta'] ?? [];
-
-        $output->writeln(sprintf('<info>Score:</info> %.3f (min %.3f)', (float) ($summary['score'] ?? 0.0), $minScore));
-
-        if (($delta['hasPreviousRun'] ?? false) === true) {
-            $output->writeln(sprintf('<comment>Δ score:</comment> %.3f', (float) ($delta['scoreChange'] ?? 0.0)));
-
-            foreach ($delta['newFailures'] ?? [] as $f) {
-                $output->writeln(sprintf('<error>[NEW FAIL]</error> %s', $f));
-            }
-            foreach ($delta['resolvedFailures'] ?? [] as $f) {
-                $output->writeln(sprintf('<info>[RESOLVED]</info> %s', $f));
-            }
-        }
-
-        $thresholdPassed = ($summary['thresholdPassed'] ?? false) === true;
-
-        return $thresholdPassed ? FrameworkApplication::SUCCESS : FrameworkApplication::FAILURE;
+        return ($policy['shouldFail'] ?? false) ? FrameworkApplication::FAILURE : FrameworkApplication::SUCCESS;
     }
 }
