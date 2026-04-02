@@ -52,26 +52,78 @@ $score = $total > 0 ? $passed / $total : 0.0;
 
 $minScore = isset($_ENV['APP_READINESS_EVAL_MIN_SCORE']) ? (float) $_ENV['APP_READINESS_EVAL_MIN_SCORE'] : 1.0;
 $minScore = max(0.0, min(1.0, $minScore));
-
 $thresholdPassed = $score >= $minScore;
 
+$currentFailures = [];
+foreach ($results as $result) {
+    if (($result['passed'] ?? false) !== true) {
+        $currentFailures[] = (string) $result['scenario'];
+    }
+}
+sort($currentFailures);
+
 $outDir = $root . '/report/evaluation';
+$historyDir = $outDir . '/history';
 @mkdir($outDir, 0777, true);
+@mkdir($historyDir, 0777, true);
 
-file_put_contents(
-    $outDir . '/application_readiness_evaluation.json',
-    json_encode([
-        'summary' => [
-            'total' => $total,
-            'passed' => $passed,
-            'failed' => $failed,
-            'score' => $score,
-            'minScore' => $minScore,
-            'thresholdPassed' => $thresholdPassed,
-        ],
-        'groups' => $groupSummary,
-        'results' => $results,
-    ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
-);
+$latestPath = $historyDir . '/application_readiness_evaluation_latest.json';
+$previousReport = null;
+if (is_file($latestPath)) {
+    $decoded = json_decode((string) file_get_contents($latestPath), true);
+    if (is_array($decoded)) {
+        $previousReport = $decoded;
+    }
+}
 
-exit(0);
+$previousSummary = is_array($previousReport['summary'] ?? null) ? $previousReport['summary'] : [];
+$previousResults = is_array($previousReport['results'] ?? null) ? $previousReport['results'] : [];
+$previousFailures = [];
+foreach ($previousResults as $result) {
+    if (($result['passed'] ?? false) !== true && isset($result['scenario'])) {
+        $previousFailures[] = (string) $result['scenario'];
+    }
+}
+sort($previousFailures);
+
+$newFailures = array_values(array_diff($currentFailures, $previousFailures));
+$resolvedFailures = array_values(array_diff($previousFailures, $currentFailures));
+
+$delta = [
+    'hasPreviousRun' => null !== $previousReport,
+    'scoreChange' => $score - (float) ($previousSummary['score'] ?? 0.0),
+    'passedChange' => $passed - (int) ($previousSummary['passed'] ?? 0),
+    'failedChange' => $failed - (int) ($previousSummary['failed'] ?? 0),
+    'newFailures' => $newFailures,
+    'resolvedFailures' => $resolvedFailures,
+];
+
+$report = [
+    'summary' => [
+        'total' => $total,
+        'passed' => $passed,
+        'failed' => $failed,
+        'score' => $score,
+        'minScore' => $minScore,
+        'thresholdPassed' => $thresholdPassed,
+    ],
+    'groups' => $groupSummary,
+    'delta' => $delta,
+    'results' => $results,
+];
+
+$timestamp = gmdate('Ymd_His');
+$currentPath = $outDir . '/application_readiness_evaluation.json';
+$historyPath = $historyDir . '/application_readiness_evaluation_' . $timestamp . '.json';
+
+$encoded = json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+if (false === $encoded) {
+    fwrite(STDERR, "Unable to encode evaluation report.\n");
+    exit(1);
+}
+
+file_put_contents($currentPath, $encoded);
+file_put_contents($latestPath, $encoded);
+file_put_contents($historyPath, $encoded);
+
+exit($thresholdPassed ? 0 : 1);

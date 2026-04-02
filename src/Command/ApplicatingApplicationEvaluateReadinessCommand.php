@@ -28,44 +28,34 @@ final class ApplicatingApplicationEvaluateReadinessCommand extends Command
 
         if (!is_file($script)) {
             $output->writeln('<error>Evaluation runner script is missing.</error>');
-
             return Command::FAILURE;
         }
 
         $_SERVER['APP_READINESS_EVAL_MIN_SCORE'] = (string) $minScore;
         $_ENV['APP_READINESS_EVAL_MIN_SCORE'] = (string) $minScore;
 
-        $exitCode = (static function (string $scriptPath): int {
-            require $scriptPath;
-
-            return 0;
-        })($script);
+        require $script;
 
         $reportPath = $root . '/report/evaluation/application_readiness_evaluation.json';
         if (!is_file($reportPath)) {
             $output->writeln('<error>Evaluation report was not produced.</error>');
-
             return Command::FAILURE;
         }
 
         $report = json_decode((string) file_get_contents($reportPath), true, 512, JSON_THROW_ON_ERROR);
         $summary = $report['summary'] ?? [];
+        $delta = $report['delta'] ?? [];
 
-        $output->writeln(sprintf('<info>Evaluation total:</info> %d', (int) ($summary['total'] ?? 0)));
-        $output->writeln(sprintf('<info>Passed:</info> %d', (int) ($summary['passed'] ?? 0)));
-        $output->writeln(sprintf('<info>Failed:</info> %d', (int) ($summary['failed'] ?? 0)));
-        $output->writeln(sprintf('<info>Score:</info> %.3f', (float) ($summary['score'] ?? 0.0)));
-        $output->writeln(sprintf('<info>Min score:</info> %.3f', $minScore));
+        $output->writeln(sprintf('<info>Score:</info> %.3f (min %.3f)', (float) ($summary['score'] ?? 0.0), $minScore));
 
-        foreach ($report['results'] ?? [] as $result) {
-            if (($result['passed'] ?? false) === true) {
-                $output->writeln(sprintf('<info>[PASS]</info> %s', (string) ($result['scenario'] ?? 'unknown')));
-                continue;
+        if (($delta['hasPreviousRun'] ?? false) === true) {
+            $output->writeln(sprintf('<comment>Δ score:</comment> %.3f', (float) ($delta['scoreChange'] ?? 0.0)));
+
+            foreach ($delta['newFailures'] ?? [] as $f) {
+                $output->writeln(sprintf('<error>[NEW FAIL]</error> %s', $f));
             }
-
-            $output->writeln(sprintf('<error>[FAIL]</error> %s', (string) ($result['scenario'] ?? 'unknown')));
-            foreach ($result['mismatches'] ?? [] as $mismatch) {
-                $output->writeln('  - ' . (string) $mismatch);
+            foreach ($delta['resolvedFailures'] ?? [] as $f) {
+                $output->writeln(sprintf('<info>[RESOLVED]</info> %s', $f));
             }
         }
 
