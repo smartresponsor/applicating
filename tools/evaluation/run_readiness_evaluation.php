@@ -45,7 +45,22 @@ foreach ($scenarios as $scenario) {
 }
 
 $score = $total > 0 ? $passed / $total : 0.0;
-$weightedScore = $weightedTotal > 0 ? $weightedPassed / $weightedTotal : $score;
+
+$minScore = isset($_ENV['APP_READINESS_EVAL_MIN_SCORE']) ? (float) $_ENV['APP_READINESS_EVAL_MIN_SCORE'] : 1.0;
+$minScore = max(0.0, min(1.0, $minScore));
+$currentProfile = isset($_ENV['APP_READINESS_EVAL_PROFILE']) ? (string) $_ENV['APP_READINESS_EVAL_PROFILE'] : 'strict';
+if (!in_array($currentProfile, ['strict', 'soft', 'dev'], true)) {
+    $currentProfile = 'strict';
+}
+$thresholdPassed = $score >= $minScore;
+
+$currentFailures = [];
+foreach ($results as $result) {
+    if (($result['passed'] ?? false) !== true) {
+        $currentFailures[] = (string) $result['scenario'];
+    }
+}
+sort($currentFailures);
 
 $outDir = $root . '/report/evaluation';
 $historyDir = $outDir . '/history';
@@ -74,10 +89,20 @@ $summary = [
     'anomaly' => $anomaly,
 ];
 
-$policy = $policyEvaluator->evaluate('strict', $summary, ['newFailures'=>[]]);
+$summary = [
+    'total' => $total,
+    'passed' => $passed,
+    'failed' => $failed,
+    'score' => $score,
+    'minScore' => $minScore,
+    'thresholdPassed' => $thresholdPassed,
+];
+$policy = $policyEvaluator->evaluate($currentProfile, $summary, $delta);
 
 $report = [
     'summary' => $summary,
+    'groups' => $groupSummary,
+    'delta' => $delta,
     'policy' => $policy,
     'results' => $results,
 ];
@@ -87,4 +112,4 @@ file_put_contents($outDir.'/application_readiness_evaluation.json', $encoded);
 file_put_contents($latestPath, $encoded);
 file_put_contents($historyDir.'/application_readiness_evaluation_'.gmdate('Ymd_His').'.json', $encoded);
 
-exit(0);
+exit(($policy['shouldFail'] ?? false) === true ? 1 : 0);
