@@ -11,7 +11,7 @@ $steps = @(
     'composer qa:static'
 )
 if ($IncludeSmokes) {
-    $steps += @('composer smoke:runtime', 'composer smoke:fixtures', 'composer smoke:container', 'composer smoke:doctrine', 'composer smoke:fixture-load', 'composer smoke:admin', 'composer smoke:functional-readiness')
+    $steps += @('composer smoke:runtime', 'composer smoke:fixtures', 'composer smoke:container', 'composer smoke:doctrine', 'composer smoke:fixture-load', 'composer smoke:admin', 'composer smoke:functional-readiness', 'composer smoke:postgres-matrix')
 }
 if ($IncludeReports) {
     $steps += @('composer report:all')

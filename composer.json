@@ -142,7 +142,8 @@
             "@smoke:container",
             "@smoke:doctrine",
             "@smoke:admin",
-            "@smoke:functional-readiness"
+            "@smoke:functional-readiness",
+            "@smoke:postgres-matrix"
         ],
         "pipeline:inspection:applicating": "powershell -ExecutionPolicy Bypass -File tools/ci/run-applicating-inspection-wave.ps1",
         "pipeline:local": "powershell -ExecutionPolicy Bypass -File tools/ci/run-application-local-pipeline.ps1",

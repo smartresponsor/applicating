@@ -11,6 +11,7 @@ $checks = [
     'fixture_load' => is_file(applicating_path('tools/smoke/application-fixture-load-smoke.php')),
     'admin' => is_file(applicating_path('tools/smoke/application-admin-surface-smoke.php')),
     'functional_readiness' => is_file(applicating_path('tools/smoke/application-functional-readiness-smoke.php')),
+    'postgres_matrix' => is_file(applicating_path('tools/smoke/application-postgres-matrix-smoke.php')),
 ];
 
 $payload = [

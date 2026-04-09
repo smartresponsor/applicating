@@ -85,6 +85,7 @@ HTTP smoke against a running instance:
 bash tools/smoke/application-http-smoke.sh http://127.0.0.1:8000
 composer smoke:admin
 composer smoke:functional-readiness
+composer smoke:postgres-matrix
 ```
 
 Optional browser E2E path:

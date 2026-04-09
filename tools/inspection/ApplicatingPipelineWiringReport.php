@@ -15,7 +15,8 @@ $checks = [
     'qa_yaml' => is_file(applicating_path('.github/workflows/qa.yml')),
     'admin_smoke' => str_contains($pipelineContent, 'composer smoke:admin') && str_contains($localPipelineContent, 'composer smoke:admin') && str_contains($composerContent, 'smoke:admin'),
     'functional_readiness_smoke' => str_contains($pipelineContent, 'composer smoke:functional-readiness') && str_contains($localPipelineContent, 'composer smoke:functional-readiness') && str_contains($composerContent, 'smoke:functional-readiness'),
-    'release_verify' => str_contains($composerContent, '"@smoke:admin"') && str_contains($composerContent, '"@smoke:functional-readiness"'),
+    'postgres_matrix_smoke' => str_contains($localPipelineContent, 'composer smoke:postgres-matrix') && str_contains($composerContent, 'smoke:postgres-matrix'),
+    'release_verify' => str_contains($composerContent, '"@smoke:admin"') && str_contains($composerContent, '"@smoke:functional-readiness"') && str_contains($composerContent, '"@smoke:postgres-matrix"'),
 ];
 
 $payload = [
