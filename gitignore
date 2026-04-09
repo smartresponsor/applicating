@@ -1,0 +1,12 @@
+/vendor/
+/.phpunit.cache/
+/.php-cs-fixer.cache
+/.rector/
+/.phpunit.result.cache
+/var/
+/report/
+/node_modules/
+/playwright-report/
+/test-results/
+
+/config/reference.php

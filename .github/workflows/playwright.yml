@@ -1,0 +1,61 @@
+name: playwright
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [master]
+    paths:
+      - 'tests/Playwright/**'
+      - 'playwright.config.ts'
+      - 'package.json'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'src/**'
+      - 'templates/**'
+      - 'public/**'
+      - 'config/**'
+      - '.github/workflows/playwright.yml'
+  push:
+    branches: [master]
+    paths:
+      - 'tests/Playwright/**'
+      - 'playwright.config.ts'
+      - 'package.json'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'src/**'
+      - 'templates/**'
+      - 'public/**'
+      - 'config/**'
+      - '.github/workflows/playwright.yml'
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, simplexml, xml, dom, xmlwriter, json, libxml, tokenizer, sqlite3, pdo_sqlite
+          coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - name: Install PHP dependencies
+        run: composer install --no-interaction --prefer-dist
+      - name: QA environment preflight
+        run: composer qa:env
+      - name: Install Node dependencies
+        run: npm install
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+      - name: Run Playwright suite
+        run: composer test:playwright
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: applicating-playwright-report
+          path: |
+            playwright-report
+            test-results

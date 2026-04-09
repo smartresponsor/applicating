@@ -1,0 +1,27 @@
+replicaCount: 2
+image:
+  repository: your-docker-repo/applicating
+  tag: staging
+service:
+  type: ClusterIP
+  port: 80
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: applicating-staging.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+env:
+  DATABASE_URL: postgresql://app:app@postgres:5432/app
+  REDIS_DSN: redis://redis:6379
+  JWT_SECRET: CHANGE_ME_STAGING
+resources:
+  limits: { cpu: 500m, memory: 256Mi }
+  requests: { cpu: 100m, memory: 128Mi }
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 60

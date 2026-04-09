@@ -1,0 +1,23 @@
+name: smoke-postdeploy
+on:
+  workflow_dispatch:
+    inputs:
+      app_base_url:
+        description: "Base URL for Applicating deployment"
+        required: true
+        default: "http://your-app-domain"
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: HTTP smoke
+        run: |
+          mkdir -p report/smoke/postdeploy-http
+          SMOKE_ARTIFACT_DIR=report/smoke/postdeploy-http bash tools/smoke/application-http-smoke.sh "${{ github.event.inputs.app_base_url }}"
+      - name: Upload postdeploy smoke artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: applicating-postdeploy-http-smoke
+          path: report/smoke/postdeploy-http

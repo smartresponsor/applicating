@@ -1,0 +1,8 @@
+monolog:
+    channels: ['applicating']
+    handlers:
+        main:
+            type: stream
+            path: '%kernel.logs_dir%/%kernel.environment%.log'
+            level: info
+            channels: ['!event']

@@ -1,0 +1,53 @@
+name: qa
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [master]
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'config/**'
+      - 'templates/**'
+      - 'public/**'
+      - 'tools/**'
+      - 'docs/**'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'phpmd.xml.dist'
+      - 'phpstan.neon'
+      - 'phpunit.xml.dist'
+      - '.github/workflows/qa.yml'
+  push:
+    branches: [master]
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'config/**'
+      - 'templates/**'
+      - 'public/**'
+      - 'tools/**'
+      - 'docs/**'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'phpmd.xml.dist'
+      - 'phpstan.neon'
+      - 'phpunit.xml.dist'
+      - '.github/workflows/qa.yml'
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, simplexml, xml, dom, xmlwriter, json, libxml, tokenizer, sqlite3, pdo_sqlite
+          coverage: none
+      - run: composer install --no-interaction --prefer-dist
+      - run: composer qa:full
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: applicating-inspection-reports
+          path: report/inspection

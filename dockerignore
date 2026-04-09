@@ -1,0 +1,10 @@
+.git
+.github
+archive
+report
+var
+vendor
+node_modules
+docs
+tests
+*.zip

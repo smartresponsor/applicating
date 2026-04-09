@@ -1,0 +1,27 @@
+replicaCount: 4
+image:
+  repository: your-docker-repo/applicating
+  tag: latest
+service:
+  type: ClusterIP
+  port: 80
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: applicating.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+env:
+  DATABASE_URL: postgresql://app:app@postgres:5432/app
+  REDIS_DSN: redis://redis:6379
+  JWT_SECRET: CHANGE_ME_PROD
+resources:
+  limits: { cpu: "2", memory: 1Gi }
+  requests: { cpu: 500m, memory: 512Mi }
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 15
+  targetCPUUtilizationPercentage: 60

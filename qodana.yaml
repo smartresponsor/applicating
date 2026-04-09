@@ -1,0 +1,14 @@
+profile:
+  name: qodana.starter
+  inspections:
+    - inspection: PhpGetterAndSetterCanBeReplacedWithPropertyHooksInspection
+      enabled: false
+
+exclude:
+  - name: All paths
+    paths:
+      - archive/repo-drift
+      - report
+      - var
+      - .phpunit.cache
+      - .idea

@@ -1,0 +1,37 @@
+security:
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+    providers:
+        applicating_persistent_users:
+            entity:
+                class: App\Entity\ApplicationUser
+                property: userIdentifier
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            lazy: true
+            provider: applicating_persistent_users
+            user_checker: App\Security\ApplicationUserChecker
+            login_throttling:
+                max_attempts: 5
+            form_login:
+                login_path: applicating_security_login
+                check_path: applicating_security_login
+                enable_csrf: true
+                default_target_path: applicating_application_index
+            logout:
+                path: applicating_security_logout
+                target: applicating_security_login
+
+    access_control:
+        - { path: ^/health$, roles: PUBLIC_ACCESS }
+        - { path: ^/ready$, roles: PUBLIC_ACCESS }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/admin/v1, roles: ROLE_APPLICATION_MANAGER }
+        - { path: ^/api/admin, roles: ROLE_APPLICATION_MANAGER }
+        - { path: ^/admin, roles: ROLE_APPLICATION_VIEWER }

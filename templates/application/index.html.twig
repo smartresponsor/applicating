@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Applications{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-1">Application Lifecycle Management</h1>
+            <p class="text-muted mb-0">Inventory, manifests, releases, publication, tenant assignment, runtime checks and billing hooks.</p>
+        </div>
+        {% if is_granted('ROLE_APPLICATION_MANAGER') %}
+            <a class="btn btn-primary" href="{{ path('applicating_application_new') }}">Create application</a>
+        {% endif %}
+    </div>
+
+    {% include 'application/_summary_cards.html.twig' with {summary: summary} %}
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Publication</th>
+                        <th>Access</th>
+                        <th>Releases</th>
+                        <th>Tenant assignments</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for application in applicationRows %}
+                        <tr>
+                            <td>
+                                <div class="fw-semibold">{{ application.name }}</div>
+                                <div class="small text-muted">{{ application.packageName }} · {{ application.slug }}</div>
+                            </td>
+                            <td><span class="badge bg-secondary">{{ application.publicationState }}</span></td>
+                            <td>{{ application.accessLevel }}</td>
+                            <td>{{ application.releaseCount }}</td>
+                            <td>{{ application.tenantAssignmentCount }}</td>
+                            <td class="text-end">
+                                <a class="btn btn-sm btn-outline-secondary" href="{{ path('applicating_application_show', {id: application.id}) }}">Manage</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">No applications yet. Load fixtures or create one manually.</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

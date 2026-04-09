@@ -1,0 +1,25 @@
+framework:
+    secret: '%env(APP_SECRET)%'
+    http_method_override: false
+    handle_all_throwables: true
+    form: true
+    csrf_protection: true
+    validation:
+        email_validation_mode: html5
+    session:
+        handler_id: null
+        cookie_secure: auto
+        cookie_samesite: lax
+    router:
+        utf8: true
+    rate_limiter:
+        applicating_login:
+            policy: sliding_window
+            limit: 5
+            interval: '15 minutes'
+        applicating_admin_api:
+            policy: token_bucket
+            limit: 60
+            rate:
+                interval: '1 minute'
+                amount: 60

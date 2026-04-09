@@ -1,0 +1,24 @@
+name: ci-precheck
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [master]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify active deployment contour
+        run: |
+          test -f helm/applicating/Chart.yaml
+          test -f helm/applicating/values.yaml
+          test -f k8s/sealedsecrets/applicating-secrets.yaml
+          test -f docs/architecture/ACTIVE_RUNTIME.md
+          test -f docs/OPERATIONS.md
+      - name: Verify runtime entry points exist
+        run: |
+          test -f public/index.php
+          test -f config/routes/applicating_routes.yaml
+          test -f package.json
+          test -f src/Controller/ApplicationHealthController.php

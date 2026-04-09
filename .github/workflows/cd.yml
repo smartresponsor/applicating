@@ -1,0 +1,75 @@
+name: cd
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment (staging|prod)"
+        required: true
+        default: "staging"
+  push:
+    branches: [ master ]
+    paths:
+      - 'helm/applicating/**'
+      - 'k8s/sealedsecrets/applicating-secrets.yaml'
+      - '.github/workflows/cd.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set kube context
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'v1.30.0'
+      - uses: azure/setup-helm@v4
+        with:
+          version: 'v3.14.4'
+
+      - name: Configure KUBECONFIG
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG_BASE64 }}" | base64 -d > ~/.kube/config
+
+      - name: Select values file
+        id: envsel
+        run: |
+          if [ "${{ github.event.inputs.environment || 'staging' }}" = "prod" ]; then
+            echo "VALUES=helm/applicating/values-prod.yaml" >> $GITHUB_OUTPUT
+            echo "NAMESPACE=prod" >> $GITHUB_OUTPUT
+            echo "RELEASE=applicating-prod" >> $GITHUB_OUTPUT
+          else
+            echo "VALUES=helm/applicating/values-staging.yaml" >> $GITHUB_OUTPUT
+            echo "NAMESPACE=staging" >> $GITHUB_OUTPUT
+            echo "RELEASE=applicating-staging" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create namespace if missing
+        run: |
+          kubectl get ns ${{ steps.envsel.outputs.NAMESPACE }} || kubectl create ns ${{ steps.envsel.outputs.NAMESPACE }}
+
+      - name: Apply SealedSecret (optional)
+        if: ${{ env.APPLY_SEALED_SECRETS == '1' }}
+        run: |
+          kubectl apply -n ${{ steps.envsel.outputs.NAMESPACE }} -f k8s/sealedsecrets/applicating-secrets.yaml || true
+
+      - name: Helm lint
+        run: |
+          helm lint ./helm/applicating -f ${{ steps.envsel.outputs.VALUES }}
+
+      - name: Helm template preflight
+        run: |
+          helm template ${{ steps.envsel.outputs.RELEASE }} ./helm/applicating \
+            -n ${{ steps.envsel.outputs.NAMESPACE }} \
+            -f ${{ steps.envsel.outputs.VALUES }} > /tmp/applicating-rendered.yaml
+
+      - name: Helm upgrade
+        run: |
+          helm upgrade --install ${{ steps.envsel.outputs.RELEASE }} ./helm/applicating \
+            -n ${{ steps.envsel.outputs.NAMESPACE }} \
+            -f ${{ steps.envsel.outputs.VALUES }}
+
+      - name: Wait for deployment rollout
+        run: |
+          kubectl rollout status deployment/${{ steps.envsel.outputs.RELEASE }}-applicating -n ${{ steps.envsel.outputs.NAMESPACE }}

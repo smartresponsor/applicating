@@ -1,0 +1,4 @@
+APP_ENV=dev
+APP_DEBUG=1
+APP_SECRET=applicating-dev-secret
+DATABASE_URL="sqlite:///%kernel.project_dir%/var/applicating_dev.db"

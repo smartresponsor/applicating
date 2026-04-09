@@ -1,0 +1,72 @@
+name: build
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [master]
+    paths:
+      - 'docker/**'
+      - 'bin/**'
+      - 'public/**'
+      - 'src/**'
+      - 'templates/**'
+      - 'config/**'
+      - 'tools/smoke/**'
+      - '.dockerignore'
+      - '.env'
+      - '.env.docker'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'symfony.lock'
+      - '.github/workflows/build.yml'
+  push:
+    branches: [master]
+    paths:
+      - 'docker/**'
+      - 'bin/**'
+      - 'public/**'
+      - 'src/**'
+      - 'templates/**'
+      - 'config/**'
+      - 'tools/smoke/**'
+      - '.dockerignore'
+      - '.env'
+      - '.env.docker'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'symfony.lock'
+      - '.github/workflows/build.yml'
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          load: true
+          tags: applicating:ci
+      - name: Boot built image
+        run: |
+          docker run -d --rm --name applicating-ci -p 8080:8080 applicating:ci
+      - name: HTTP smoke against built image
+        run: |
+          mkdir -p report/smoke/build-http
+          SMOKE_ARTIFACT_DIR=report/smoke/build-http bash tools/smoke/application-http-smoke.sh http://127.0.0.1:8080
+      - name: Upload build smoke artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: applicating-build-http-smoke
+          path: report/smoke/build-http
+
+      - name: Dump container state on failure
+        if: failure()
+        run: |
+          docker ps -a || true
+          docker logs applicating-ci || true
+      - name: Stop built image container
+        if: always()
+        run: docker stop applicating-ci || true

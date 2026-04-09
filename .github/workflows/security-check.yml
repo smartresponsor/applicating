@@ -1,0 +1,39 @@
+name: security-check
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [master]
+    paths:
+      - 'config/**'
+      - 'src/Security/**'
+      - 'src/Controller/**'
+      - 'docs/**'
+      - '.github/workflows/security-check.yml'
+  push:
+    branches: [master]
+    paths:
+      - 'config/**'
+      - 'src/Security/**'
+      - 'src/Controller/**'
+      - 'docs/**'
+      - '.github/workflows/security-check.yml'
+
+jobs:
+  config-security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify production security profile avoids plaintext hashers
+        run: |
+          ! grep -n "plaintext" config/packages/applicating_security.yaml
+      - name: Verify login throttling is enabled
+        run: |
+          grep -n "login_throttling" config/packages/applicating_security.yaml
+      - name: Verify persistent provider and user checker are enabled
+        run: |
+          grep -n "applicating_persistent_users" config/packages/applicating_security.yaml
+          grep -n "App\\Security\\ApplicationUserChecker" config/packages/applicating_security.yaml
+      - name: Verify admin API stays manager-scoped
+        run: |
+          grep -n "^        - { path: \^/api/admin/v1, roles: ROLE_APPLICATION_MANAGER }" config/packages/applicating_security.yaml
+          grep -n "^        - { path: \^/api/admin, roles: ROLE_APPLICATION_MANAGER }" config/packages/applicating_security.yaml
