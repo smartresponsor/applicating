@@ -12,6 +12,26 @@ function applicating_path(string $relativePath): string
     return applicating_root() . '/' . ltrim($relativePath, '/');
 }
 
+function applicating_extract_quoted_value(string $value): string
+{
+    $value = ltrim($value);
+    if ('' === $value) {
+        return '';
+    }
+
+    $quote = $value[0];
+    if ('"' !== $quote && '\'' !== $quote) {
+        return '';
+    }
+
+    $end = strpos($value, $quote, 1);
+    if (false === $end) {
+        return '';
+    }
+
+    return substr($value, 1, $end - 1);
+}
+
 function applicating_ensure_directory(string $path): void
 {
     if (is_dir($path)) {
@@ -80,29 +100,68 @@ function applicating_parse_routes_from_controller(string $path): array
         return [];
     }
 
-    preg_match_all('/#\[Route\((.*?)\)\]/s', $content, $matches, PREG_SET_ORDER);
+    $lines = preg_split('/\R/', $content) ?: [];
     $routes = [];
+    $classPrefix = '';
+    $lineCount = count($lines);
 
-    foreach ($matches as $match) {
-        $payload = $match[1] ?? '';
-        preg_match('/[\'\"]([^\'\"]+)[\'\"]/', $payload, $pathMatch);
-        preg_match('/name:\s*[\'\"]([^\'\"]+)[\'\"]/', $payload, $nameMatch);
+    for ($index = 0; $index < $lineCount; ++$index) {
+        $line = trim($lines[$index]);
+        if (!str_starts_with($line, '#[Route(')) {
+            continue;
+        }
+
+        $payload = preg_replace('/^#\[Route\((.*)\)\]$/', '$1', $line) ?? '';
+        $nextLine = '';
+        for ($lookahead = $index + 1; $lookahead < $lineCount; ++$lookahead) {
+            $candidate = trim($lines[$lookahead]);
+            if ('' === $candidate) {
+                continue;
+            }
+
+            $nextLine = $candidate;
+            break;
+        }
+
+        if (str_contains($nextLine, 'class ')) {
+            $classPrefix = applicating_extract_quoted_value($payload);
+            continue;
+        }
+
+        if (!str_contains($nextLine, 'function ')) {
+            continue;
+        }
+
+        $routePath = applicating_extract_quoted_value($payload);
+        $name = null;
+        $namePos = strpos($payload, 'name:');
+        if (false !== $namePos) {
+            $name = applicating_extract_quoted_value(substr($payload, $namePos + 5));
+            if ('' === $name) {
+                $name = null;
+            }
+        }
+
         preg_match('/methods:\s*\[(.*?)\]/s', $payload, $methodsMatch);
-
         $methods = [];
         if (isset($methodsMatch[1])) {
             foreach (explode(',', $methodsMatch[1]) as $method) {
                 $clean = trim($method);
-                $clean = trim($clean, "'\"");
+                $clean = str_replace(['"', "'"], '', $clean);
                 if ('' !== $clean) {
                     $methods[] = $clean;
                 }
             }
         }
 
+        $fullPath = $classPrefix . $routePath;
+        if ('' === $fullPath) {
+            $fullPath = '/';
+        }
+
         $routes[] = [
-            'path' => $pathMatch[1] ?? null,
-            'name' => $nameMatch[1] ?? null,
+            'path' => $fullPath,
+            'name' => $name,
             'methods' => $methods,
         ];
     }
