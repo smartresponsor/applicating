@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\DTO\Application;
 
-final class TenantApplicationDiagnosticsChecks
+final readonly class TenantApplicationDiagnosticsChecks
 {
     /** @param list<string> $accessPolicyKeys */
     public function __construct(
-        public readonly bool $manifestPresent,
-        public readonly bool $releasePresent,
-        public readonly string $sandboxProfile,
-        public readonly array $accessPolicyKeys,
+        public bool $manifestPresent,
+        public bool $releasePresent,
+        public string $sandboxProfile,
+        public array $accessPolicyKeys,
     ) {
     }
 

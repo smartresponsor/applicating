@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
+use Doctrine\DBAL\Schema\PrimaryKeyConstraint;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -30,7 +31,7 @@ final class Version20260327193000 extends AbstractMigration
         $application->addColumn('enabled_by_default', 'boolean');
         $application->addColumn('created_at', 'datetime_immutable');
         $application->addColumn('updated_at', 'datetime_immutable');
-        $application->setPrimaryKey(['id']);
+        $application->addPrimaryKeyConstraint(PrimaryKeyConstraint::editor()->setUnquotedColumnNames('id')->create());
         $application->addUniqueIndex(['slug']);
         $application->addUniqueIndex(['package_name']);
 
@@ -45,7 +46,7 @@ final class Version20260327193000 extends AbstractMigration
         $release->addColumn('publication_state', 'string', ['length' => 20]);
         $release->addColumn('created_at', 'datetime_immutable');
         $release->addColumn('published_at', 'datetime_immutable', ['notnull' => false]);
-        $release->setPrimaryKey(['id']);
+        $release->addPrimaryKeyConstraint(PrimaryKeyConstraint::editor()->setUnquotedColumnNames('id')->create());
         $release->addForeignKeyConstraint('application_listing', ['application_id'], ['id'], ['onDelete' => 'CASCADE']);
 
         $manifest = $schema->createTable('application_manifest');
@@ -60,7 +61,7 @@ final class Version20260327193000 extends AbstractMigration
         $manifest->addColumn('governance_state', 'string', ['length' => 40]);
         $manifest->addColumn('raw_manifest', 'json');
         $manifest->addColumn('created_at', 'datetime_immutable');
-        $manifest->setPrimaryKey(['id']);
+        $manifest->addPrimaryKeyConstraint(PrimaryKeyConstraint::editor()->setUnquotedColumnNames('id')->create());
         $manifest->addForeignKeyConstraint('application_listing', ['application_id'], ['id'], ['onDelete' => 'CASCADE']);
 
         $tenantApplication = $schema->createTable('tenant_application');
@@ -76,7 +77,7 @@ final class Version20260327193000 extends AbstractMigration
         $tenantApplication->addColumn('assigned_at', 'datetime_immutable');
         $tenantApplication->addColumn('installed_at', 'datetime_immutable', ['notnull' => false]);
         $tenantApplication->addColumn('last_checked_at', 'datetime_immutable', ['notnull' => false]);
-        $tenantApplication->setPrimaryKey(['id']);
+        $tenantApplication->addPrimaryKeyConstraint(PrimaryKeyConstraint::editor()->setUnquotedColumnNames('id')->create());
         $tenantApplication->addForeignKeyConstraint('application_listing', ['application_id'], ['id'], ['onDelete' => 'CASCADE']);
     }
 

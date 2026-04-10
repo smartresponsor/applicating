@@ -26,6 +26,9 @@ final class ApplicatingManifestValidateCommand extends Command
         $this->addArgument('capabilities', InputArgument::OPTIONAL, 'Comma separated capabilities', 'listing,reporting');
     }
 
+    /**
+     * @throws \JsonException
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $identifier = $input->getArgument('identifier');

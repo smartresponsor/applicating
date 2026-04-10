@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\DTO\Application\ApplicationManifestData;
+use App\DTO\Application\ApplicationPublishEligibility;
 use App\DTO\Application\ApplicationReleaseData;
 use App\DTO\Application\ApplicationUpsertData;
 use App\DTO\Application\TenantApplicationAssignmentData;
@@ -34,8 +35,7 @@ final class ApplicationAdminController extends AbstractController
         ApplicationRepository $applicationRepository,
         ApplicationReportServiceInterface $applicationReportService,
         ApplicationAdminViewBuilderInterface $applicationAdminViewBuilder,
-    ): Response
-    {
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_APPLICATION_VIEWER');
 
         return $this->render('application/index.html.twig', [
@@ -110,7 +110,7 @@ final class ApplicationAdminController extends AbstractController
             'assignmentForm' => $assignmentForm->createView(),
             'publishEligibility' => array_reduce(
                 $applicationPublishEligibilityService->buildEligibilityMap($application),
-                static function (array $carry, \App\DTO\Application\ApplicationPublishEligibility $eligibility): array {
+                static function (array $carry, ApplicationPublishEligibility $eligibility): array {
                     $carry[$eligibility->releaseId] = $eligibility->toLegacyMapItem();
 
                     return $carry;

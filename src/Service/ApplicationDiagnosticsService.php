@@ -26,7 +26,7 @@ final class ApplicationDiagnosticsService implements ApplicationDiagnosticsServi
                 sandboxProfile: $tenantApplication->getApplication()->getSandboxProfile(),
                 accessPolicyKeys: array_values(array_map('strval', array_keys($tenantApplication->getAccessPolicy()))),
             ),
-            reportedAt: (new \DateTimeImmutable())->format(DATE_ATOM),
+            reportedAt: new \DateTimeImmutable()->format(DATE_ATOM),
         );
     }
 }

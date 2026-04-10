@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\DTO\Application;
 
-final class ApplicationReadinessSignals
+final readonly class ApplicationReadinessSignals
 {
     /** @param array<int, array{releaseId:int,eligible:bool,reason:string}> $eligibility */
     public function __construct(
-        public readonly bool $applicationFound,
-        public readonly string $applicationSlug,
-        public readonly int $releaseCount,
-        public readonly int $manifestCount,
-        public readonly bool $approvedManifestPresent,
-        public readonly array $eligibility,
+        public bool $applicationFound,
+        public string $applicationSlug,
+        public int $releaseCount,
+        public int $manifestCount,
+        public bool $approvedManifestPresent,
+        public array $eligibility,
     ) {
     }
 

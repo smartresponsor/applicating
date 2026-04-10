@@ -9,11 +9,11 @@ use App\Repository\ApplicationRepository;
 use App\Repository\TenantApplicationRepository;
 use App\ServiceInterface\ApplicationReportServiceInterface;
 
-final class ApplicationReportService implements ApplicationReportServiceInterface
+final readonly class ApplicationReportService implements ApplicationReportServiceInterface
 {
     public function __construct(
-        private readonly ApplicationRepository $applicationRepository,
-        private readonly TenantApplicationRepository $tenantApplicationRepository,
+        private ApplicationRepository $applicationRepository,
+        private TenantApplicationRepository $tenantApplicationRepository,
     ) {
     }
 

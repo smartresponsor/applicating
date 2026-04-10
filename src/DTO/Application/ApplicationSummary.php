@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\DTO\Application;
 
-final class ApplicationSummary
+final readonly class ApplicationSummary
 {
     public function __construct(
-        public readonly int $applicationsTotal,
-        public readonly int $applicationsPublished,
-        public readonly int $tenantAssignmentsTotal,
-        public readonly int $tenantAssignmentsEnabled,
-        public readonly int $billingActiveTotal,
+        public int $applicationsTotal,
+        public int $applicationsPublished,
+        public int $tenantAssignmentsTotal,
+        public int $tenantAssignmentsEnabled,
+        public int $billingActiveTotal,
     ) {
     }
 

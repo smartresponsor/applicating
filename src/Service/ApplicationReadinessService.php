@@ -10,11 +10,11 @@ use App\Repository\ApplicationRepository;
 use App\ServiceInterface\ApplicationPublishEligibilityServiceInterface;
 use App\ServiceInterface\ApplicationReadinessServiceInterface;
 
-final class ApplicationReadinessService implements ApplicationReadinessServiceInterface
+final readonly class ApplicationReadinessService implements ApplicationReadinessServiceInterface
 {
     public function __construct(
-        private readonly ApplicationRepository $applicationRepository,
-        private readonly ApplicationPublishEligibilityServiceInterface $eligibilityService,
+        private ApplicationRepository $applicationRepository,
+        private ApplicationPublishEligibilityServiceInterface $eligibilityService,
     ) {
     }
 

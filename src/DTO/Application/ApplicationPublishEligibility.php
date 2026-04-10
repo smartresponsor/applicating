@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\DTO\Application;
 
-final class ApplicationPublishEligibility
+final readonly class ApplicationPublishEligibility
 {
     public function __construct(
-        public readonly int $releaseId,
-        public readonly bool $eligible,
-        public readonly ?string $reason,
+        public int $releaseId,
+        public bool $eligible,
+        public ?string $reason,
     ) {
     }
 

@@ -6,10 +6,15 @@ namespace App\Service;
 
 use Doctrine\DBAL\Connection;
 
-final class ApplicationHealthService
+final readonly class ApplicationHealthService
 {
-    public function __construct(private readonly Connection $connection)
+    public function __construct(private Connection $connection)
     {
+    }
+
+    private static function now(): string
+    {
+        return new \DateTimeImmutable()->format(DATE_ATOM);
     }
 
     /**
@@ -28,7 +33,7 @@ final class ApplicationHealthService
                     'message' => $databaseMessage,
                 ],
             ],
-            'generatedAt' => (new \DateTimeImmutable())->format(DATE_ATOM),
+            'generatedAt' => self::now(),
         ];
     }
 
@@ -48,7 +53,7 @@ final class ApplicationHealthService
                         'message' => 'Database connectivity verified.',
                     ],
                 ],
-                'generatedAt' => (new \DateTimeImmutable())->format(DATE_ATOM),
+                'generatedAt' => self::now(),
             ];
         } catch (\Throwable $exception) {
             return [
@@ -59,7 +64,7 @@ final class ApplicationHealthService
                         'message' => $exception->getMessage(),
                     ],
                 ],
-                'generatedAt' => (new \DateTimeImmutable())->format(DATE_ATOM),
+                'generatedAt' => self::now(),
             ];
         }
     }

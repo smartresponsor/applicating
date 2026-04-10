@@ -14,8 +14,13 @@ final class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
+    /**
+     * @throws \Throwable
+     */
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
+        unset($container);
+
         $confDir = $this->getProjectDir().'/config';
 
         $loader->load($confDir.'/packages/*.yaml', 'glob');
@@ -23,6 +28,9 @@ final class Kernel extends BaseKernel
         $loader->load($confDir.'/services/*.yaml', 'glob');
     }
 
+    /**
+     * @throws \Throwable
+     */
     protected function configureRoutes(RoutingConfigurator $routes): void
     {
         $confDir = $this->getProjectDir().'/config';

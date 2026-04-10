@@ -24,15 +24,15 @@ use App\ValueObject\ApplicationSlug;
 use App\ValueObject\ApplicationVersion;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class ApplicationLifecycleService implements ApplicationLifecycleServiceInterface
+final readonly class ApplicationLifecycleService implements ApplicationLifecycleServiceInterface
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly ApplicationManifestServiceInterface $applicationManifestService,
-        private readonly ApplicationDiagnosticsServiceInterface $applicationDiagnosticsService,
-        private readonly ApplicationReleaseRepository $applicationReleaseRepository,
-        private readonly ApplicationManifestRepository $applicationManifestRepository,
-        private readonly TenantApplicationRepository $tenantApplicationRepository,
+        private EntityManagerInterface $entityManager,
+        private ApplicationManifestServiceInterface $applicationManifestService,
+        private ApplicationDiagnosticsServiceInterface $applicationDiagnosticsService,
+        private ApplicationReleaseRepository $applicationReleaseRepository,
+        private ApplicationManifestRepository $applicationManifestRepository,
+        private TenantApplicationRepository $tenantApplicationRepository,
     ) {
     }
 
@@ -40,7 +40,7 @@ final class ApplicationLifecycleService implements ApplicationLifecycleServiceIn
     {
         $application = new Application(
             $data->name,
-            (new ApplicationSlug($data->slug))->toString(),
+            new ApplicationSlug($data->slug)->toString(),
             $data->packageName,
             $data->developerName,
             $data->listingSummary,
@@ -56,7 +56,7 @@ final class ApplicationLifecycleService implements ApplicationLifecycleServiceIn
     public function updateApplication(Application $application, ApplicationUpsertData $data): Application
     {
         $application->rename($data->name);
-        $application->changeSlug((new ApplicationSlug($data->slug))->toString());
+        $application->changeSlug(new ApplicationSlug($data->slug)->toString());
         $application->changePackageName($data->packageName);
         $application->changeDeveloperName($data->developerName);
         $application->changeListingSummary($data->listingSummary);
@@ -69,7 +69,7 @@ final class ApplicationLifecycleService implements ApplicationLifecycleServiceIn
 
     public function createRelease(Application $application, ApplicationReleaseData $data): ApplicationRelease
     {
-        $version = (new ApplicationVersion($data->version))->toString();
+        $version = new ApplicationVersion($data->version)->toString();
         $existingRelease = $this->applicationReleaseRepository->findOneForApplicationAndVersion($application, $version);
 
         if (null !== $existingRelease) {
@@ -160,11 +160,14 @@ final class ApplicationLifecycleService implements ApplicationLifecycleServiceIn
         return $manifest;
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function assignTenant(Application $application, TenantApplicationAssignmentData $data): TenantApplication
     {
         /** @var array<string, mixed> $policy */
         $policy = json_decode($data->accessPolicy, true, 512, JSON_THROW_ON_ERROR);
-        $version = (new ApplicationVersion($data->installedVersion))->toString();
+        $version = new ApplicationVersion($data->installedVersion)->toString();
 
         $tenantApplication = $this->tenantApplicationRepository->findOneForTenantAndApplicationEntity($data->tenantKey, $application);
 

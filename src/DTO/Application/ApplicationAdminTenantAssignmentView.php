@@ -6,17 +6,17 @@ namespace App\DTO\Application;
 
 use App\Entity\TenantApplication;
 
-final class ApplicationAdminTenantAssignmentView
+final readonly class ApplicationAdminTenantAssignmentView
 {
     /** @param array<string, mixed> $diagnostics */
     public function __construct(
-        public readonly int $id,
-        public readonly string $tenantKey,
-        public readonly string $installedVersion,
-        public readonly string $installationState,
-        public readonly bool $billingActive,
-        public readonly bool $enabled,
-        public readonly array $diagnostics,
+        public int $id,
+        public string $tenantKey,
+        public string $installedVersion,
+        public string $installationState,
+        public bool $billingActive,
+        public bool $enabled,
+        public array $diagnostics,
     ) {
     }
 

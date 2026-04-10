@@ -11,12 +11,12 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: TenantApplicationRepository::class)]
 #[ORM\Table(
     name: 'tenant_application',
-    uniqueConstraints: [new ORM\UniqueConstraint(name: 'uniq_tenant_application_assignment', columns: ['application_id', 'tenant_key'])],
     indexes: [
         new ORM\Index(name: 'idx_tenant_application_application_id', columns: ['application_id']),
         new ORM\Index(name: 'idx_tenant_application_tenant_key', columns: ['tenant_key']),
         new ORM\Index(name: 'idx_tenant_application_installation_state', columns: ['installation_state']),
     ],
+    uniqueConstraints: [new ORM\UniqueConstraint(name: 'uniq_tenant_application_assignment', columns: ['application_id', 'tenant_key'])],
 )]
 class TenantApplication
 {
@@ -50,13 +50,13 @@ class TenantApplication
 
     /** @var array<string, mixed> */
     #[ORM\Column(type: 'json')]
-    private array $diagnostics = [];
+    private array $diagnostics;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $assignedAt;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private ?\DateTimeImmutable $installedAt = null;
+    private ?\DateTimeImmutable $installedAt;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $lastCheckedAt = null;
@@ -70,6 +70,7 @@ class TenantApplication
         $this->enabled = $enabled;
         $this->billingActive = $billingActive;
         $this->accessPolicy = $accessPolicy;
+        $this->diagnostics = [];
         $this->installationState = $enabled ? ApplicationInstallationState::Installed : ApplicationInstallationState::Assigned;
         $this->assignedAt = new \DateTimeImmutable();
         $this->installedAt = $enabled ? new \DateTimeImmutable() : null;

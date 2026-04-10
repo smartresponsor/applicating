@@ -58,17 +58,17 @@ class Application
     private \DateTimeImmutable $updatedAt;
 
     /** @var Collection<int, ApplicationRelease> */
-    #[ORM\OneToMany(mappedBy: 'application', targetEntity: ApplicationRelease::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ApplicationRelease::class, mappedBy: 'application', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['createdAt' => 'DESC'])]
     private Collection $releases;
 
     /** @var Collection<int, ApplicationManifest> */
-    #[ORM\OneToMany(mappedBy: 'application', targetEntity: ApplicationManifest::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ApplicationManifest::class, mappedBy: 'application', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['createdAt' => 'DESC'])]
     private Collection $manifests;
 
     /** @var Collection<int, TenantApplication> */
-    #[ORM\OneToMany(mappedBy: 'application', targetEntity: TenantApplication::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: TenantApplication::class, mappedBy: 'application', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['assignedAt' => 'DESC'])]
     private Collection $tenantApplications;
 

@@ -27,6 +27,9 @@ final class ApplicatingDiagnosticsRunCommand extends Command
         $this->addArgument('tenantKey', InputArgument::OPTIONAL, 'Filter by tenant key');
     }
 
+    /**
+     * @throws \JsonException
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $tenantKey = $input->getArgument('tenantKey');

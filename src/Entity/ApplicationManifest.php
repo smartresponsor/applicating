@@ -10,11 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ApplicationManifestRepository::class)]
 #[ORM\Table(
     name: 'application_manifest',
-    uniqueConstraints: [new ORM\UniqueConstraint(name: 'uniq_application_manifest_identifier_per_application', columns: ['application_id', 'identifier'])],
     indexes: [
         new ORM\Index(name: 'idx_application_manifest_application_id', columns: ['application_id']),
         new ORM\Index(name: 'idx_application_manifest_governance_state', columns: ['governance_state']),
     ],
+    uniqueConstraints: [new ORM\UniqueConstraint(name: 'uniq_application_manifest_identifier_per_application', columns: ['application_id', 'identifier'])],
 )]
 class ApplicationManifest
 {

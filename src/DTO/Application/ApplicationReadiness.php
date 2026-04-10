@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\DTO\Application;
 
-final class ApplicationReadiness
+final readonly class ApplicationReadiness
 {
     /**
      * @param list<string> $blockingReasons
      * @param list<string> $warnings
      */
     public function __construct(
-        public readonly bool $canPublish,
-        public readonly array $blockingReasons,
-        public readonly array $warnings,
-        public readonly ApplicationReadinessSignals $signals,
+        public bool $canPublish,
+        public array $blockingReasons,
+        public array $warnings,
+        public ApplicationReadinessSignals $signals,
     ) {
     }
 

@@ -8,38 +8,28 @@ use App\Repository\ApplicationRepository;
 use App\ServiceInterface\ApplicationLifecycleServiceInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'applicating:application:publish', description: 'Publish an application with its latest release')]
-final class ApplicatingApplicationPublishCommand extends Command
+final readonly class ApplicatingApplicationPublishCommand extends AbstractApplicatingApplicationSlugCommand
 {
     public function __construct(
-        private readonly ApplicationRepository $applicationRepository,
-        private readonly ApplicationLifecycleServiceInterface $applicationLifecycleService,
+        ApplicationRepository $applicationRepository,
+        private ApplicationLifecycleServiceInterface $applicationLifecycleService,
     ) {
-        parent::__construct();
+        parent::__construct($applicationRepository);
     }
 
     protected function configure(): void
     {
-        $this->addArgument('slug', InputArgument::REQUIRED, 'Application slug');
+        $this->configureSlugArgument();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $slug = $input->getArgument('slug');
-        if (!is_string($slug) || '' === $slug) {
-            $output->writeln('<error>Application slug must be a non-empty string.</error>');
-
-            return Command::INVALID;
-        }
-
-        $application = $this->applicationRepository->findOneBy(['slug' => $slug]);
+        $application = $this->resolveApplication($input, $output);
         if (null === $application) {
-            $output->writeln('<error>Application not found.</error>');
-
             return Command::FAILURE;
         }
 

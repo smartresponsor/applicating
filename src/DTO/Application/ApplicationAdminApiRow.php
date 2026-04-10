@@ -6,18 +6,18 @@ namespace App\DTO\Application;
 
 use App\Entity\Application;
 
-final class ApplicationAdminApiRow
+final readonly class ApplicationAdminApiRow
 {
     public function __construct(
-        public readonly int $id,
-        public readonly string $name,
-        public readonly string $slug,
-        public readonly string $packageName,
-        public readonly string $developerName,
-        public readonly string $publicationState,
-        public readonly string $accessLevel,
-        public readonly int $releaseCount,
-        public readonly int $tenantAssignmentCount,
+        public int $id,
+        public string $name,
+        public string $slug,
+        public string $packageName,
+        public string $developerName,
+        public string $publicationState,
+        public string $accessLevel,
+        public int $releaseCount,
+        public int $tenantAssignmentCount,
     ) {
     }
 

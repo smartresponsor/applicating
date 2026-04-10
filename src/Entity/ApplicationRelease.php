@@ -11,11 +11,11 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ApplicationReleaseRepository::class)]
 #[ORM\Table(
     name: 'application_release',
-    uniqueConstraints: [new ORM\UniqueConstraint(name: 'uniq_application_release_version_per_application', columns: ['application_id', 'version'])],
     indexes: [
         new ORM\Index(name: 'idx_application_release_application_id', columns: ['application_id']),
         new ORM\Index(name: 'idx_application_release_publication_state', columns: ['publication_state']),
     ],
+    uniqueConstraints: [new ORM\UniqueConstraint(name: 'uniq_application_release_version_per_application', columns: ['application_id', 'version'])],
 )]
 class ApplicationRelease
 {

@@ -18,6 +18,9 @@ final class ApplicatingReportSummaryCommand extends Command
         parent::__construct();
     }
 
+    /**
+     * @throws \JsonException
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $summary = $this->applicationReportService->buildSummary()->toArray();

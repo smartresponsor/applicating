@@ -19,6 +19,9 @@ final class ApplicationFixtures extends Fixture
     {
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();

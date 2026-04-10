@@ -6,17 +6,17 @@ namespace App\DTO\Application;
 
 use App\Entity\Application;
 
-final class ApplicationAdminIndexRow
+final readonly class ApplicationAdminIndexRow
 {
     public function __construct(
-        public readonly int $id,
-        public readonly string $name,
-        public readonly string $packageName,
-        public readonly string $slug,
-        public readonly string $publicationState,
-        public readonly string $accessLevel,
-        public readonly int $releaseCount,
-        public readonly int $tenantAssignmentCount,
+        public int $id,
+        public string $name,
+        public string $packageName,
+        public string $slug,
+        public string $publicationState,
+        public string $accessLevel,
+        public int $releaseCount,
+        public int $tenantAssignmentCount,
     ) {
     }
 

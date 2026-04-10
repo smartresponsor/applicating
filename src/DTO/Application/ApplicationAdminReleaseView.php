@@ -6,14 +6,14 @@ namespace App\DTO\Application;
 
 use App\Entity\ApplicationRelease;
 
-final class ApplicationAdminReleaseView
+final readonly class ApplicationAdminReleaseView
 {
     public function __construct(
-        public readonly int $id,
-        public readonly string $version,
-        public readonly string $channel,
-        public readonly string $downloadUrl,
-        public readonly string $publicationState,
+        public int $id,
+        public string $version,
+        public string $channel,
+        public string $downloadUrl,
+        public string $publicationState,
     ) {
     }
 

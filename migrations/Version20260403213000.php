@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
+use Doctrine\DBAL\Schema\PrimaryKeyConstraint;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -29,7 +30,7 @@ final class Version20260403213000 extends AbstractMigration
         $user->addColumn('created_at', 'datetime_immutable');
         $user->addColumn('updated_at', 'datetime_immutable');
         $user->addColumn('last_login_at', 'datetime_immutable', ['notnull' => false]);
-        $user->setPrimaryKey(['id']);
+        $user->addPrimaryKeyConstraint(PrimaryKeyConstraint::editor()->setUnquotedColumnNames('id')->create());
         $user->addUniqueIndex(['user_identifier'], 'uniq_application_user_identifier');
         $user->addUniqueIndex(['email'], 'uniq_application_user_email');
         $user->addUniqueIndex(['external_subject'], 'uniq_application_user_external_subject');

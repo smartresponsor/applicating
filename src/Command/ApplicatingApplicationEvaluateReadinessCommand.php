@@ -29,14 +29,14 @@ final class ApplicatingApplicationEvaluateReadinessCommand extends Command
         $profile = is_scalar($rawProfile) ? (string) $rawProfile : 'strict';
 
         $root = dirname(__DIR__, 2);
-        $script = $root . '/tools/evaluation/run_readiness_evaluation.php';
+        $script = $root.'/tools/evaluation/run_readiness_evaluation.php';
 
         $_ENV['APP_READINESS_EVAL_MIN_SCORE'] = (string) $minScore;
         $_ENV['APP_READINESS_EVAL_PROFILE'] = $profile;
 
         require $script;
 
-        $reportPath = $root . '/report/evaluation/application_readiness_evaluation.json';
+        $reportPath = $root.'/report/evaluation/application_readiness_evaluation.json';
         $decoded = json_decode((string) file_get_contents($reportPath), true);
         if (!is_array($decoded)) {
             throw new \RuntimeException('Readiness evaluation report is not a valid JSON object.');
