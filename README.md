@@ -86,6 +86,7 @@ bash tools/smoke/application-http-smoke.sh http://127.0.0.1:8000
 composer smoke:admin
 composer smoke:functional-readiness
 composer smoke:postgres-matrix
+composer smoke:branch-wiring
 ```
 
 Optional browser E2E path:
@@ -98,9 +99,9 @@ composer test:playwright
 Inspection reports are written to `report/inspection/`; pipeline/runtime logs remain under `var/`.
 
 The active Qodana lane excludes `archive/repo-drift`, and the `PhpGetterAndSetterCanBeReplacedWithPropertyHooksInspection` is disabled for now as a deliberate owner decision until a Doctrine/property-hooks migration policy is approved.
-The GitHub workflow lives in `.github/workflows/qodana.yml` and runs the same configured lane on pull requests and pushes to `master`. The local `composer report:qodana-wiring` report checks that the workflow and root `qodana.yaml` stay wired together.
+The GitHub workflow lives in `.github/workflows/qodana.yml` and runs the same configured lane on pull requests and pushes to `work`. The local `composer report:qodana-wiring` report checks that the workflow and root `qodana.yaml` stay wired together.
 
 The runtime proof contour is split into `composer smoke:runtime`, `composer smoke:container`, `composer smoke:doctrine`, `composer smoke:fixture-load`, `composer smoke:admin`, and `composer smoke:functional-readiness` so environment readiness stays distinct from code regressions.
 
 
-GitHub `qa.yml` now runs the canonical `composer qa:full` path on pull requests and pushes to `master`, and publishes `report/inspection/` as the `applicating-inspection-reports` artifact. `ci-smoke.yml`, `security-check.yml`, `build.yml`, `playwright.yml` and `cd.yml` are also part of the curated active contour and are expected to stay wired to the Applicating runtime.
+GitHub `qa.yml` now runs the canonical `composer qa:full` path on pull requests and pushes to `work`, and publishes `report/inspection/` as the `applicating-inspection-reports` artifact. `ci-smoke.yml`, `security-check.yml`, `build.yml`, `playwright.yml` and `cd.yml` are also part of the curated active contour and are expected to stay wired to the Applicating runtime.

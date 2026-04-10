@@ -5,7 +5,7 @@ Date: 2026-04-10 (UTC)
 ## Scope and branch reality
 
 - Local repository currently contains only branch `work`; local `master` branch is absent.
-- `README.md` still documents CI behavior for pushes to `master`, so branch naming and runtime documentation are currently inconsistent.
+- At analysis time, `README.md` documented CI behavior for pushes to `master`, creating branch/documentation inconsistency with local branch state.
 
 ## Executive assessment
 
@@ -16,7 +16,7 @@ Main risk areas are:
 1. **Framework-version drift vs target policy**: project currently targets Symfony 7.4, while requested policy expects Symfony 8.
 2. **Controller thickness**: `ApplicationAdminController` orchestrates many flows and contains repeated form handling logic, making it expensive to evolve safely.
 3. **Test depth imbalance**: a lot of runtime/inspection scripts exist, but there are very few PHPUnit tests committed in-tree.
-4. **Delivery branch drift**: docs and workflow language still reference `master` while active local branch is `work`.
+4. **Delivery branch drift (analysis-time observation)**: docs and workflow language referenced `master` while active local branch was `work`.
 
 ## Findings (evidence-based)
 
@@ -77,4 +77,3 @@ Main risk areas are:
 - `composer lint:canonical-roots`
 - `composer test:functional` (failed due to missing vendor dependencies)
 - `composer install --no-interaction` (failed due to GitHub network/proxy restrictions)
-

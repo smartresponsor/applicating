@@ -3,7 +3,7 @@ name: qodana
 on:
   workflow_dispatch:
   pull_request:
-    branches: [master]
+    branches: [work]
     paths:
       - 'src/**'
       - 'tests/**'
@@ -17,7 +17,7 @@ on:
       - 'qodana.yaml'
       - '.github/workflows/qodana.yml'
   push:
-    branches: [master]
+    branches: [work]
     paths:
       - 'src/**'
       - 'tests/**'

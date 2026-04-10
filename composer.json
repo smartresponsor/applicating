@@ -111,6 +111,7 @@
         ],
         "smoke:runtime": "@php tools/php/php84.php tools/smoke/application-runtime-smoke.php",
         "smoke:fixtures": "@php tools/php/php84.php tools/smoke/application-fixture-sanity.php",
+        "smoke:branch-wiring": "@php tools/php/php84.php tools/smoke/application-branch-wiring-smoke.php",
         "smoke:container": "@php tools/php/php84.php tools/smoke/application-container-boot-smoke.php",
         "smoke:doctrine": "@php tools/php/php84.php tools/smoke/application-doctrine-mapping-smoke.php",
         "smoke:fixture-load": "@php tools/php/php84.php tools/smoke/application-fixture-load-smoke.php",
@@ -137,6 +138,7 @@
         "release:verify": [
             "@qa:full",
             "@smoke:runtime",
+            "@smoke:branch-wiring",
             "@smoke:fixtures",
             "@smoke:fixture-load",
             "@smoke:container",
