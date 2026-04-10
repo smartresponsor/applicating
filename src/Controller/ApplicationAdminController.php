@@ -1,4 +1,5 @@
 <?php
+# Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
 
 declare(strict_types=1);
 
@@ -167,18 +168,17 @@ final class ApplicationAdminController extends AbstractController
     ): RedirectResponse {
         $this->denyAccessUnlessGranted(ApplicationVoter::EDIT, $application);
 
-        $data = new ApplicationReleaseData();
-        $form = $this->createForm(ApplicationReleaseType::class, $data);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $release = $applicationLifecycleService->createRelease($application, $data);
-            $this->addFlash('success', sprintf('Release %s created.', $release->getVersion()));
-        } else {
-            $this->addFlash('danger', 'Release form contains errors.');
-        }
-
-        return $this->redirectToRoute('applicating_application_show', ['id' => $application->getId()]);
+        return $this->processLifecycleForm(
+            $application,
+            $request,
+            ApplicationReleaseType::class,
+            new ApplicationReleaseData(),
+            fn (ApplicationReleaseData $data): string => sprintf(
+                'Release %s created.',
+                $applicationLifecycleService->createRelease($application, $data)->getVersion(),
+            ),
+            'Release form contains errors.',
+        );
     }
 
     #[Route('/{id}/manifest', name: 'applicating_application_manifest', methods: ['POST'])]
@@ -189,18 +189,17 @@ final class ApplicationAdminController extends AbstractController
     ): RedirectResponse {
         $this->denyAccessUnlessGranted(ApplicationVoter::EDIT, $application);
 
-        $data = new ApplicationManifestData();
-        $form = $this->createForm(ApplicationManifestType::class, $data);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $manifest = $applicationLifecycleService->createManifest($application, $data);
-            $this->addFlash('success', sprintf('Manifest %s attached.', $manifest->getIdentifier()));
-        } else {
-            $this->addFlash('danger', 'Manifest form contains errors.');
-        }
-
-        return $this->redirectToRoute('applicating_application_show', ['id' => $application->getId()]);
+        return $this->processLifecycleForm(
+            $application,
+            $request,
+            ApplicationManifestType::class,
+            new ApplicationManifestData(),
+            fn (ApplicationManifestData $data): string => sprintf(
+                'Manifest %s attached.',
+                $applicationLifecycleService->createManifest($application, $data)->getIdentifier(),
+            ),
+            'Manifest form contains errors.',
+        );
     }
 
     #[Route('/{id}/publish/{releaseId}', name: 'applicating_application_publish', methods: ['POST'])]
@@ -248,18 +247,17 @@ final class ApplicationAdminController extends AbstractController
     ): RedirectResponse {
         $this->denyAccessUnlessGranted(ApplicationVoter::ASSIGN, $application);
 
-        $data = new TenantApplicationAssignmentData();
-        $form = $this->createForm(TenantApplicationAssignmentType::class, $data);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $assignment = $applicationLifecycleService->assignTenant($application, $data);
-            $this->addFlash('success', sprintf('Tenant "%s" assigned.', $assignment->getTenantKey()));
-        } else {
-            $this->addFlash('danger', 'Tenant assignment form contains errors.');
-        }
-
-        return $this->redirectToRoute('applicating_application_show', ['id' => $application->getId()]);
+        return $this->processLifecycleForm(
+            $application,
+            $request,
+            TenantApplicationAssignmentType::class,
+            new TenantApplicationAssignmentData(),
+            fn (TenantApplicationAssignmentData $data): string => sprintf(
+                'Tenant "%s" assigned.',
+                $applicationLifecycleService->assignTenant($application, $data)->getTenantKey(),
+            ),
+            'Tenant assignment form contains errors.',
+        );
     }
 
     #[Route('/tenant-assignment/{id}/toggle', name: 'applicating_tenant_application_toggle', methods: ['POST'])]
@@ -279,5 +277,29 @@ final class ApplicationAdminController extends AbstractController
         ));
 
         return $this->redirectToRoute('applicating_application_show', ['id' => $tenantApplication->getApplication()->getId()]);
+    }
+
+    /**
+     * @param class-string $formType
+     * @param callable(object):string $onValid
+     */
+    private function processLifecycleForm(
+        Application $application,
+        Request $request,
+        string $formType,
+        object $data,
+        callable $onValid,
+        string $errorMessage,
+    ): RedirectResponse {
+        $form = $this->createForm($formType, $data);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->addFlash('success', $onValid($data));
+        } else {
+            $this->addFlash('danger', $errorMessage);
+        }
+
+        return $this->redirectToRoute('applicating_application_show', ['id' => $application->getId()]);
     }
 }
