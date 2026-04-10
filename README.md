@@ -86,6 +86,8 @@ bash tools/smoke/application-http-smoke.sh http://127.0.0.1:8000
 composer smoke:admin
 composer smoke:functional-readiness
 composer smoke:postgres-matrix
+composer smoke:branch-wiring
+composer smoke:controller-decomposition
 ```
 
 Optional browser E2E path:
