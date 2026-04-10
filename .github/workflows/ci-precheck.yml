@@ -2,7 +2,7 @@ name: ci-precheck
 on:
   workflow_dispatch:
   pull_request:
-    branches: [work]
+    branches: [master]
 
 jobs:
   validate:

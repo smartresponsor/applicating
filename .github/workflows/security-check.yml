@@ -2,7 +2,7 @@ name: security-check
 on:
   workflow_dispatch:
   pull_request:
-    branches: [work]
+    branches: [master]
     paths:
       - 'config/**'
       - 'src/Security/**'
@@ -10,7 +10,7 @@ on:
       - 'docs/**'
       - '.github/workflows/security-check.yml'
   push:
-    branches: [work]
+    branches: [master]
     paths:
       - 'config/**'
       - 'src/Security/**'

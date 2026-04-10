@@ -31,12 +31,12 @@ foreach ($workflowFiles as $path) {
         continue;
     }
 
-    if (!str_contains($content, 'branches: [work]') && !str_contains($content, 'branches: [ work ]')) {
-        $issues[] = sprintf('Workflow branch wiring is missing [work]: %s', $path);
+    if (!str_contains($content, 'branches: [master]') && !str_contains($content, 'branches: [ master ]')) {
+        $issues[] = sprintf('Workflow branch wiring is missing [master]: %s', $path);
     }
 
-    if (str_contains($content, 'master')) {
-        $issues[] = sprintf('Legacy branch token "master" found in workflow: %s', $path);
+    if (str_contains($content, 'branches: [work]') || str_contains($content, 'branches: [ work ]')) {
+        $issues[] = sprintf('Unexpected branch token "work" found in workflow: %s', $path);
     }
 }
 
@@ -47,8 +47,8 @@ foreach ($docsFiles as $path) {
         continue;
     }
 
-    if (str_contains($content, 'pushes to `master`')) {
-        $issues[] = sprintf('Legacy docs branch wording found in: %s', $path);
+    if (str_contains($content, 'pushes to `work`')) {
+        $issues[] = sprintf('Unexpected docs branch wording found in: %s', $path);
     }
 }
 

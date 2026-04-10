@@ -7,7 +7,7 @@ on:
         required: true
         default: "staging"
   push:
-    branches: [ work ]
+    branches: [ master ]
     paths:
       - 'helm/applicating/**'
       - 'k8s/sealedsecrets/applicating-secrets.yaml'

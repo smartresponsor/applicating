@@ -2,7 +2,7 @@ name: qa
 on:
   workflow_dispatch:
   pull_request:
-    branches: [work]
+    branches: [master]
     paths:
       - 'src/**'
       - 'tests/**'
@@ -18,7 +18,7 @@ on:
       - 'phpunit.xml.dist'
       - '.github/workflows/qa.yml'
   push:
-    branches: [work]
+    branches: [master]
     paths:
       - 'src/**'
       - 'tests/**'

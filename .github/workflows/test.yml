@@ -1,9 +1,9 @@
 name: test
 on:
   pull_request:
-    branches: [work]
+    branches: [master]
   push:
-    branches: [work]
+    branches: [master]
     paths:
       - 'src/**'
       - 'tests/**'
