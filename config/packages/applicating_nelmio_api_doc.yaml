@@ -1,0 +1,13 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: Applicating Admin API
+            description: API contract for admin application lifecycle operations.
+            version: 1.0.0
+        servers:
+            - url: /
+    areas:
+        default:
+            path_patterns:
+                - ^/api/admin
+                - ^/api/admin/v1

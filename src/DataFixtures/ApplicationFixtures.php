@@ -1,4 +1,5 @@
 <?php
+# Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
 
 declare(strict_types=1);
 
@@ -25,6 +26,10 @@ final class ApplicationFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
+        $appEnv = (string) ($_ENV['APP_ENV'] ?? $_SERVER['APP_ENV'] ?? 'dev');
+        if (in_array($appEnv, ['dev', 'test'], true)) {
+            $faker->seed(20250410);
+        }
 
         for ($index = 1; $index <= 6; ++$index) {
             $applicationData = new ApplicationUpsertData();

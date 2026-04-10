@@ -41,6 +41,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.4",
         "fakerphp/faker": "^1.24",
         "friendsofphp/php-cs-fixer": "^3.94",
+        "nelmio/api-doc-bundle": "^5.8",
         "phpmd/phpmd": "^2.15",
         "phpstan/phpstan": "^1.12",
         "phpunit/phpunit": "^10.5",
@@ -86,6 +87,7 @@
             "@lint:app-namespace",
             "@lint:config-prefix",
             "@lint:canonical-roots",
+            "@lint:service-interface-parity",
             "@cs:check"
         ],
         "qa:static": [
@@ -99,7 +101,8 @@
             "@test"
         ],
         "qa:inspection": [
-            "@report:all"
+            "@report:all",
+            "@api:doc:dump"
         ],
         "qa:full": [
             "@qa:env",
@@ -155,7 +158,9 @@
         "pipeline:local:strict": "powershell -ExecutionPolicy Bypass -File tools/ci/run-application-local-pipeline.ps1 -FailOnErrors",
         "report:qodana-wiring": "@php tools/php/php84.php tools/inspection/ApplicatingQodanaWiringReport.php",
         "smoke:admin": "@php tools/php/php84.php tools/smoke/application-admin-surface-smoke.php",
-        "smoke:functional-readiness": "@php tools/php/php84.php tools/smoke/application-functional-readiness-smoke.php"
+        "smoke:functional-readiness": "@php tools/php/php84.php tools/smoke/application-functional-readiness-smoke.php",
+        "api:doc:dump": "@php tools/php/php84.php bin/console nelmio:apidoc:dump --format=json --no-interaction --area=default",
+        "lint:service-interface-parity": "@php tools/php/php84.php tools/linter/applicating_service_interface_parity_check.php"
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
