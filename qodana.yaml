@@ -62,3 +62,4 @@ exclude:
       - .qodana
       - composer.json
       - qodana.yaml
+      - config/reference.php

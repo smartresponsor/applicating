@@ -14,7 +14,7 @@ final readonly class ApplicationHealthService
 
     private static function now(): string
     {
-        return new \DateTimeImmutable()->format(DATE_ATOM);
+        return (new \DateTimeImmutable())->format(DATE_ATOM);
     }
 
     /**
