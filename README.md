@@ -31,6 +31,11 @@ Historical or non-active material is retained only for reference under `archive/
 
 ## Runtime
 
+
+Database policy:
+- `DATABASE_URL` (PostgreSQL) is the canonical user-data store.
+- `APP_DATA_DATABASE_URL` (SQLite) is the canonical application-data store.
+
 1. Install dependencies:
    ```bash
    composer install
@@ -53,6 +58,8 @@ Historical or non-active material is retained only for reference under `archive/
    ```
 
 Login page: `/login`
+
+API contract UI (Nelmio/OpenAPI): `/api/doc`
 
 Demo users (created by `applicating:fixtures:load-demo`):
 - `admin / admin`
