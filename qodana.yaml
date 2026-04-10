@@ -41,6 +41,9 @@ profile:
       enabled: false
     - inspection: LongLine
       enabled: false
+    - inspection: PhpFullyQualifiedNameUsageInspection
+      options:
+        IGNORE_GLOBAL_NAMESPACE: true
 
 exclude:
   - name: All
