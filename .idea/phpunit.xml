@@ -3,13 +3,13 @@
   <component name="PHPUnit">
     <option name="directories">
       <list>
-        <option value="$PROJECT_DIR$/tests/Unit" />
-        <option value="$PROJECT_DIR$/tests/Integration" />
-        <option value="$PROJECT_DIR$/tests/Panther" />
         <option value="$PROJECT_DIR$/archive/repo-drift/non-active-top-level/product-component-iter2/tests" />
         <option value="$PROJECT_DIR$/archive/repo-drift/non-active-top-level/product-component-iter3/tests" />
         <option value="$PROJECT_DIR$/archive/repo-drift/non-active-top-level/product-component-iter1/tests" />
+        <option value="$PROJECT_DIR$/tests/Unit" />
+        <option value="$PROJECT_DIR$/tests/Integration" />
         <option value="$PROJECT_DIR$/tests/Functional" />
+        <option value="$PROJECT_DIR$/tests/Panther" />
       </list>
     </option>
   </component>

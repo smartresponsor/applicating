@@ -20,4 +20,21 @@ if (is_file($localEnvFile)) {
     }
 }
 
-new Dotenv()->bootEnv($projectDir.'/.env');
+$dotenv = new Dotenv();
+
+if (is_file($projectDir.'/.env')) {
+    $dotenv->bootEnv($projectDir.'/.env');
+
+    return;
+}
+
+if (is_file($projectDir.'/env')) {
+    $dotenv->loadEnv($projectDir.'/env');
+
+    return;
+}
+
+$_SERVER['APP_ENV'] ??= $_ENV['APP_ENV'] ?? 'dev';
+$_SERVER['APP_DEBUG'] ??= $_ENV['APP_DEBUG'] ?? ('prod' !== $_SERVER['APP_ENV'] ? '1' : '0');
+$_ENV['APP_ENV'] = $_SERVER['APP_ENV'];
+$_ENV['APP_DEBUG'] = $_SERVER['APP_DEBUG'];

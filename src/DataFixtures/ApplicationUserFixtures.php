@@ -49,7 +49,7 @@ final class ApplicationUserFixtures extends Fixture
 
     /**
      * @param non-empty-string $userIdentifier
-     * @param list<string> $roles
+     * @param list<string>     $roles
      */
     private function createLocalUser(
         ObjectManager $manager,

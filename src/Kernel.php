@@ -24,7 +24,9 @@ final class Kernel extends BaseKernel
         $confDir = $this->getProjectDir().'/config';
 
         $loader->load($confDir.'/packages/*.yaml', 'glob');
-        $loader->load($confDir.'/packages/'.$this->environment.'/*.yaml', 'glob');
+        if (is_dir($confDir.'/packages/'.$this->environment)) {
+            $loader->load($confDir.'/packages/'.$this->environment.'/*.yaml', 'glob');
+        }
         $loader->load($confDir.'/services/*.yaml', 'glob');
     }
 

@@ -12,11 +12,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'applicating:application:publish', description: 'Publish an application with its latest release')]
-final readonly class ApplicatingApplicationPublishCommand extends AbstractApplicatingApplicationSlugCommand
+final class ApplicatingApplicationPublishCommand extends AbstractApplicatingApplicationSlugCommand
 {
     public function __construct(
         ApplicationRepository $applicationRepository,
-        private ApplicationLifecycleServiceInterface $applicationLifecycleService,
+        private readonly ApplicationLifecycleServiceInterface $applicationLifecycleService,
     ) {
         parent::__construct($applicationRepository);
     }

@@ -11,7 +11,7 @@ use App\Entity\Application;
 interface ApplicationAdminViewBuilderInterface
 {
     /** @param list<Application> $applications
-     *  @return list<ApplicationAdminIndexRow>
+     * @return list<ApplicationAdminIndexRow>
      */
     public function buildIndexRows(array $applications): array;
 

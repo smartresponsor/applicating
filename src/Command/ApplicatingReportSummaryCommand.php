@@ -25,7 +25,13 @@ final class ApplicatingReportSummaryCommand extends Command
     {
         $summary = $this->applicationReportService->buildSummary()->toArray();
         foreach ($summary as $key => $value) {
-            $output->writeln(sprintf('%s=%s', $key, is_scalar($value) ? (string) $value : json_encode($value, JSON_THROW_ON_ERROR)));
+            $normalizedValue = (string) $value;
+
+            if (!is_scalar($value)) {
+                $normalizedValue = json_encode($value, JSON_THROW_ON_ERROR);
+            }
+
+            $output->writeln(sprintf('%s=%s', $key, $normalizedValue));
         }
 
         return Command::SUCCESS;
