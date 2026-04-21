@@ -40,7 +40,7 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
     {
         $application = new Application(
             $data->name,
-            new ApplicationSlug($data->slug)->toString(),
+            (new ApplicationSlug($data->slug))->toString(),
             $data->packageName,
             $data->developerName,
             $data->listingSummary,
@@ -56,7 +56,7 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
     public function updateApplication(Application $application, ApplicationUpsertData $data): Application
     {
         $application->rename($data->name);
-        $application->changeSlug(new ApplicationSlug($data->slug)->toString());
+        $application->changeSlug((new ApplicationSlug($data->slug))->toString());
         $application->changePackageName($data->packageName);
         $application->changeDeveloperName($data->developerName);
         $application->changeListingSummary($data->listingSummary);
@@ -69,7 +69,7 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
 
     public function createRelease(Application $application, ApplicationReleaseData $data): ApplicationRelease
     {
-        $version = new ApplicationVersion($data->version)->toString();
+        $version = (new ApplicationVersion($data->version))->toString();
         $existingRelease = $this->applicationReleaseRepository->findOneForApplicationAndVersion($application, $version);
 
         if (null !== $existingRelease) {
@@ -167,7 +167,7 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
     {
         /** @var array<string, mixed> $policy */
         $policy = json_decode($data->accessPolicy, true, 512, JSON_THROW_ON_ERROR);
-        $version = new ApplicationVersion($data->installedVersion)->toString();
+        $version = (new ApplicationVersion($data->installedVersion))->toString();
 
         $tenantApplication = $this->tenantApplicationRepository->findOneForTenantAndApplicationEntity($data->tenantKey, $application);
 

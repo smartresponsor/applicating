@@ -15,7 +15,9 @@ final class ApplicationHealthServiceIntegrationTest extends KernelTestCase
     {
         self::bootKernel();
 
+        /** @var ApplicationHealthServiceInterface $service */
         $service = static::getContainer()->get(ApplicationHealthServiceInterface::class);
+        /** @var array{status: string, checks: array{database: array{status: string, message: string}}, generatedAt: string} $payload */
         $payload = $service->buildReadiness();
 
         self::assertSame('ready', $payload['status']);

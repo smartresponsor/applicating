@@ -16,6 +16,7 @@ final class ApplicationHealthControllerTest extends WebTestCase
         $client->request('GET', '/health');
 
         self::assertResponseIsSuccessful();
+        /** @var array{status: string, checks: array{database: array{status: string, message: string}}, generatedAt: string} $payload */
         $payload = json_decode((string) $client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         self::assertSame('ok', $payload['status']);
@@ -29,6 +30,7 @@ final class ApplicationHealthControllerTest extends WebTestCase
         $client->request('GET', '/ready');
 
         self::assertResponseStatusCodeSame(200);
+        /** @var array{status: string, checks: array{database: array{status: string, message: string}}, generatedAt: string} $payload */
         $payload = json_decode((string) $client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         self::assertSame('ready', $payload['status']);

@@ -144,8 +144,11 @@ final class ApplicationAdminLifecycleController extends AbstractController
     }
 
     /**
-     * @param class-string            $formType
-     * @param callable(object):string $onValid
+     * @template T of object
+     *
+     * @param class-string        $formType
+     * @param T                   $data
+     * @param callable(T): string $onValid
      */
     private function processLifecycleForm(
         Application $application,
