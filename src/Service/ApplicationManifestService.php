@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Service;
+namespace App\Applicating\Service;
 
-use App\Application\DTO\Application\ApplicationManifestData;
-use App\Application\ServiceInterface\ApplicationManifestServiceInterface;
+use App\Applicating\DTO\Application\ApplicationManifestData;
+use App\Applicating\ServiceInterface\ApplicationManifestServiceInterface;
 
 final class ApplicationManifestService implements ApplicationManifestServiceInterface
 {

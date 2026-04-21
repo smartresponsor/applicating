@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Service;
+namespace App\Applicating\Service;
 
-use App\Application\DTO\Application\ApplicationReadiness;
-use App\Application\DTO\Application\ApplicationReadinessSignals;
-use App\Application\Repository\ApplicationRepository;
-use App\Application\ServiceInterface\ApplicationPublishEligibilityServiceInterface;
-use App\Application\ServiceInterface\ApplicationReadinessServiceInterface;
+use App\Applicating\DTO\Application\ApplicationReadiness;
+use App\Applicating\DTO\Application\ApplicationReadinessSignals;
+use App\Applicating\Repository\ApplicationRepository;
+use App\Applicating\ServiceInterface\ApplicationPublishEligibilityServiceInterface;
+use App\Applicating\ServiceInterface\ApplicationReadinessServiceInterface;
 
 final readonly class ApplicationReadinessService implements ApplicationReadinessServiceInterface
 {

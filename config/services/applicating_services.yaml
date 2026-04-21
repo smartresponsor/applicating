@@ -3,38 +3,38 @@ services:
         autowire: true
         autoconfigure: true
 
-    App\Application\:
+    App\Applicating\:
         resource: '../../src/'
         exclude:
             - '../../src/Entity/'
             - '../../src/Kernel.php'
 
-    App\Application\ServiceInterface\ApplicationLifecycleServiceInterface:
-        alias: App\Application\Service\ApplicationLifecycleService
+    App\Applicating\ServiceInterface\ApplicationLifecycleServiceInterface:
+        alias: App\Applicating\Service\ApplicationLifecycleService
         public: true
 
-    App\Application\ServiceInterface\ApplicationManifestServiceInterface:
-        alias: App\Application\Service\ApplicationManifestService
+    App\Applicating\ServiceInterface\ApplicationManifestServiceInterface:
+        alias: App\Applicating\Service\ApplicationManifestService
         public: true
 
-    App\Application\ServiceInterface\ApplicationDiagnosticsServiceInterface:
-        alias: App\Application\Service\ApplicationDiagnosticsService
+    App\Applicating\ServiceInterface\ApplicationDiagnosticsServiceInterface:
+        alias: App\Applicating\Service\ApplicationDiagnosticsService
         public: true
 
-    App\Application\ServiceInterface\ApplicationReportServiceInterface:
-        alias: App\Application\Service\ApplicationReportService
+    App\Applicating\ServiceInterface\ApplicationReportServiceInterface:
+        alias: App\Applicating\Service\ApplicationReportService
         public: true
 
-    App\Application\ServiceInterface\ApplicationAdminViewBuilderInterface:
-        alias: App\Application\Service\ApplicationAdminViewBuilder
+    App\Applicating\ServiceInterface\ApplicationAdminViewBuilderInterface:
+        alias: App\Applicating\Service\ApplicationAdminViewBuilder
         public: true
 
-    App\Application\ServiceInterface\ApplicationReadinessServiceInterface:
-        alias: App\Application\Service\ApplicationReadinessService
+    App\Applicating\ServiceInterface\ApplicationReadinessServiceInterface:
+        alias: App\Applicating\Service\ApplicationReadinessService
         public: true
 
-    App\Application\ServiceInterface\ApplicationHealthServiceInterface:
-        alias: App\Application\Service\ApplicationHealthService
+    App\Applicating\ServiceInterface\ApplicationHealthServiceInterface:
+        alias: App\Applicating\Service\ApplicationHealthService
         public: true
 
     Doctrine\Bundle\FixturesBundle\Loader\SymfonyFixturesLoader:

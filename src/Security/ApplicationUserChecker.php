@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Security;
+namespace App\Applicating\Security;
 
-use App\Application\Entity\ApplicationUser;
+use App\Applicating\Entity\ApplicationUser;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;

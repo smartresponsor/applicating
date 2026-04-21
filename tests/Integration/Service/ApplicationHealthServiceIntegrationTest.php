@@ -4,9 +4,9 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Tests\Integration\Service;
+namespace App\Applicating\Tests\Integration\Service;
 
-use App\Application\ServiceInterface\ApplicationHealthServiceInterface;
+use App\Applicating\ServiceInterface\ApplicationHealthServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class ApplicationHealthServiceIntegrationTest extends KernelTestCase

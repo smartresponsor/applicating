@@ -4,24 +4,24 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Controller;
+namespace App\Applicating\Controller;
 
-use App\Application\DTO\Application\ApplicationManifestData;
-use App\Application\DTO\Application\ApplicationPublishEligibility;
-use App\Application\DTO\Application\ApplicationReleaseData;
-use App\Application\DTO\Application\ApplicationUpsertData;
-use App\Application\DTO\Application\TenantApplicationAssignmentData;
-use App\Application\Entity\Application;
-use App\Application\Form\Application\ApplicationManifestType;
-use App\Application\Form\Application\ApplicationReleaseType;
-use App\Application\Form\Application\ApplicationType;
-use App\Application\Form\Application\TenantApplicationAssignmentType;
-use App\Application\Repository\ApplicationRepository;
-use App\Application\Security\Voter\ApplicationVoter;
-use App\Application\ServiceInterface\ApplicationAdminViewBuilderInterface;
-use App\Application\ServiceInterface\ApplicationLifecycleServiceInterface;
-use App\Application\ServiceInterface\ApplicationPublishEligibilityServiceInterface;
-use App\Application\ServiceInterface\ApplicationReportServiceInterface;
+use App\Applicating\DTO\Application\ApplicationManifestData;
+use App\Applicating\DTO\Application\ApplicationPublishEligibility;
+use App\Applicating\DTO\Application\ApplicationReleaseData;
+use App\Applicating\DTO\Application\ApplicationUpsertData;
+use App\Applicating\DTO\Application\TenantApplicationAssignmentData;
+use App\Applicating\Entity\Application;
+use App\Applicating\Form\Application\ApplicationManifestType;
+use App\Applicating\Form\Application\ApplicationReleaseType;
+use App\Applicating\Form\Application\ApplicationType;
+use App\Applicating\Form\Application\TenantApplicationAssignmentType;
+use App\Applicating\Repository\ApplicationRepository;
+use App\Applicating\Security\Voter\ApplicationVoter;
+use App\Applicating\ServiceInterface\ApplicationAdminViewBuilderInterface;
+use App\Applicating\ServiceInterface\ApplicationLifecycleServiceInterface;
+use App\Applicating\ServiceInterface\ApplicationPublishEligibilityServiceInterface;
+use App\Applicating\ServiceInterface\ApplicationReportServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

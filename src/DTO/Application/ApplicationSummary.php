@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\DTO\Application;
+namespace App\Applicating\DTO\Application;
 
 final readonly class ApplicationSummary
 {

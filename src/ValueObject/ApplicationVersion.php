@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\ValueObject;
+namespace App\Applicating\ValueObject;
 
 final readonly class ApplicationVersion
 {

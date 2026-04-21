@@ -5,7 +5,7 @@ security:
     providers:
         applicating_persistent_users:
             entity:
-                class: App\Application\Entity\ApplicationUser
+                class: App\Applicating\Entity\ApplicationUser
                 property: userIdentifier
 
     firewalls:
@@ -16,7 +16,7 @@ security:
         main:
             lazy: true
             provider: applicating_persistent_users
-            user_checker: App\Application\Security\ApplicationUserChecker
+            user_checker: App\Applicating\Security\ApplicationUserChecker
             login_throttling:
                 max_attempts: 5
             form_login:

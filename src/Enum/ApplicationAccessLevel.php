@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Enum;
+namespace App\Applicating\Enum;
 
 enum ApplicationAccessLevel: string
 {

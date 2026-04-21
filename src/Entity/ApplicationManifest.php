@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Entity;
+namespace App\Applicating\Entity;
 
-use App\Application\Repository\ApplicationManifestRepository;
+use App\Applicating\Repository\ApplicationManifestRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ApplicationManifestRepository::class)]

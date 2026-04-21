@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Form\Application;
+namespace App\Applicating\Form\Application;
 
-use App\Application\DTO\Application\ApplicationReleaseData;
+use App\Applicating\DTO\Application\ApplicationReleaseData;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;

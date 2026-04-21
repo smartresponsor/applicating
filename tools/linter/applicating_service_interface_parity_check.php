@@ -22,7 +22,7 @@ $missingInterfaces = [];
 foreach ($services as $serviceClass) {
     $expectedInterface = sprintf('%sInterface.php', $serviceClass);
     if (!is_file($interfaceDir . '/' . $expectedInterface)) {
-        $missingInterfaces[] = sprintf('App\Application\\Service\\%s -> App\Application\\ServiceInterface\\%sInterface', $serviceClass, $serviceClass);
+        $missingInterfaces[] = sprintf('App\\Service\\%s -> App\\ServiceInterface\\%sInterface', $serviceClass, $serviceClass);
     }
 }
 

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Application\DataFixtures;
+namespace App\Applicating\DataFixtures;
 
-use App\Application\Entity\ApplicationUser;
+use App\Applicating\Entity\ApplicationUser;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;

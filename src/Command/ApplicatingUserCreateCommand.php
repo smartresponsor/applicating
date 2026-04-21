@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Command;
+namespace App\Applicating\Command;
 
-use App\Application\Entity\ApplicationUser;
-use App\Application\Repository\ApplicationUserRepository;
+use App\Applicating\Entity\ApplicationUser;
+use App\Applicating\Repository\ApplicationUserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Entity;
+namespace App\Applicating\Entity;
 
-use App\Application\Repository\ApplicationUserRepository;
+use App\Applicating\Repository\ApplicationUserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;

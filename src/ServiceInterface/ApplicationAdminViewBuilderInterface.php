@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Application\ServiceInterface;
+namespace App\Applicating\ServiceInterface;
 
-use App\Application\DTO\Application\ApplicationAdminIndexRow;
-use App\Application\DTO\Application\ApplicationAdminShowView;
-use App\Application\Entity\Application;
+use App\Applicating\DTO\Application\ApplicationAdminIndexRow;
+use App\Applicating\DTO\Application\ApplicationAdminShowView;
+use App\Applicating\Entity\Application;
 
 interface ApplicationAdminViewBuilderInterface
 {

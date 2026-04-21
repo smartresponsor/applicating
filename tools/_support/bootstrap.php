@@ -181,7 +181,7 @@ function applicating_detect_namespace_issues(array $phpFiles): array
                 continue;
             }
 
-            if (!preg_match('/^namespace\s+App\\Application\\/m', $content)) {
+            if (!preg_match('/^namespace\s+App\\\\/m', $content)) {
                 $issues[] = $relative;
             }
         }

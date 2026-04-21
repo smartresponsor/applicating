@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Controller;
+namespace App\Applicating\Controller;
 
-use App\Application\DTO\Application\ApplicationAdminApiRow;
-use App\Application\Repository\ApplicationRepository;
-use App\Application\ServiceInterface\ApplicationReportServiceInterface;
+use App\Applicating\DTO\Application\ApplicationAdminApiRow;
+use App\Applicating\Repository\ApplicationRepository;
+use App\Applicating\ServiceInterface\ApplicationReportServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;

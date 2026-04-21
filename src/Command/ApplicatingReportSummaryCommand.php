@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Command;
+namespace App\Applicating\Command;
 
-use App\Application\ServiceInterface\ApplicationReportServiceInterface;
+use App\Applicating\ServiceInterface\ApplicationReportServiceInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

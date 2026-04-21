@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Entity;
+namespace App\Applicating\Entity;
 
-use App\Application\Enum\ApplicationPublicationState;
-use App\Application\Repository\ApplicationReleaseRepository;
+use App\Applicating\Enum\ApplicationPublicationState;
+use App\Applicating\Repository\ApplicationReleaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ApplicationReleaseRepository::class)]

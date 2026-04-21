@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Application\EventSubscriber;
+namespace App\Applicating\EventSubscriber;
 
-use App\Application\Entity\ApplicationUser;
+use App\Applicating\Entity\ApplicationUser;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;

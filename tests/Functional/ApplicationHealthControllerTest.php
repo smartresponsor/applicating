@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Tests\Functional;
+namespace App\Applicating\Tests\Functional;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

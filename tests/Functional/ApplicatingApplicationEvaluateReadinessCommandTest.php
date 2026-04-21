@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Tests\Functional;
+namespace App\Applicating\Tests\Functional;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

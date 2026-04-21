@@ -4,9 +4,9 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Controller;
+namespace App\Applicating\Controller;
 
-use App\Application\ServiceInterface\ApplicationHealthServiceInterface;
+use App\Applicating\ServiceInterface\ApplicationHealthServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;

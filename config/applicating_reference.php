@@ -25,7 +25,7 @@ use UnitEnum;
  *
  *     return App::config([
  *         'services' => [
- *             'App\\' => [
+ *             'App\Applicating\\' => [
  *                 'resource' => '../src/',
  *             ],
  *         ],

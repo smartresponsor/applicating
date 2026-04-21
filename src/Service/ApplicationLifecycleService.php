@@ -2,26 +2,26 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Service;
+namespace App\Applicating\Service;
 
-use App\Application\DTO\Application\ApplicationManifestData;
-use App\Application\DTO\Application\ApplicationReleaseData;
-use App\Application\DTO\Application\ApplicationUpsertData;
-use App\Application\DTO\Application\TenantApplicationAssignmentData;
-use App\Application\Entity\Application;
-use App\Application\Entity\ApplicationManifest;
-use App\Application\Entity\ApplicationRelease;
-use App\Application\Entity\TenantApplication;
-use App\Application\Enum\ApplicationAccessLevel;
-use App\Application\Repository\ApplicationManifestRepository;
-use App\Application\Repository\ApplicationReleaseRepository;
-use App\Application\Repository\TenantApplicationRepository;
-use App\Application\ServiceInterface\ApplicationDiagnosticsServiceInterface;
-use App\Application\ServiceInterface\ApplicationLifecycleServiceInterface;
-use App\Application\ServiceInterface\ApplicationManifestServiceInterface;
-use App\Application\ValueObject\ApplicationManifestIdentifier;
-use App\Application\ValueObject\ApplicationSlug;
-use App\Application\ValueObject\ApplicationVersion;
+use App\Applicating\DTO\Application\ApplicationManifestData;
+use App\Applicating\DTO\Application\ApplicationReleaseData;
+use App\Applicating\DTO\Application\ApplicationUpsertData;
+use App\Applicating\DTO\Application\TenantApplicationAssignmentData;
+use App\Applicating\Entity\Application;
+use App\Applicating\Entity\ApplicationManifest;
+use App\Applicating\Entity\ApplicationRelease;
+use App\Applicating\Entity\TenantApplication;
+use App\Applicating\Enum\ApplicationAccessLevel;
+use App\Applicating\Repository\ApplicationManifestRepository;
+use App\Applicating\Repository\ApplicationReleaseRepository;
+use App\Applicating\Repository\TenantApplicationRepository;
+use App\Applicating\ServiceInterface\ApplicationDiagnosticsServiceInterface;
+use App\Applicating\ServiceInterface\ApplicationLifecycleServiceInterface;
+use App\Applicating\ServiceInterface\ApplicationManifestServiceInterface;
+use App\Applicating\ValueObject\ApplicationManifestIdentifier;
+use App\Applicating\ValueObject\ApplicationSlug;
+use App\Applicating\ValueObject\ApplicationVersion;
 use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class ApplicationLifecycleService implements ApplicationLifecycleServiceInterface

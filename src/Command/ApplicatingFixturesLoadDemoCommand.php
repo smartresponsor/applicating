@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Command;
+namespace App\Applicating\Command;
 
 use Doctrine\Bundle\FixturesBundle\Loader\SymfonyFixturesLoader;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;

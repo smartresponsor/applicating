@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Application\DTO\Application;
+namespace App\Applicating\DTO\Application;
 
-use App\Application\Entity\TenantApplication;
+use App\Applicating\Entity\TenantApplication;
 
 final readonly class ApplicationAdminTenantAssignmentView
 {
