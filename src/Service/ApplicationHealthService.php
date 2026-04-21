@@ -1,12 +1,15 @@
 <?php
 
+# Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
+
 declare(strict_types=1);
 
 namespace App\Service;
 
+use App\ServiceInterface\ApplicationHealthServiceInterface;
 use Doctrine\DBAL\Connection;
 
-final readonly class ApplicationHealthService
+final readonly class ApplicationHealthService implements ApplicationHealthServiceInterface
 {
     public function __construct(private Connection $connection)
     {

@@ -30,17 +30,18 @@
         "symfony/routing": "^8.0",
         "symfony/runtime": "^8.0",
         "symfony/security-bundle": "^8.0",
-        "symfony/validator": "^8.0",
+        "symfony/serializer": "^8.0",
         "symfony/twig-bundle": "^8.0",
+        "symfony/validator": "^8.0",
         "symfony/var-exporter": "^8.0",
-        "symfony/yaml": "^8.0",
-        "symfony/serializer": "^8.0"
+        "symfony/yaml": "^8.0"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^4.3",
         "doctrine/doctrine-migrations-bundle": "^4.0",
         "fakerphp/faker": "^1.24",
         "friendsofphp/php-cs-fixer": "^3.94",
+        "nelmio/api-doc-bundle": "^5.8",
         "phpmd/phpmd": "^2.15",
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^11.5",
@@ -65,14 +66,19 @@
         "lint:app-namespace": "@php tools/php/php84.php tools/linter/app_namespace_check.php",
         "lint:config-prefix": "@php tools/php/php84.php tools/linter/applicating_config_prefix_check.php",
         "lint:canonical-roots": "@php tools/php/php84.php tools/linter/applicating_canonical_roots_check.php",
+        "lint:service-interface-parity": "@php tools/php/php84.php tools/linter/applicating_service_interface_parity_check.php",
+
         "cs:fix": "@php tools/php/php84.php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php",
         "cs:check": "@php tools/php/php84.php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --dry-run --diff",
         "cs:check-quiet": "@php tools/php/php84.php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --dry-run",
+
         "stan": "@stan:runtime-target",
         "stan:conservative": "@php tools/php/php82.php vendor/bin/phpstan analyse",
         "stan:runtime-target": "@php tools/php/php84.php vendor/bin/phpstan analyse",
+
         "md": "@php -d error_reporting=6143 vendor/bin/phpmd src text phpmd.xml.dist",
         "md:tests": "@php -d error_reporting=6143 vendor/bin/phpmd tests text phpmd.xml.dist",
+
         "test": "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist",
         "test:unit": "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist --testsuite unit",
         "test:integration": "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist --testsuite integration",
@@ -80,12 +86,14 @@
         "test:panther": "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist --testsuite panther",
         "test:e2e": "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist --testsuite panther",
         "test:playwright": "npm run test:playwright",
+
         "qa:env": "@php tools/php/php84.php tools/qa/ApplicationQaEnvironmentCheck.php",
         "qa:style": [
             "@lint",
             "@lint:app-namespace",
             "@lint:config-prefix",
             "@lint:canonical-roots",
+            "@lint:service-interface-parity",
             "@cs:check"
         ],
         "qa:static": [
@@ -99,7 +107,8 @@
             "@test"
         ],
         "qa:inspection": [
-            "@report:all"
+            "@report:all",
+            "@api:doc:dump"
         ],
         "qa:full": [
             "@qa:env",
@@ -109,12 +118,18 @@
             "@qa:inspection",
             "@qa:test"
         ],
+
         "smoke:runtime": "@php tools/php/php84.php tools/smoke/application-runtime-smoke.php",
         "smoke:fixtures": "@php tools/php/php84.php tools/smoke/application-fixture-sanity.php",
+        "smoke:branch-wiring": "@php tools/php/php84.php tools/smoke/application-branch-wiring-smoke.php",
+        "smoke:controller-decomposition": "@php tools/php/php84.php tools/smoke/application-admin-controller-decomposition-smoke.php",
         "smoke:container": "@php tools/php/php84.php tools/smoke/application-container-boot-smoke.php",
         "smoke:doctrine": "@php tools/php/php84.php tools/smoke/application-doctrine-mapping-smoke.php",
         "smoke:fixture-load": "@php tools/php/php84.php tools/smoke/application-fixture-load-smoke.php",
         "smoke:postgres-matrix": "@php tools/php/php84.php tools/smoke/application-postgres-matrix-smoke.php",
+        "smoke:admin": "@php tools/php/php84.php tools/smoke/application-admin-surface-smoke.php",
+        "smoke:functional-readiness": "@php tools/php/php84.php tools/smoke/application-functional-readiness-smoke.php",
+
         "report:all": [
             "@report:owner-overlap",
             "@report:route-inventory",
@@ -132,11 +147,17 @@
         "report:runtime-proof": "@php tools/php/php84.php tools/inspection/ApplicatingRuntimeProofReport.php",
         "report:engineering-drift": "@php tools/php/php84.php tools/inspection/ApplicatingEngineeringDriftReport.php",
         "report:pipeline-wiring": "@php tools/php/php84.php tools/inspection/ApplicatingPipelineWiringReport.php",
+        "report:qodana-wiring": "@php tools/php/php84.php tools/inspection/ApplicatingQodanaWiringReport.php",
         "report:publish-guard": "@php tools/php/php84.php tools/inspection/ApplicatingPublishGuardReport.php",
         "report:fixture-publish-guard": "@php tools/php/php84.php tools/inspection/ApplicatingFixturePublishGuardReport.php",
+
+        "api:doc:dump": "@php tools/php/php84.php bin/console nelmio:apidoc:dump --format=json --no-interaction --area=default",
+
         "release:verify": [
             "@qa:full",
             "@smoke:runtime",
+            "@smoke:branch-wiring",
+            "@smoke:controller-decomposition",
             "@smoke:fixtures",
             "@smoke:fixture-load",
             "@smoke:container",
@@ -145,13 +166,11 @@
             "@smoke:functional-readiness",
             "@smoke:postgres-matrix"
         ],
+
         "pipeline:inspection:applicating": "powershell -ExecutionPolicy Bypass -File tools/ci/run-applicating-inspection-wave.ps1",
         "pipeline:local": "powershell -ExecutionPolicy Bypass -File tools/ci/run-application-local-pipeline.ps1",
         "pipeline:local:full": "powershell -ExecutionPolicy Bypass -File tools/ci/run-application-local-pipeline.ps1 -IncludeSmokes -IncludeReports -IncludeSecurity",
-        "pipeline:local:strict": "powershell -ExecutionPolicy Bypass -File tools/ci/run-application-local-pipeline.ps1 -FailOnErrors",
-        "report:qodana-wiring": "@php tools/php/php84.php tools/inspection/ApplicatingQodanaWiringReport.php",
-        "smoke:admin": "@php tools/php/php84.php tools/smoke/application-admin-surface-smoke.php",
-        "smoke:functional-readiness": "@php tools/php/php84.php tools/smoke/application-functional-readiness-smoke.php"
+        "pipeline:local:strict": "powershell -ExecutionPolicy Bypass -File tools/ci/run-application-local-pipeline.ps1 -FailOnErrors"
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
