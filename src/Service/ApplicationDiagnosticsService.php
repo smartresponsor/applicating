@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Application\Service;
 
-use App\DTO\Application\TenantApplicationDiagnostics;
-use App\DTO\Application\TenantApplicationDiagnosticsChecks;
-use App\Entity\TenantApplication;
-use App\ServiceInterface\ApplicationDiagnosticsServiceInterface;
+use App\Application\DTO\Application\TenantApplicationDiagnostics;
+use App\Application\DTO\Application\TenantApplicationDiagnosticsChecks;
+use App\Application\Entity\TenantApplication;
+use App\Application\ServiceInterface\ApplicationDiagnosticsServiceInterface;
 
 final class ApplicationDiagnosticsService implements ApplicationDiagnosticsServiceInterface
 {

@@ -4,13 +4,13 @@
 
 declare(strict_types=1);
 
-namespace App\DataFixtures;
+namespace App\Application\DataFixtures;
 
-use App\DTO\Application\ApplicationManifestData;
-use App\DTO\Application\ApplicationReleaseData;
-use App\DTO\Application\ApplicationUpsertData;
-use App\DTO\Application\TenantApplicationAssignmentData;
-use App\ServiceInterface\ApplicationLifecycleServiceInterface;
+use App\Application\DTO\Application\ApplicationManifestData;
+use App\Application\DTO\Application\ApplicationReleaseData;
+use App\Application\DTO\Application\ApplicationUpsertData;
+use App\Application\DTO\Application\TenantApplicationAssignmentData;
+use App\Application\ServiceInterface\ApplicationLifecycleServiceInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;

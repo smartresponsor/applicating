@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\DTO\Application;
+namespace App\Application\DTO\Application;
 
-use App\Entity\ApplicationManifest;
+use App\Application\Entity\ApplicationManifest;
 
 final readonly class ApplicationAdminManifestView
 {

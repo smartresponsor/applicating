@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional;
+namespace App\Application\Tests\Functional;
 
-use App\Entity\Application;
-use App\Entity\ApplicationManifest;
-use App\Entity\ApplicationRelease;
-use App\Tests\Support\DoctrineSchemaResetter;
+use App\Application\Entity\Application;
+use App\Application\Entity\ApplicationManifest;
+use App\Application\Entity\ApplicationRelease;
+use App\Application\Tests\Support\DoctrineSchemaResetter;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Console\Application as ConsoleApplication;

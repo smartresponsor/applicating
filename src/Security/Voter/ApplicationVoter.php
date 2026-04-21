@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Security\Voter;
+namespace App\Application\Security\Voter;
 
-use App\Entity\Application;
-use App\Entity\TenantApplication;
-use App\Enum\ApplicationPublicationState;
+use App\Application\Entity\Application;
+use App\Application\Entity\TenantApplication;
+use App\Application\Enum\ApplicationPublicationState;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;

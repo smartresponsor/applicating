@@ -9,7 +9,7 @@ $aliases = [];
 if (is_file($servicesPath)) {
     $lines = applicating_read_lines($servicesPath);
     foreach ($lines as $line) {
-        if (preg_match('/^\s{4}(App\\ServiceInterface\\[^:]+):$/', $line, $m)) {
+        if (preg_match('/^\s{4}(App\\Application\\ServiceInterface\\[^:]+):$/', $line, $m)) {
             $aliases[] = $m[1];
         }
     }

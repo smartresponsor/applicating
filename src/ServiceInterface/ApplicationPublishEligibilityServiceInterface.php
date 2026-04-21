@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\ServiceInterface;
+namespace App\Application\ServiceInterface;
 
-use App\DTO\Application\ApplicationPublishEligibility;
-use App\Entity\Application;
+use App\Application\DTO\Application\ApplicationPublishEligibility;
+use App\Application\Entity\Application;
 
 interface ApplicationPublishEligibilityServiceInterface
 {

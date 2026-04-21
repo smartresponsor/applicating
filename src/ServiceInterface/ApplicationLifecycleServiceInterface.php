@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\ServiceInterface;
+namespace App\Application\ServiceInterface;
 
-use App\DTO\Application\ApplicationManifestData;
-use App\DTO\Application\ApplicationReleaseData;
-use App\DTO\Application\ApplicationUpsertData;
-use App\DTO\Application\TenantApplicationAssignmentData;
-use App\Entity\Application;
-use App\Entity\ApplicationManifest;
-use App\Entity\ApplicationRelease;
-use App\Entity\TenantApplication;
+use App\Application\DTO\Application\ApplicationManifestData;
+use App\Application\DTO\Application\ApplicationReleaseData;
+use App\Application\DTO\Application\ApplicationUpsertData;
+use App\Application\DTO\Application\TenantApplicationAssignmentData;
+use App\Application\Entity\Application;
+use App\Application\Entity\ApplicationManifest;
+use App\Application\Entity\ApplicationRelease;
+use App\Application\Entity\TenantApplication;
 
 interface ApplicationLifecycleServiceInterface
 {

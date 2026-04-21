@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace App\ServiceInterface;
+namespace App\Application\ServiceInterface;
 
 interface ApplicationHealthServiceInterface
 {

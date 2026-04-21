@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\DTO\Application;
+namespace App\Application\DTO\Application;
 
-use App\Entity\Application;
+use App\Application\Entity\Application;
 
 final readonly class ApplicationAdminShowView
 {

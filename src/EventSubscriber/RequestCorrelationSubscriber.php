@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\EventSubscriber;
+namespace App\Application\EventSubscriber;
 
 use Random\RandomException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

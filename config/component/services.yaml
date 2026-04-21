@@ -5,7 +5,7 @@ services:
 
   # Symfony-native component export surface.
   # The host application may import this file from the component root.
-  App\:
+  App\Application\:
     resource: '../../src/'
     exclude:
       - '../../src/Kernel.php'

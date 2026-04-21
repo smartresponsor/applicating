@@ -4,9 +4,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Application\Service;
 
-use App\ServiceInterface\ApplicationHealthServiceInterface;
+use App\Application\ServiceInterface\ApplicationHealthServiceInterface;
 use Doctrine\DBAL\Connection;
 
 final readonly class ApplicationHealthService implements ApplicationHealthServiceInterface

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Application\Entity;
 
-use App\Enum\ApplicationInstallationState;
-use App\Repository\TenantApplicationRepository;
+use App\Application\Enum\ApplicationInstallationState;
+use App\Application\Repository\TenantApplicationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TenantApplicationRepository::class)]

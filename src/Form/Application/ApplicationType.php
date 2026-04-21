@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Application;
+namespace App\Application\Form\Application;
 
-use App\DTO\Application\ApplicationUpsertData;
-use App\Enum\ApplicationAccessLevel;
+use App\Application\DTO\Application\ApplicationUpsertData;
+use App\Application\Enum\ApplicationAccessLevel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

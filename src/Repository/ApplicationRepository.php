@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Repository;
+namespace App\Application\Repository;
 
-use App\Entity\Application;
-use App\Enum\ApplicationPublicationState;
+use App\Application\Entity\Application;
+use App\Application\Enum\ApplicationPublicationState;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

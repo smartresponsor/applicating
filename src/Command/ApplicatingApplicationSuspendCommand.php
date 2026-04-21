@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Command;
+namespace App\Application\Command;
 
-use App\Repository\ApplicationRepository;
-use App\ServiceInterface\ApplicationLifecycleServiceInterface;
+use App\Application\Repository\ApplicationRepository;
+use App\Application\ServiceInterface\ApplicationLifecycleServiceInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

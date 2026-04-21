@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\ServiceInterface;
+namespace App\Application\ServiceInterface;
 
-use App\DTO\Application\TenantApplicationDiagnostics;
-use App\Entity\TenantApplication;
+use App\Application\DTO\Application\TenantApplicationDiagnostics;
+use App\Application\Entity\TenantApplication;
 
 interface ApplicationDiagnosticsServiceInterface
 {

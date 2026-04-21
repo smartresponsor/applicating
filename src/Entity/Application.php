@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Application\Entity;
 
-use App\Enum\ApplicationAccessLevel;
-use App\Enum\ApplicationPublicationState;
-use App\Repository\ApplicationRepository;
+use App\Application\Enum\ApplicationAccessLevel;
+use App\Application\Enum\ApplicationPublicationState;
+use App\Application\Repository\ApplicationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;

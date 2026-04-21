@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Application\Service;
 
-use App\DTO\Application\ApplicationSummary;
-use App\Repository\ApplicationRepository;
-use App\Repository\TenantApplicationRepository;
-use App\ServiceInterface\ApplicationReportServiceInterface;
+use App\Application\DTO\Application\ApplicationSummary;
+use App\Application\Repository\ApplicationRepository;
+use App\Application\Repository\TenantApplicationRepository;
+use App\Application\ServiceInterface\ApplicationReportServiceInterface;
 
 final readonly class ApplicationReportService implements ApplicationReportServiceInterface
 {

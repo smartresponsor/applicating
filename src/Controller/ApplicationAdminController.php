@@ -4,24 +4,24 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Application\Controller;
 
-use App\DTO\Application\ApplicationManifestData;
-use App\DTO\Application\ApplicationPublishEligibility;
-use App\DTO\Application\ApplicationReleaseData;
-use App\DTO\Application\ApplicationUpsertData;
-use App\DTO\Application\TenantApplicationAssignmentData;
-use App\Entity\Application;
-use App\Form\Application\ApplicationManifestType;
-use App\Form\Application\ApplicationReleaseType;
-use App\Form\Application\ApplicationType;
-use App\Form\Application\TenantApplicationAssignmentType;
-use App\Repository\ApplicationRepository;
-use App\Security\Voter\ApplicationVoter;
-use App\ServiceInterface\ApplicationAdminViewBuilderInterface;
-use App\ServiceInterface\ApplicationLifecycleServiceInterface;
-use App\ServiceInterface\ApplicationPublishEligibilityServiceInterface;
-use App\ServiceInterface\ApplicationReportServiceInterface;
+use App\Application\DTO\Application\ApplicationManifestData;
+use App\Application\DTO\Application\ApplicationPublishEligibility;
+use App\Application\DTO\Application\ApplicationReleaseData;
+use App\Application\DTO\Application\ApplicationUpsertData;
+use App\Application\DTO\Application\TenantApplicationAssignmentData;
+use App\Application\Entity\Application;
+use App\Application\Form\Application\ApplicationManifestType;
+use App\Application\Form\Application\ApplicationReleaseType;
+use App\Application\Form\Application\ApplicationType;
+use App\Application\Form\Application\TenantApplicationAssignmentType;
+use App\Application\Repository\ApplicationRepository;
+use App\Application\Security\Voter\ApplicationVoter;
+use App\Application\ServiceInterface\ApplicationAdminViewBuilderInterface;
+use App\Application\ServiceInterface\ApplicationLifecycleServiceInterface;
+use App\Application\ServiceInterface\ApplicationPublishEligibilityServiceInterface;
+use App\Application\ServiceInterface\ApplicationReportServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

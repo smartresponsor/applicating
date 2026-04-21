@@ -4,9 +4,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Service;
+namespace App\Application\Tests\Unit\Service;
 
-use App\Service\ApplicationHealthService;
+use App\Application\Service\ApplicationHealthService;
 use Doctrine\DBAL\Connection;
 use PHPUnit\Framework\TestCase;
 

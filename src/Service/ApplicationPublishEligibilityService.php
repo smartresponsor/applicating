@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Application\Service;
 
-use App\DTO\Application\ApplicationPublishEligibility;
-use App\Entity\Application;
-use App\ServiceInterface\ApplicationPublishEligibilityServiceInterface;
+use App\Application\DTO\Application\ApplicationPublishEligibility;
+use App\Application\Entity\Application;
+use App\Application\ServiceInterface\ApplicationPublishEligibilityServiceInterface;
 
 final class ApplicationPublishEligibilityService implements ApplicationPublishEligibilityServiceInterface
 {

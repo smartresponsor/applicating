@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Application\Service;
 
-use App\DTO\Application\ApplicationAdminIndexRow;
-use App\DTO\Application\ApplicationAdminManifestView;
-use App\DTO\Application\ApplicationAdminReleaseView;
-use App\DTO\Application\ApplicationAdminShowView;
-use App\DTO\Application\ApplicationAdminTenantAssignmentView;
-use App\Entity\Application;
-use App\Entity\ApplicationManifest;
-use App\Entity\ApplicationRelease;
-use App\Entity\TenantApplication;
-use App\ServiceInterface\ApplicationAdminViewBuilderInterface;
+use App\Application\DTO\Application\ApplicationAdminIndexRow;
+use App\Application\DTO\Application\ApplicationAdminManifestView;
+use App\Application\DTO\Application\ApplicationAdminReleaseView;
+use App\Application\DTO\Application\ApplicationAdminShowView;
+use App\Application\DTO\Application\ApplicationAdminTenantAssignmentView;
+use App\Application\Entity\Application;
+use App\Application\Entity\ApplicationManifest;
+use App\Application\Entity\ApplicationRelease;
+use App\Application\Entity\TenantApplication;
+use App\Application\ServiceInterface\ApplicationAdminViewBuilderInterface;
 
 final class ApplicationAdminViewBuilder implements ApplicationAdminViewBuilderInterface
 {

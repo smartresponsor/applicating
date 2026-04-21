@@ -4,18 +4,18 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Application\Controller;
 
-use App\DTO\Application\ApplicationManifestData;
-use App\DTO\Application\ApplicationReleaseData;
-use App\DTO\Application\TenantApplicationAssignmentData;
-use App\Entity\Application;
-use App\Entity\TenantApplication;
-use App\Form\Application\ApplicationManifestType;
-use App\Form\Application\ApplicationReleaseType;
-use App\Form\Application\TenantApplicationAssignmentType;
-use App\Security\Voter\ApplicationVoter;
-use App\ServiceInterface\ApplicationLifecycleServiceInterface;
+use App\Application\DTO\Application\ApplicationManifestData;
+use App\Application\DTO\Application\ApplicationReleaseData;
+use App\Application\DTO\Application\TenantApplicationAssignmentData;
+use App\Application\Entity\Application;
+use App\Application\Entity\TenantApplication;
+use App\Application\Form\Application\ApplicationManifestType;
+use App\Application\Form\Application\ApplicationReleaseType;
+use App\Application\Form\Application\TenantApplicationAssignmentType;
+use App\Application\Security\Voter\ApplicationVoter;
+use App\Application\ServiceInterface\ApplicationLifecycleServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

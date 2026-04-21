@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Application;
+namespace App\Application\Form\Application;
 
-use App\DTO\Application\TenantApplicationAssignmentData;
+use App\Application\DTO\Application\TenantApplicationAssignmentData;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;

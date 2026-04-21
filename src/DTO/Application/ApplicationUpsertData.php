@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\DTO\Application;
+namespace App\Application\DTO\Application;
 
-use App\Enum\ApplicationAccessLevel;
+use App\Application\Enum\ApplicationAccessLevel;
 use Symfony\Component\Validator\Constraints as Assert;
 
 final class ApplicationUpsertData

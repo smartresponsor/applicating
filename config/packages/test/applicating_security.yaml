@@ -1,21 +1,4 @@
 security:
-    password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'plaintext'
-
-    providers:
-        applicating_in_memory_test:
-            memory:
-                users:
-                    admin:
-                        password: admin
-                        roles: ['ROLE_APPLICATION_ADMIN', 'ROLE_APPLICATION_MANAGER', 'ROLE_APPLICATION_VIEWER']
-                    manager:
-                        password: manager
-                        roles: ['ROLE_APPLICATION_MANAGER', 'ROLE_APPLICATION_VIEWER']
-                    viewer:
-                        password: viewer
-                        roles: ['ROLE_APPLICATION_VIEWER']
-
     firewalls:
         main:
-            provider: applicating_in_memory_test
+            security: false

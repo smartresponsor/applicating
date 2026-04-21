@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\ServiceInterface;
+namespace App\Application\ServiceInterface;
 
-use App\DTO\Application\ApplicationManifestData;
+use App\Application\DTO\Application\ApplicationManifestData;
 
 interface ApplicationManifestServiceInterface
 {

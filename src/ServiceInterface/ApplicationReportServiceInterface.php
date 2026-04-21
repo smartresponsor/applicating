@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\ServiceInterface;
+namespace App\Application\ServiceInterface;
 
-use App\DTO\Application\ApplicationSummary;
+use App\Application\DTO\Application\ApplicationSummary;
 
 interface ApplicationReportServiceInterface
 {
