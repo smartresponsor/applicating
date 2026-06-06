@@ -17,11 +17,15 @@ final class TenantApplicationAssignmentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('tenantKey')
-            ->add('installedVersion')
-            ->add('enabled', CheckboxType::class, ['required' => false])
-            ->add('billingActive', CheckboxType::class, ['required' => false])
-            ->add('accessPolicy', TextareaType::class, ['attr' => ['rows' => 6]]);
+            ->add('tenantKey', null, ['label' => 'Tenant key'])
+            ->add('installedVersion', null, ['label' => 'Installed version'])
+            ->add('enabled', CheckboxType::class, ['required' => false, 'label' => 'Enabled'])
+            ->add('billingActive', CheckboxType::class, ['required' => false, 'label' => 'Billing active'])
+            ->add('accessPolicy', TextareaType::class, [
+                'label' => 'Access policy',
+                'attr' => ['rows' => 6],
+                'help' => 'JSON policy blob used by the tenant runtime.',
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -18,8 +18,8 @@
 - `GET /admin/applications`
 - `GET /admin/applications/{id}`
 - `POST /admin/applications/{id}/publish/{releaseId}`
-- `GET /api/admin/applications`
-- `GET /api/admin/applications/report`
+- `GET /api/admin/application`
+- `GET /api/admin/application/report`
 
 ## CLI
 ```bash

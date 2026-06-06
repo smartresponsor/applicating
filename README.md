@@ -72,7 +72,7 @@ The development environment stores hashed demo credentials in `.env`; the test e
 
 - `/admin/applications` for application listing and management
 - `/admin/applications/{id}` for releases, manifests and tenant assignments
-- `/api/admin/applications` and `/api/admin/v1/applications` for admin JSON vocabulary centered on `Application`
+- `/api/admin/application` and `/api/admin/v1/application` for admin JSON vocabulary centered on `Application`
 - `/health`, `/ready` and `/login` for runtime liveness/readiness/access checks
 - `php bin/console applicating:*` for operational workflows
 

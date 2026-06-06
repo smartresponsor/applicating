@@ -27,11 +27,3 @@ security:
             logout:
                 path: applicating_security_logout
                 target: applicating_security_login
-
-    access_control:
-        - { path: ^/health$, roles: PUBLIC_ACCESS }
-        - { path: ^/ready$, roles: PUBLIC_ACCESS }
-        - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api/admin/v1, roles: ROLE_APPLICATION_MANAGER }
-        - { path: ^/api/admin, roles: ROLE_APPLICATION_MANAGER }
-        - { path: ^/admin, roles: ROLE_APPLICATION_VIEWER }

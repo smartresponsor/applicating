@@ -1,27 +1,51 @@
 <?php
 
-# Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp
-
 declare(strict_types=1);
 
 namespace App\Applicating\Tests\Integration\Service;
 
-use App\Applicating\ServiceInterface\ApplicationHealthServiceInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Applicating\Entity\Application;
+use App\Applicating\Service\ApplicationHealthService;
+use Doctrine\DBAL\Configuration;
+use Doctrine\DBAL\DriverManager;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMSetup;
+use Doctrine\ORM\Tools\SchemaTool;
+use PHPUnit\Framework\TestCase;
 
-final class ApplicationHealthServiceIntegrationTest extends KernelTestCase
+final class ApplicationHealthServiceIntegrationTest extends TestCase
 {
     public function testBuildReadinessReturnsReadyWithConfiguredConnection(): void
     {
-        self::bootKernel();
-
-        /** @var ApplicationHealthServiceInterface $service */
-        $service = static::getContainer()->get(ApplicationHealthServiceInterface::class);
-        /** @var array{status: string, checks: array{database: array{status: string, message: string}}, generatedAt: string} $payload */
+        $entityManager = $this->createEntityManager([Application::class]);
+        $service = new ApplicationHealthService($entityManager);
         $payload = $service->buildReadiness();
 
         self::assertSame('ready', $payload['status']);
         self::assertSame('up', $payload['checks']['database']['status']);
         self::assertArrayHasKey('generatedAt', $payload);
+    }
+
+    /**
+     * @param list<class-string> $entityClasses
+     */
+    private function createEntityManager(array $entityClasses): EntityManager
+    {
+        $config = ORMSetup::createAttributeMetadataConfig([dirname(__DIR__, 3).'/src/Entity'], true);
+        $config->enableNativeLazyObjects(true);
+        $connection = DriverManager::getConnection([
+            'driver' => 'pdo_sqlite',
+            'memory' => true,
+        ], new Configuration());
+        $entityManager = new EntityManager($connection, $config);
+
+        $schemaTool = new SchemaTool($entityManager);
+        $metadata = [];
+        foreach ($entityClasses as $entityClass) {
+            $metadata[] = $entityManager->getClassMetadata($entityClass);
+        }
+        $schemaTool->createSchema($metadata);
+
+        return $entityManager;
     }
 }

@@ -16,8 +16,7 @@ final class ApplicationReadinessApiController extends AbstractController
     ) {
     }
 
-    #[Route('/api/admin/applications/{slug}/readiness', name: 'applicating_application_readiness_api', methods: ['GET'])]
-    #[Route('/api/admin/v1/applications/{slug}/readiness', name: 'applicating_application_readiness_api_v1', methods: ['GET'])]
+    #[Route('/api/applicating/application/readiness/{slug}', name: 'applicating_application_readiness_api', methods: ['GET'])]
     public function __invoke(string $slug): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_APPLICATION_MANAGER');

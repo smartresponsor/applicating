@@ -6,12 +6,13 @@ declare(strict_types=1);
 
 namespace App\Applicating\Service;
 
+use App\Applicating\Entity\Application;
 use App\Applicating\ServiceInterface\ApplicationHealthServiceInterface;
-use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class ApplicationHealthService implements ApplicationHealthServiceInterface
 {
-    public function __construct(private Connection $connection)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
     }
 
@@ -25,15 +26,12 @@ final readonly class ApplicationHealthService implements ApplicationHealthServic
      */
     public function buildHealth(): array
     {
-        $databaseStatus = 'up';
-        $databaseMessage = 'Connection check skipped for liveness.';
-
         return [
             'status' => 'ok',
             'checks' => [
                 'database' => [
-                    'status' => $databaseStatus,
-                    'message' => $databaseMessage,
+                    'status' => 'up',
+                    'message' => 'Connection check skipped for liveness.',
                 ],
             ],
             'generatedAt' => self::now(),
@@ -46,14 +44,14 @@ final readonly class ApplicationHealthService implements ApplicationHealthServic
     public function buildReadiness(): array
     {
         try {
-            $this->connection->fetchOne('SELECT 1');
+            $this->countApplications();
 
             return [
                 'status' => 'ready',
                 'checks' => [
                     'database' => [
                         'status' => 'up',
-                        'message' => 'Database connectivity verified.',
+                        'message' => 'Doctrine ORM query verified.',
                     ],
                 ],
                 'generatedAt' => self::now(),
@@ -70,5 +68,14 @@ final readonly class ApplicationHealthService implements ApplicationHealthServic
                 'generatedAt' => self::now(),
             ];
         }
+    }
+
+    private function countApplications(): int
+    {
+        return (int) $this->entityManager->createQueryBuilder()
+            ->select('COUNT(application.id)')
+            ->from(Application::class, 'application')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

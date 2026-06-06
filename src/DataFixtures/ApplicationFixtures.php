@@ -13,7 +13,6 @@ use App\Applicating\DTO\Application\TenantApplicationAssignmentData;
 use App\Applicating\ServiceInterface\ApplicationLifecycleServiceInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
 
 final class ApplicationFixtures extends Fixture
 {
@@ -26,21 +25,31 @@ final class ApplicationFixtures extends Fixture
      */
     public function load(ObjectManager $manager): void
     {
-        $faker = Factory::create();
-        $appEnv = (string) ($_ENV['APP_ENV'] ?? $_SERVER['APP_ENV'] ?? 'dev');
-        if (in_array($appEnv, ['dev', 'test'], true)) {
-            $faker->seed(20250410);
-        }
+        $developers = ['Atlas Works', 'Northwind Labs', 'Summit Studio', 'Orbit Systems', 'Polar Forge', 'Zenith House'];
+        $summaries = [
+            'Deterministic demo listing for the host bootstrap.',
+            'Catalog of reproducible application demo content.',
+            'Host-facing sample app metadata for Interfacing screens.',
+            'Stable listing data for local validation and demos.',
+            'Demo application payload used by the fixture layer.',
+            'Synthetic but business-shaped application metadata.',
+        ];
+        $notes = [
+            'Initial release notes for the first demo application.',
+            'Beta rollout notes for the second demo application.',
+            'Stable release notes for the third demo application.',
+            'Maintenance release notes for the fourth demo application.',
+            'Review-bound release notes for the fifth demo application.',
+            'Sandbox release notes for the sixth demo application.',
+        ];
 
         for ($index = 1; $index <= 6; ++$index) {
             $applicationData = new ApplicationUpsertData();
-            /** @var list<string> $words */
-            $words = $faker->unique()->words(2);
-            $applicationData->name = ucfirst(implode(' ', $words)).' Suite';
+            $applicationData->name = sprintf('Demo Application %02d Suite', $index);
             $applicationData->slug = sprintf('application-%d', $index);
             $applicationData->packageName = sprintf('applicating/demo-application-%d', $index);
-            $applicationData->developerName = $faker->company();
-            $applicationData->listingSummary = $faker->sentence(14);
+            $applicationData->developerName = $developers[$index - 1];
+            $applicationData->listingSummary = $summaries[$index - 1];
             $applicationData->accessLevel = 0 === $index % 2 ? 'public' : 'tenant_restricted';
             $applicationData->billingCode = sprintf('APP-%03d', $index);
             $applicationData->sandboxProfile = 0 === $index % 3 ? 'restricted' : 'default';
@@ -52,7 +61,7 @@ final class ApplicationFixtures extends Fixture
             $releaseData->channel = 0 === $index % 2 ? 'stable' : 'beta';
             $releaseData->checksum = hash('sha256', $application->getSlug().$index);
             $releaseData->downloadUrl = sprintf('https://downloads.example.test/%s/%s.zip', $application->getSlug(), $releaseData->version);
-            $releaseData->releaseNotes = $faker->paragraph();
+            $releaseData->releaseNotes = $notes[$index - 1];
             $release = $this->applicationLifecycleService->createRelease($application, $releaseData);
 
             $manifestData = new ApplicationManifestData();

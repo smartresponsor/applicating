@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Applicating\Entity;
 
 use App\Applicating\Repository\ApplicationUserRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -36,7 +35,7 @@ class ApplicationUser implements UserInterface, PasswordAuthenticatedUserInterfa
     private ?string $email = null;
 
     /** @var list<string> */
-    #[ORM\Column(type: Types::JSON)]
+    #[ORM\Column(type: 'json')]
     private array $roles = [];
 
     #[ORM\Column(length: 255, nullable: true)]

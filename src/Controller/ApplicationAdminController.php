@@ -35,17 +35,17 @@ final class ApplicationAdminController extends AbstractController
         ApplicationRepository $applicationRepository,
         ApplicationReportServiceInterface $applicationReportService,
         ApplicationAdminViewBuilderInterface $applicationAdminViewBuilder,
-    ): Response {
+    ): Response|array {
         $this->denyAccessUnlessGranted('ROLE_APPLICATION_VIEWER');
 
-        return $this->render('application/index.html.twig', [
+        return $this->viewPayload('index', [
             'applicationRows' => $applicationAdminViewBuilder->buildIndexRows($applicationRepository->findOrderedForAdmin()),
             'summary' => $applicationReportService->buildSummary(),
-        ]);
+        ], 'Application administration index');
     }
 
     #[Route('/new', name: 'applicating_application_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ApplicationLifecycleServiceInterface $applicationLifecycleService): Response
+    public function new(Request $request, ApplicationLifecycleServiceInterface $applicationLifecycleService): Response|array
     {
         $this->denyAccessUnlessGranted('ROLE_APPLICATION_MANAGER');
 
@@ -60,19 +60,19 @@ final class ApplicationAdminController extends AbstractController
             return $this->redirectToRoute('applicating_application_show', ['id' => $application->getId()]);
         }
 
-        return $this->render('application/new.html.twig', [
+        return $this->viewPayload('new', [
             'form' => $form->createView(),
-        ]);
+        ], 'Create application');
     }
 
     #[Route('/report', name: 'applicating_application_report', methods: ['GET'])]
-    public function report(ApplicationReportServiceInterface $applicationReportService): Response
+    public function report(ApplicationReportServiceInterface $applicationReportService): Response|array
     {
         $this->denyAccessUnlessGranted('ROLE_APPLICATION_VIEWER');
 
-        return $this->render('application/report.html.twig', [
+        return $this->viewPayload('report', [
             'summary' => $applicationReportService->buildSummary(),
-        ]);
+        ], 'Application report');
     }
 
     #[Route('/{id}', name: 'applicating_application_show', methods: ['GET', 'POST'])]
@@ -80,7 +80,7 @@ final class ApplicationAdminController extends AbstractController
         Application $application,
         ApplicationPublishEligibilityServiceInterface $applicationPublishEligibilityService,
         ApplicationAdminViewBuilderInterface $applicationAdminViewBuilder,
-    ): Response {
+    ): Response|array {
         $this->denyAccessUnlessGranted('ROLE_APPLICATION_VIEWER');
 
         $releaseForm = $this->createForm(ApplicationReleaseType::class, new ApplicationReleaseData(), [
@@ -102,7 +102,7 @@ final class ApplicationAdminController extends AbstractController
             }
         }
 
-        return $this->render('application/show.html.twig', [
+        return $this->viewPayload('show', [
             'application' => $application,
             'applicationView' => $applicationView,
             'releaseForm' => $releaseForm->createView(),
@@ -121,7 +121,7 @@ final class ApplicationAdminController extends AbstractController
             'canPublish' => $this->isGranted(ApplicationVoter::PUBLISH, $application),
             'canAssign' => $this->isGranted(ApplicationVoter::ASSIGN, $application),
             'togglePermissions' => $togglePermissions,
-        ]);
+        ], 'Application detail');
     }
 
     #[Route('/{id}/edit', name: 'applicating_application_edit', methods: ['GET', 'POST'])]
@@ -129,7 +129,7 @@ final class ApplicationAdminController extends AbstractController
         Application $application,
         Request $request,
         ApplicationLifecycleServiceInterface $applicationLifecycleService,
-    ): Response {
+    ): Response|array {
         $this->denyAccessUnlessGranted(ApplicationVoter::EDIT, $application);
 
         $data = new ApplicationUpsertData();
@@ -153,9 +153,40 @@ final class ApplicationAdminController extends AbstractController
             return $this->redirectToRoute('applicating_application_show', ['id' => $application->getId()]);
         }
 
-        return $this->render('application/edit.html.twig', [
+        return $this->viewPayload('edit', [
             'application' => $application,
             'form' => $form->createView(),
-        ]);
+        ], 'Edit application');
+    }
+
+    /**
+     * Build a neutral Viewing payload for application administration pages.
+     *
+     * @param array<string, mixed> $data
+     *
+     * @return array<string, mixed>
+     */
+    private function viewPayload(string $operation, array $data, string $title): array
+    {
+        return [
+            '_view' => [
+                'surface' => 'application',
+                'operation' => $operation,
+                'component' => 'Applicating',
+                'intent' => 'admin',
+            ],
+            'locations' => [
+                'body' => [
+                    'title' => $title,
+                    'operation' => $operation,
+                    'managed_by' => 'Viewing',
+                ],
+            ],
+            'data' => $data,
+            'meta' => [
+                'source_controller' => self::class,
+                'template_family' => 'application',
+            ],
+        ];
     }
 }

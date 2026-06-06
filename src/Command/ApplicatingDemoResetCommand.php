@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Applicating\Command;
 
-use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -19,14 +18,15 @@ final class ApplicatingDemoResetCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * @throws Exception
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $connection = $this->entityManager->getConnection();
-        foreach (['tenant_application', 'application_manifest', 'application_release', 'application_listing'] as $table) {
-            $connection->executeStatement(sprintf('DELETE FROM %s', $table));
+        foreach ([
+            'DELETE FROM App\\Applicating\\Entity\\TenantApplication tenantApplication',
+            'DELETE FROM App\\Applicating\\Entity\\ApplicationManifest applicationManifest',
+            'DELETE FROM App\\Applicating\\Entity\\ApplicationRelease applicationRelease',
+            'DELETE FROM App\\Applicating\\Entity\\Application applicationListing',
+        ] as $dql) {
+            $this->entityManager->createQuery($dql)->execute();
         }
 
         $output->writeln('<info>Application demo data reset.</info>');

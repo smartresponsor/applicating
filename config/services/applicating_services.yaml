@@ -37,5 +37,7 @@ services:
         alias: App\Applicating\Service\ApplicationHealthService
         public: true
 
-    Doctrine\Bundle\FixturesBundle\Loader\SymfonyFixturesLoader:
-        alias: doctrine.fixtures.loader
+when@dev:
+    services:
+        Doctrine\Bundle\FixturesBundle\Loader\SymfonyFixturesLoader:
+            alias: doctrine.fixtures.loader

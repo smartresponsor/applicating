@@ -4,26 +4,24 @@ doctrine:
         connections:
             user_data:
                 url: '%env(resolve:DATABASE_URL)%'
+                server_version: '15'
                 profiling_collect_backtrace: '%kernel.debug%'
-                use_savepoints: true
             app_data:
                 url: '%env(resolve:APP_DATA_DATABASE_URL)%'
                 profiling_collect_backtrace: '%kernel.debug%'
-                use_savepoints: true
+
     orm:
         default_entity_manager: user_data
-        auto_generate_proxy_classes: true
-        enable_lazy_ghost_objects: true
-        validate_xml_mapping: false
-        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         entity_managers:
             user_data:
                 connection: user_data
                 auto_mapping: false
+                validate_xml_mapping: false
+                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
                 mappings:
                     Applicating:
                         is_bundle: false
                         type: attribute
                         dir: '%kernel.project_dir%/src/Entity'
-                        prefix: 'App\Applicating\\Entity'
+                        prefix: 'App\Applicating\Entity'
                         alias: Applicating

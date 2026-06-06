@@ -16,13 +16,25 @@ final class ApplicationManifestType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('manifestVersion')
-            ->add('identifier')
-            ->add('capabilities', TextareaType::class, ['attr' => ['rows' => 4], 'help' => 'One capability per line.'])
-            ->add('permissions', TextareaType::class, ['attr' => ['rows' => 4], 'help' => 'One permission per line.'])
-            ->add('runtimeHooks', TextareaType::class, ['attr' => ['rows' => 4], 'help' => 'One hook per line.'])
-            ->add('sandboxProfile')
-            ->add('governanceState');
+            ->add('manifestVersion', null, ['label' => 'Manifest version'])
+            ->add('identifier', null, ['label' => 'Identifier'])
+            ->add('capabilities', TextareaType::class, [
+                'label' => 'Capabilities',
+                'attr' => ['rows' => 4],
+                'help' => 'One capability per line.',
+            ])
+            ->add('permissions', TextareaType::class, [
+                'label' => 'Permissions',
+                'attr' => ['rows' => 4],
+                'help' => 'One permission per line.',
+            ])
+            ->add('runtimeHooks', TextareaType::class, [
+                'label' => 'Runtime hooks',
+                'attr' => ['rows' => 4],
+                'help' => 'One hook per line.',
+            ])
+            ->add('sandboxProfile', null, ['label' => 'Sandbox profile'])
+            ->add('governanceState', null, ['label' => 'Governance state']);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -7,6 +7,7 @@ namespace App\Applicating\Form\Application;
 use App\Applicating\DTO\Application\ApplicationReleaseData;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,11 +17,14 @@ final class ApplicationReleaseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('version')
-            ->add('channel')
-            ->add('checksum')
-            ->add('downloadUrl')
-            ->add('releaseNotes', TextareaType::class, ['attr' => ['rows' => 5]]);
+            ->add('version', null, ['label' => 'Version'])
+            ->add('channel', null, ['label' => 'Channel'])
+            ->add('checksum', null, ['label' => 'Checksum'])
+            ->add('downloadUrl', UrlType::class, ['label' => 'Download URL'])
+            ->add('releaseNotes', TextareaType::class, [
+                'label' => 'Release notes',
+                'attr' => ['rows' => 5],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

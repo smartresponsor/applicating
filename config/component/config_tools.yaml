@@ -1,0 +1,28 @@
+config_tools:
+  - application_code: Applicating
+    tool_code: applicating.framework
+    label: Applicating Framework
+    description: Safe Symfony framework flags and rate-limiter settings stored in applicating_framework.yaml.
+    form_class: App\Applicating\Form\Config\ApplicatingFrameworkConfigFormType
+    service_class: App\Applicating\Service\Config\ApplicatingFrameworkConfigService
+    required_permission: administration.config.update
+    editable_fields:
+      - csrfProtectionEnabled
+      - formEnabled
+      - validationEnabled
+      - sessionCookieSecure
+      - sessionCookieSameSite
+      - loginThrottleLimit
+      - loginThrottleIntervalMinutes
+      - adminApiThrottleLimit
+      - adminApiThrottleAmount
+      - adminApiThrottleIntervalMinutes
+    sensitive_fields: []
+    readable_files:
+      - config/packages/applicating_framework.yaml
+    writable_files:
+      - config/packages/applicating_framework.yaml
+    apply_strategy: component_yaml
+    metadata:
+      section: Configuration
+      kind: framework

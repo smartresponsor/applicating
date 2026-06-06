@@ -19,21 +19,27 @@ final class ApplicationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('slug')
-            ->add('packageName')
-            ->add('developerName')
-            ->add('listingSummary', TextareaType::class, ['attr' => ['rows' => 4]])
+            ->add('name', null, ['label' => 'Application name'])
+            ->add('slug', null, ['label' => 'Slug'])
+            ->add('packageName', null, ['label' => 'Package name'])
+            ->add('developerName', null, ['label' => 'Developer name'])
+            ->add('listingSummary', TextareaType::class, [
+                'label' => 'Listing summary',
+                'attr' => ['rows' => 4],
+                'help' => 'Short marketplace summary used in listings and catalog views.',
+            ])
             ->add('accessLevel', ChoiceType::class, [
+                'label' => 'Access level',
                 'choices' => [
                     'Public' => ApplicationAccessLevel::Public->value,
                     'Private' => ApplicationAccessLevel::Private->value,
                     'Tenant Restricted' => ApplicationAccessLevel::TenantRestricted->value,
                 ],
+                'placeholder' => 'Choose access level',
             ])
-            ->add('billingCode')
-            ->add('sandboxProfile')
-            ->add('enabledByDefault', CheckboxType::class, ['required' => false]);
+            ->add('billingCode', null, ['label' => 'Billing code', 'required' => false])
+            ->add('sandboxProfile', null, ['label' => 'Sandbox profile'])
+            ->add('enabledByDefault', CheckboxType::class, ['required' => false, 'label' => 'Enabled by default']);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

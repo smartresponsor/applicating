@@ -36,7 +36,7 @@ The following repository areas are not the active runtime source of truth for Ap
 
 ## Operational entry points
 - web admin: `/admin/applications`
-- JSON API: `/api/admin/applications`, `/api/admin/v1/applications`
-- readiness API: `/api/admin/applications/{slug}/readiness`, `/api/admin/v1/applications/{slug}/readiness`
+- JSON API: `/api/admin/application`, `/api/admin/v1/application`
+- readiness API: `/api/admin/application/readiness/{slug}`, `/api/admin/v1/application/readiness/{slug}`
 - liveness: `/health`
 - readiness: `/ready`

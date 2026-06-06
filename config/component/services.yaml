@@ -12,3 +12,8 @@ services:
       - '../../src/DependencyInjection/'
       - '../../src/Entity/'
       - '../../src/Tests/'
+
+  App\Applicating\Service\Config\ApplicatingFrameworkConfigService:
+    arguments:
+      $projectDir: '%kernel.project_dir%'
+    tags: ['administering.config_tool']

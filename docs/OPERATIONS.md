@@ -13,7 +13,7 @@
 - liveness: `GET /health`
 - readiness: `GET /ready`
 - login reachability: `GET /login`
-- protected admin API: `GET /api/admin/v1/applications` should not be anonymously open
+- protected admin API: `GET /api/admin/v1/application` should not be anonymously open
 - correlation header: `X-Request-Id`
 - login throttling: enabled for the main firewall
 

@@ -10,10 +10,10 @@
 
 ## API relation
 The admin console works alongside the manager-scoped JSON API:
-- `GET /api/admin/applications`
-- `GET /api/admin/v1/applications`
-- `GET /api/admin/applications/report`
-- `GET /api/admin/v1/applications/report`
+- `GET /api/admin/application`
+- `GET /api/admin/v1/application`
+- `GET /api/admin/application/report`
+- `GET /api/admin/v1/application/report`
 
 ## Local UI workflow
 ```bash

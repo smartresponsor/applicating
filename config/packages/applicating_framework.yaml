@@ -2,9 +2,12 @@ framework:
     secret: '%env(APP_SECRET)%'
     http_method_override: false
     handle_all_throwables: true
-    form: true
-    csrf_protection: true
+    form:
+        enabled: true
+        csrf_protection:
+            enabled: true
     validation:
+        enabled: true
         email_validation_mode: html5
     session:
         handler_id: null
