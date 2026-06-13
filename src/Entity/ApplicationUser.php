@@ -11,10 +11,18 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: ApplicationUserRepository::class)]
-#[ORM\Table(name: 'application_user')]
-#[ORM\UniqueConstraint(name: 'uniq_application_user_identifier', columns: ['user_identifier'])]
-#[ORM\UniqueConstraint(name: 'uniq_application_user_email', columns: ['email'])]
-#[ORM\UniqueConstraint(name: 'uniq_application_user_external_subject', columns: ['external_subject'])]
+#[ORM\Table(
+    name: 'application_user',
+    indexes: [
+        new ORM\Index(name: 'idx_application_user_active', columns: ['active']),
+        new ORM\Index(name: 'idx_application_user_auth_source', columns: ['auth_source']),
+    ],
+    uniqueConstraints: [
+        new ORM\UniqueConstraint(name: 'uniq_application_user_identifier', columns: ['user_identifier']),
+        new ORM\UniqueConstraint(name: 'uniq_application_user_email', columns: ['email']),
+        new ORM\UniqueConstraint(name: 'uniq_application_user_external_subject', columns: ['external_subject']),
+    ],
+)]
 #[ORM\HasLifecycleCallbacks]
 #[UniqueEntity(fields: ['userIdentifier'])]
 class ApplicationUser implements UserInterface, PasswordAuthenticatedUserInterface

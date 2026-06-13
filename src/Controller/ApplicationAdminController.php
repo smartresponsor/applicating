@@ -133,7 +133,7 @@ final class ApplicationAdminController extends AbstractController
         $this->denyAccessUnlessGranted(ApplicationVoter::EDIT, $application);
 
         $data = new ApplicationUpsertData();
-        $data->name = $application->getName();
+        $data->nameEntity = $application->getName();
         $data->slug = $application->getSlug();
         $data->packageName = $application->getPackageName();
         $data->developerName = $application->getDeveloperName();

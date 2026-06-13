@@ -18,7 +18,7 @@ $finder = Finder::create()
         'public/build',
     ])
     ->notName('applicating_reference.php')
-    ->name('*.php');
+    ->nameEntity('*.php');
 
 $config = new Config();
 

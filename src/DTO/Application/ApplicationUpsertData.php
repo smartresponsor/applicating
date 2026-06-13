@@ -11,7 +11,7 @@ final class ApplicationUpsertData
 {
     #[Assert\NotBlank]
     #[Assert\Length(max: 160)]
-    public string $name = '';
+    public string $nameEntity = '';
 
     #[Assert\NotBlank]
     #[Assert\Length(max: 120)]

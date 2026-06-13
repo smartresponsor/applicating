@@ -6,13 +6,14 @@ namespace App\Applicating\Repository;
 
 use App\Applicating\Entity\Application;
 use App\Applicating\Entity\ApplicationRelease;
+use App\Applicating\RepositoryInterface\ApplicationReleaseRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<ApplicationRelease>
  */
-final class ApplicationReleaseRepository extends ServiceEntityRepository
+final class ApplicationReleaseRepository extends ServiceEntityRepository implements ApplicationReleaseRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

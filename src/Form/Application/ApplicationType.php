@@ -19,10 +19,10 @@ final class ApplicationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', null, ['label' => 'Application name'])
+            ->add('nameEntity', null, ['label' => 'Application nameEntity'])
             ->add('slug', null, ['label' => 'Slug'])
-            ->add('packageName', null, ['label' => 'Package name'])
-            ->add('developerName', null, ['label' => 'Developer name'])
+            ->add('packageName', null, ['label' => 'Package nameEntity'])
+            ->add('developerName', null, ['label' => 'Developer nameEntity'])
             ->add('listingSummary', TextareaType::class, [
                 'label' => 'Listing summary',
                 'attr' => ['rows' => 4],

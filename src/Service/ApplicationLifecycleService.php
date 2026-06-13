@@ -39,7 +39,7 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
     public function createApplication(ApplicationUpsertData $data): Application
     {
         $application = new Application(
-            $data->name,
+            $data->nameEntity,
             (new ApplicationSlug($data->slug))->toString(),
             $data->packageName,
             $data->developerName,
@@ -55,7 +55,7 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
 
     public function updateApplication(Application $application, ApplicationUpsertData $data): Application
     {
-        $application->rename($data->name);
+        $application->rename($data->nameEntity);
         $application->changeSlug((new ApplicationSlug($data->slug))->toString());
         $application->changePackageName($data->packageName);
         $application->changeDeveloperName($data->developerName);

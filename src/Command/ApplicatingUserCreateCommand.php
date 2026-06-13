@@ -31,7 +31,7 @@ final class ApplicatingUserCreateCommand extends Command
         $this
             ->addArgument('identifier', InputArgument::REQUIRED, 'Login identifier for the user')
             ->addArgument('password', InputArgument::REQUIRED, 'Plaintext password to hash and store')
-            ->addOption('display-name', null, InputOption::VALUE_REQUIRED, 'Display name for the user')
+            ->addOption('display-nameEntity', null, InputOption::VALUE_REQUIRED, 'Display nameEntity for the user')
             ->addOption('email', null, InputOption::VALUE_REQUIRED, 'Email for the user')
             ->addOption('role', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Role(s) to assign', ['ROLE_APPLICATION_VIEWER']);
     }
@@ -40,7 +40,7 @@ final class ApplicatingUserCreateCommand extends Command
     {
         $identifierArgument = $input->getArgument('identifier');
         $passwordArgument = $input->getArgument('password');
-        $displayNameOption = $input->getOption('display-name');
+        $displayNameOption = $input->getOption('display-nameEntity');
         $emailOption = $input->getOption('email');
         $rolesOption = $input->getOption('role');
 

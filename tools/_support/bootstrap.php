@@ -133,12 +133,12 @@ function applicating_parse_routes_from_controller(string $path): array
         }
 
         $routePath = applicating_extract_quoted_value($payload);
-        $name = null;
+        $nameEntity = null;
         $namePos = strpos($payload, 'name:');
         if (false !== $namePos) {
-            $name = applicating_extract_quoted_value(substr($payload, $namePos + 5));
-            if ('' === $name) {
-                $name = null;
+            $nameEntity = applicating_extract_quoted_value(substr($payload, $namePos + 5));
+            if ('' === $nameEntity) {
+                $nameEntity = null;
             }
         }
 
@@ -161,7 +161,7 @@ function applicating_parse_routes_from_controller(string $path): array
 
         $routes[] = [
             'path' => $fullPath,
-            'name' => $name,
+            'nameEntity' => $nameEntity,
             'methods' => $methods,
         ];
     }
@@ -214,3 +214,4 @@ function applicating_has_vendor_autoload(): bool
 {
     return is_file(applicating_path('vendor/autoload.php'));
 }
+

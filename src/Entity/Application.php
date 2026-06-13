@@ -12,7 +12,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ApplicationRepository::class)]
-#[ORM\Table(name: 'application_listing')]
+#[ORM\Table(
+    name: 'application_listing',
+    uniqueConstraints: [
+        new ORM\UniqueConstraint(name: 'uniq_application_listing_slug', columns: ['slug']),
+        new ORM\UniqueConstraint(name: 'uniq_application_listing_package_name', columns: ['package_name']),
+    ],
+)]
 #[ORM\HasLifecycleCallbacks]
 class Application
 {
@@ -22,12 +28,12 @@ class Application
     private ?int $id = null;
 
     #[ORM\Column(length: 160)]
-    private string $name;
+    private string $nameEntity;
 
-    #[ORM\Column(length: 120, unique: true)]
+    #[ORM\Column(length: 120)]
     private string $slug;
 
-    #[ORM\Column(length: 160, unique: true)]
+    #[ORM\Column(length: 160)]
     private string $packageName;
 
     #[ORM\Column(length: 160)]
@@ -72,9 +78,9 @@ class Application
     #[ORM\OrderBy(['assignedAt' => 'DESC'])]
     private Collection $tenantApplications;
 
-    public function __construct(string $name, string $slug, string $packageName, string $developerName, string $listingSummary)
+    public function __construct(string $nameEntity, string $slug, string $packageName, string $developerName, string $listingSummary)
     {
-        $this->name = $name;
+        $this->nameEntity = $nameEntity;
         $this->slug = $slug;
         $this->packageName = $packageName;
         $this->developerName = $developerName;
@@ -93,12 +99,12 @@ class Application
 
     public function getName(): string
     {
-        return $this->name;
+        return $this->nameEntity;
     }
 
-    public function rename(string $name): void
+    public function rename(string $nameEntity): void
     {
-        $this->name = $name;
+        $this->nameEntity = $nameEntity;
     }
 
     public function getSlug(): string

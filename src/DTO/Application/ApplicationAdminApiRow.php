@@ -10,7 +10,7 @@ final readonly class ApplicationAdminApiRow
 {
     public function __construct(
         public int $id,
-        public string $name,
+        public string $nameEntity,
         public string $slug,
         public string $packageName,
         public string $developerName,
@@ -41,7 +41,7 @@ final readonly class ApplicationAdminApiRow
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'nameEntity' => $this->nameEntity,
             'slug' => $this->slug,
             'packageName' => $this->packageName,
             'developerName' => $this->developerName,

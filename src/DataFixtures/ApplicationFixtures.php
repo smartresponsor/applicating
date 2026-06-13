@@ -45,7 +45,7 @@ final class ApplicationFixtures extends Fixture
 
         for ($index = 1; $index <= 6; ++$index) {
             $applicationData = new ApplicationUpsertData();
-            $applicationData->name = sprintf('Demo Application %02d Suite', $index);
+            $applicationData->nameEntity = sprintf('Demo Application %02d Suite', $index);
             $applicationData->slug = sprintf('application-%d', $index);
             $applicationData->packageName = sprintf('applicating/demo-application-%d', $index);
             $applicationData->developerName = $developers[$index - 1];

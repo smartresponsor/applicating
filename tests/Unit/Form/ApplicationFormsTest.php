@@ -19,7 +19,7 @@ final class ApplicationFormsTest extends TestCase
     {
         $factory = Forms::createFormFactory();
 
-        self::assertSame(['name', 'slug', 'packageName', 'developerName', 'listingSummary', 'accessLevel', 'billingCode', 'sandboxProfile', 'enabledByDefault'], array_keys($factory->create(ApplicationType::class)->all()));
+        self::assertSame(['nameEntity', 'slug', 'packageName', 'developerName', 'listingSummary', 'accessLevel', 'billingCode', 'sandboxProfile', 'enabledByDefault'], array_keys($factory->create(ApplicationType::class)->all()));
         self::assertSame(['version', 'channel', 'checksum', 'downloadUrl', 'releaseNotes'], array_keys($factory->create(ApplicationReleaseType::class)->all()));
         self::assertSame(['manifestVersion', 'identifier', 'capabilities', 'permissions', 'runtimeHooks', 'sandboxProfile', 'governanceState'], array_keys($factory->create(ApplicationManifestType::class)->all()));
         self::assertSame(['tenantKey', 'installedVersion', 'enabled', 'billingActive', 'accessPolicy'], array_keys($factory->create(TenantApplicationAssignmentType::class)->all()));

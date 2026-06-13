@@ -6,13 +6,14 @@ namespace App\Applicating\Repository;
 
 use App\Applicating\Entity\Application;
 use App\Applicating\Entity\TenantApplication;
+use App\Applicating\RepositoryInterface\TenantApplicationRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<TenantApplication>
  */
-final class TenantApplicationRepository extends ServiceEntityRepository
+final class TenantApplicationRepository extends ServiceEntityRepository implements TenantApplicationRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

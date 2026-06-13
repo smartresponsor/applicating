@@ -10,7 +10,7 @@ final readonly class ApplicationAdminIndexRow
 {
     public function __construct(
         public int $id,
-        public string $name,
+        public string $nameEntity,
         public string $packageName,
         public string $slug,
         public string $publicationState,
