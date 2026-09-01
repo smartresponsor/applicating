@@ -13,6 +13,21 @@ services:
       - '../../src/Entity/'
       - '../../src/Tests/'
 
+  App\Applicating\RepositoryInterface\ApplicationRuntimeAssignmentRepositoryInterface:
+    alias: App\Applicating\Repository\ApplicationRuntimeAssignmentRepository
+    public: true
+
+  App\Applicating\ServiceInterface\ApplicationRuntimeAssignmentResolverInterface:
+    alias: App\Applicating\Service\ApplicationRuntimeAssignmentResolver
+    public: true
+
+  App\Applicating\ServiceInterface\ApplicationRuntimeAssignmentServiceInterface:
+    alias: App\Applicating\Service\ApplicationRuntimeAssignmentService
+    public: true
+
+  App\Applicating\Command\ApplicatingRuntimeSetCommand:
+    tags: ['console.command']
+
   App\Applicating\Service\Config\ApplicatingFrameworkConfigService:
     arguments:
       $projectDir: '%kernel.project_dir%'
