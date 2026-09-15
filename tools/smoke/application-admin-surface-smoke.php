@@ -7,7 +7,7 @@ require __DIR__ . '/../_support/bootstrap.php';
 $checks = [
     'controller' => is_file(applicating_path('src/Controller/ApplicationAdminController.php')),
     'template_base' => is_file(applicating_path('templates/base.html.twig')),
-    'security_config' => is_file(applicating_path('config/packages/applicating_security.yaml')),
+    'security_config' => is_file(applicating_path('config/packages/application_security.yaml')),
     'admin_docs' => is_file(applicating_path('docs/ADMIN_AUTH_ROLES.md')),
     'tenant_entity' => is_file(applicating_path('src/Entity/TenantApplication.php')),
 ];

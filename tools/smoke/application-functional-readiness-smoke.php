@@ -11,7 +11,7 @@ $checks = [
     'readiness_controller' => is_file(applicating_path('src/Controller/ApplicationReadinessApiController.php')),
     'login_controller' => is_file(applicating_path('src/Controller/SecurityController.php')),
     'admin_controller' => is_file(applicating_path('src/Controller/ApplicationAdminController.php')),
-    'security_config' => is_file(applicating_path('config/packages/applicating_security.yaml')),
+    'security_config' => is_file(applicating_path('config/packages/application_security.yaml')),
     'operations_docs' => is_file(applicating_path('docs/OPERATIONS.md')),
 ];
 

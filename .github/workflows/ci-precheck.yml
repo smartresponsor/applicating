@@ -19,6 +19,6 @@ jobs:
       - name: Verify runtime entry points exist
         run: |
           test -f public/index.php
-          test -f config/routes/applicating_routes.yaml
+          test -f config/routes/application_routes.yaml
           test -f package.json
           test -f src/Controller/ApplicationHealthController.php

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require __DIR__ . '/../_support/bootstrap.php';
 
-$servicesPath = applicating_path('config/services/applicating_services.yaml');
+$servicesPath = applicating_path('config/services/application_services.yaml');
 $aliases = [];
 if (is_file($servicesPath)) {
     $lines = applicating_read_lines($servicesPath);

@@ -15,6 +15,23 @@ foreach (['.', 'src'] as $rootDir) {
     }
 }
 
+$forbiddenPaths = [
+    'src/DTO/Application',
+    'src/Form/Application',
+    'src/Value',
+];
+foreach ($forbiddenPaths as $forbiddenPath) {
+    if (is_dir($forbiddenPath)) {
+        $issues[] = $forbiddenPath;
+    }
+}
+
+foreach (glob('src/DTO/*.php') ?: [] as $dtoFile) {
+    if (!str_ends_with(basename($dtoFile), 'DTO.php')) {
+        $issues[] = $dtoFile;
+    }
+}
+
 $report = [
     'tool' => 'applicating_canonical_roots_check',
     'issues' => $issues,

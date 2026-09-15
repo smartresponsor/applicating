@@ -25,15 +25,15 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verify production security profile avoids plaintext hashers
         run: |
-          ! grep -n "plaintext" config/packages/applicating_security.yaml
+          ! grep -n "plaintext" config/packages/application_security.yaml
       - name: Verify login throttling is enabled
         run: |
-          grep -n "login_throttling" config/packages/applicating_security.yaml
+          grep -n "login_throttling" config/packages/application_security.yaml
       - name: Verify persistent provider and user checker are enabled
         run: |
-          grep -n "applicating_persistent_users" config/packages/applicating_security.yaml
-          grep -n "App\\Security\\ApplicationUserChecker" config/packages/applicating_security.yaml
+          grep -n "applicating_persistent_users" config/packages/application_security.yaml
+          grep -n "App\\Security\\ApplicationUserChecker" config/packages/application_security.yaml
       - name: Verify admin API stays manager-scoped
         run: |
-          grep -n "^        - { path: \^/api/admin/v1, roles: ROLE_APPLICATION_MANAGER }" config/packages/applicating_security.yaml
-          grep -n "^        - { path: \^/api/admin, roles: ROLE_APPLICATION_MANAGER }" config/packages/applicating_security.yaml
+          grep -n "^        - { path: \^/api/admin/v1, roles: ROLE_APPLICATION_MANAGER }" config/packages/application_security.yaml
+          grep -n "^        - { path: \^/api/admin, roles: ROLE_APPLICATION_MANAGER }" config/packages/application_security.yaml
