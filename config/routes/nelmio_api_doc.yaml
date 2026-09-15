@@ -1,3 +1,6 @@
-nelmio_api_doc:
-    resource: '@NelmioApiDocBundle/config/routing/swaggerui.xml'
-    prefix: /api/applicating/doc
+applicating_api_doc:
+    path: /api/applicating/doc
+    methods: GET
+    defaults:
+        _controller: nelmio_api_doc.controller.swagger_ui
+        area: default

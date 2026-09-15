@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Applicating\Form\Application;
+namespace App\Applicating\Form;
 
-use App\Applicating\DTO\Application\ApplicationManifestData;
+use App\Applicating\DTO\ApplicationManifestDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/** @extends AbstractType<ApplicationManifestDTO> */
 final class ApplicationManifestType extends AbstractType
 {
     /** @param array<string, mixed> $options */
@@ -39,6 +40,6 @@ final class ApplicationManifestType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => ApplicationManifestData::class]);
+        $resolver->setDefaults(['data_class' => ApplicationManifestDTO::class]);
     }
 }

@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Applicating\Form\Application;
+namespace App\Applicating\Form;
 
-use App\Applicating\DTO\Application\TenantApplicationAssignmentData;
+use App\Applicating\DTO\TenantApplicationAssignmentDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/** @extends AbstractType<TenantApplicationAssignmentDTO> */
 final class TenantApplicationAssignmentType extends AbstractType
 {
     /** @param array<string, mixed> $options */
@@ -30,6 +31,6 @@ final class TenantApplicationAssignmentType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => TenantApplicationAssignmentData::class]);
+        $resolver->setDefaults(['data_class' => TenantApplicationAssignmentDTO::class]);
     }
 }

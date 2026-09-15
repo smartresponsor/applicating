@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Applicating\Command;
 
-use App\Applicating\DTO\Application\ApplicationManifestData;
+use App\Applicating\DTO\ApplicationManifestDTO;
 use App\Applicating\ServiceInterface\ApplicationManifestServiceInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -39,7 +39,7 @@ final class ApplicatingManifestValidateCommand extends Command
             return Command::INVALID;
         }
 
-        $data = new ApplicationManifestData();
+        $data = new ApplicationManifestDTO();
         $data->identifier = $identifier;
         $data->capabilities = implode("\n", explode(',', $capabilities));
         $payload = $this->applicationManifestService->normalizeManifestPayload($data);

@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Applicating\Form\Application;
+namespace App\Applicating\Form;
 
-use App\Applicating\DTO\Application\ApplicationReleaseData;
+use App\Applicating\DTO\ApplicationReleaseDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/** @extends AbstractType<ApplicationReleaseDTO> */
 final class ApplicationReleaseType extends AbstractType
 {
     /** @param array<string, mixed> $options */
@@ -29,6 +30,6 @@ final class ApplicationReleaseType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => ApplicationReleaseData::class]);
+        $resolver->setDefaults(['data_class' => ApplicationReleaseDTO::class]);
     }
 }

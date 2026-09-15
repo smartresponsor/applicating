@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Applicating\DTO\Application;
+namespace App\Applicating\DTO;
 
-final readonly class ApplicationReadinessSignals
+final readonly class ApplicationReadinessSignalsDTO
 {
     /** @param array<int, array{releaseId:int,eligible:bool,reason:string}> $eligibility */
     public function __construct(

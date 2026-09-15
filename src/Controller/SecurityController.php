@@ -6,15 +6,16 @@ namespace App\Applicating\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 final class SecurityController extends AbstractController
 {
+    /** @return array<string, mixed> */
     #[Route('/login', name: 'applicating_security_login')]
-    public function login(Request $request, AuthenticationUtils $authenticationUtils): Response|array
+    public function login(Request $request, AuthenticationUtils $authenticationUtils): array
     {
+        $route = $request->attributes->get('_route');
         $payload = [
             'last_username' => $authenticationUtils->getLastUsername(),
             'error' => $authenticationUtils->getLastAuthenticationError(),
@@ -33,7 +34,7 @@ final class SecurityController extends AbstractController
             'data' => $payload,
             'meta' => [
                 'source' => 'applicating_security_login',
-                'route' => (string) ($request->attributes->get('_route') ?? ''),
+                'route' => is_string($route) ? $route : '',
             ],
         ];
     }

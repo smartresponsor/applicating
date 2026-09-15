@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Applicating\DTO\Application;
+namespace App\Applicating\DTO;
 
 use App\Applicating\Entity\ApplicationManifest;
 
-final readonly class ApplicationAdminManifestView
+final readonly class ApplicationAdminManifestViewDTO
 {
     /**
      * @param list<string> $capabilities

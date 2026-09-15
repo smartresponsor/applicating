@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Applicating\DTO\Application;
+namespace App\Applicating\DTO;
 
 use App\Applicating\Entity\Application;
 
-final readonly class ApplicationAdminApiRow
+final readonly class ApplicationAdminApiRowDTO
 {
     public function __construct(
         public int $id,
@@ -25,7 +25,7 @@ final readonly class ApplicationAdminApiRow
     {
         return new self(
             id: $application->getId() ?? 0,
-            name: $application->getName(),
+            nameEntity: $application->getName(),
             slug: $application->getSlug(),
             packageName: $application->getPackageName(),
             developerName: $application->getDeveloperName(),
@@ -36,7 +36,7 @@ final readonly class ApplicationAdminApiRow
         );
     }
 
-    /** @return array{id:int,name:string,slug:string,packageName:string,developerName:string,publicationState:string,accessLevel:string,releaseCount:int,tenantAssignmentCount:int} */
+    /** @return array{id:int,nameEntity:string,slug:string,packageName:string,developerName:string,publicationState:string,accessLevel:string,releaseCount:int,tenantAssignmentCount:int} */
     public function toArray(): array
     {
         return [

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Applicating\DTO\Application;
+namespace App\Applicating\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class ApplicationManifestData
+final class ApplicationManifestDTO
 {
     #[Assert\NotBlank]
     #[Assert\Length(max: 24)]

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Applicating\DTO\Application;
+namespace App\Applicating\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class TenantApplicationAssignmentData
+final class TenantApplicationAssignmentDTO
 {
     #[Assert\NotBlank]
     #[Assert\Length(max: 120)]

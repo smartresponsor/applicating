@@ -39,9 +39,6 @@ class Application implements ObjectEntityInterface
     #[ORM\Column(length: 160)]
     private string $nameEntity;
 
-    #[ORM\Column(length: 120)]
-    private string $slug;
-
     #[ORM\Column(length: 160)]
     private string $packageName;
 
@@ -84,7 +81,6 @@ class Application implements ObjectEntityInterface
     public function __construct(string $nameEntity, string $slug, string $packageName, string $developerName, string $listingSummary)
     {
         $this->nameEntity = $nameEntity;
-        $this->slug = $slug;
         $this->packageName = $packageName;
         $this->developerName = $developerName;
         $this->listingSummary = $listingSummary;
@@ -118,12 +114,11 @@ class Application implements ObjectEntityInterface
 
     public function getSlug(): string
     {
-        return $this->slug;
+        return $this->getObjectSlug();
     }
 
     public function changeSlug(string $slug): void
     {
-        $this->slug = $slug;
         $this->setObjectSlug($slug);
         $this->touchModified();
     }

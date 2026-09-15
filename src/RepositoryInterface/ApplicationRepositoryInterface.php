@@ -8,6 +8,8 @@ use App\Applicating\Entity\Application;
 
 interface ApplicationRepositoryInterface
 {
+    public function findOneBySlug(string $slug): ?Application;
+
     /** @return list<Application> */
     public function findOrderedForAdmin(): array;
 

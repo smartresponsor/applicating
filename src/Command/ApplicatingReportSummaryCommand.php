@@ -18,20 +18,11 @@ final class ApplicatingReportSummaryCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * @throws \JsonException
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $summary = $this->applicationReportService->buildSummary()->toArray();
         foreach ($summary as $key => $value) {
-            $normalizedValue = (string) $value;
-
-            if (!is_scalar($value)) {
-                $normalizedValue = json_encode($value, JSON_THROW_ON_ERROR);
-            }
-
-            $output->writeln(sprintf('%s=%s', $key, $normalizedValue));
+            $output->writeln(sprintf('%s=%d', $key, $value));
         }
 
         return Command::SUCCESS;

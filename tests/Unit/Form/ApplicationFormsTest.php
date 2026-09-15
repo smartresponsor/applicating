@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Applicating\Tests\Unit\Form;
 
-use App\Applicating\Form\Application\ApplicationManifestType;
-use App\Applicating\Form\Application\ApplicationReleaseType;
-use App\Applicating\Form\Application\ApplicationType;
-use App\Applicating\Form\Application\TenantApplicationAssignmentType;
+use App\Applicating\Form\ApplicationManifestType;
+use App\Applicating\Form\ApplicationReleaseType;
+use App\Applicating\Form\ApplicationType;
+use App\Applicating\Form\TenantApplicationAssignmentType;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Forms;

@@ -38,39 +38,15 @@ final class ApplicatingUserCreateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $identifierArgument = $input->getArgument('identifier');
-        $passwordArgument = $input->getArgument('password');
-        $displayNameOption = $input->getOption('display-nameEntity');
-        $emailOption = $input->getOption('email');
-        $rolesOption = $input->getOption('role');
-
-        if (!is_string($identifierArgument) || '' === trim($identifierArgument)) {
-            $output->writeln('<error>The identifier argument must be a non-empty string.</error>');
-
+        $arguments = $this->validatedArguments($input, $output);
+        if (null === $arguments) {
             return Command::INVALID;
         }
 
-        if (!is_string($passwordArgument) || '' === $passwordArgument) {
-            $output->writeln('<error>The password argument must be a non-empty string.</error>');
-
-            return Command::INVALID;
-        }
-
-        /** @var non-empty-string $identifier */
-        $identifier = $identifierArgument;
-        $password = $passwordArgument;
-        $displayName = is_string($displayNameOption) && '' !== trim($displayNameOption) ? $displayNameOption : ucfirst($identifier);
-        $email = is_string($emailOption) && '' !== trim($emailOption) ? $emailOption : null;
-
-        if (!is_array($rolesOption) || [] === $rolesOption) {
-            $rolesOption = ['ROLE_APPLICATION_VIEWER'];
-        }
-
-        /** @var list<string> $normalizedRoles */
-        $normalizedRoles = array_values(array_filter(
-            array_map(static fn (mixed $value): string => is_string($value) ? $value : '', $rolesOption),
-            static fn (string $role): bool => '' !== trim($role)
-        ));
+        [$identifier, $password] = $arguments;
+        $displayName = $this->optionalString($input->getOption('display-nameEntity')) ?? ucfirst($identifier);
+        $email = $this->optionalString($input->getOption('email'));
+        $normalizedRoles = $this->normalizedRoles($input->getOption('role'));
 
         $user = $this->applicationUserRepository->findOneByIdentifier($identifier);
         $created = null === $user;
@@ -97,5 +73,41 @@ final class ApplicatingUserCreateCommand extends Command
         ));
 
         return Command::SUCCESS;
+    }
+
+    /** @return array{non-empty-string, non-empty-string}|null */
+    private function validatedArguments(InputInterface $input, OutputInterface $output): ?array
+    {
+        $identifier = $input->getArgument('identifier');
+        if (!is_string($identifier) || '' === trim($identifier)) {
+            $output->writeln('<error>The identifier argument must be a non-empty string.</error>');
+
+            return null;
+        }
+
+        $password = $input->getArgument('password');
+        if (!is_string($password) || '' === $password) {
+            $output->writeln('<error>The password argument must be a non-empty string.</error>');
+
+            return null;
+        }
+
+        return [$identifier, $password];
+    }
+
+    private function optionalString(mixed $value): ?string
+    {
+        return is_string($value) && '' !== trim($value) ? $value : null;
+    }
+
+    /** @return list<string> */
+    private function normalizedRoles(mixed $value): array
+    {
+        $roles = is_array($value) && [] !== $value ? $value : ['ROLE_APPLICATION_VIEWER'];
+
+        return array_values(array_filter(
+            array_map(static fn (mixed $role): string => is_string($role) ? $role : '', $roles),
+            static fn (string $role): bool => '' !== trim($role),
+        ));
     }
 }

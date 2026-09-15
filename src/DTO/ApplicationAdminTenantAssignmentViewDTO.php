@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Applicating\DTO\Application;
+namespace App\Applicating\DTO;
 
 use App\Applicating\Entity\TenantApplication;
 
-final readonly class ApplicationAdminTenantAssignmentView
+final readonly class ApplicationAdminTenantAssignmentViewDTO
 {
     /** @param array<string, mixed> $diagnostics */
     public function __construct(

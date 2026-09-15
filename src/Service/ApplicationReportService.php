@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Applicating\Service;
 
-use App\Applicating\DTO\Application\ApplicationSummary;
+use App\Applicating\DTO\ApplicationSummaryDTO;
 use App\Applicating\Repository\ApplicationRepository;
 use App\Applicating\Repository\TenantApplicationRepository;
 use App\Applicating\ServiceInterface\ApplicationReportServiceInterface;
@@ -17,9 +17,9 @@ final readonly class ApplicationReportService implements ApplicationReportServic
     ) {
     }
 
-    public function buildSummary(): ApplicationSummary
+    public function buildSummary(): ApplicationSummaryDTO
     {
-        return new ApplicationSummary(
+        return new ApplicationSummaryDTO(
             applicationsTotal: $this->applicationRepository->countAllApplications(),
             applicationsPublished: $this->applicationRepository->countPublished(),
             tenantAssignmentsTotal: $this->tenantApplicationRepository->countAllAssignments(),

@@ -1,10 +1,12 @@
+includes:
+  - vendor/phpstan/phpstan-doctrine/extension.neon
+  - vendor/phpstan/phpstan-symfony/extension.neon
+
 parameters:
   level: max
   paths:
     - src
     - tests
-  checkGenericClassInNonGenericObjectType: true
-  checkMissingIterableValueType: true
   inferPrivatePropertyTypeFromConstructor: true
   scanFiles:
     - tools/phpstan/stubs/apiplatform.stub.php

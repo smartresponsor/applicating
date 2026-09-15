@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Applicating\DTO\Application;
+namespace App\Applicating\DTO;
 
 use App\Applicating\Entity\ApplicationRelease;
 
-final readonly class ApplicationAdminReleaseView
+final readonly class ApplicationAdminReleaseViewDTO
 {
     public function __construct(
         public int $id,

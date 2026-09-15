@@ -6,16 +6,16 @@ declare(strict_types=1);
 
 namespace App\Applicating\Controller;
 
-use App\Applicating\DTO\Application\ApplicationManifestData;
-use App\Applicating\DTO\Application\ApplicationPublishEligibility;
-use App\Applicating\DTO\Application\ApplicationReleaseData;
-use App\Applicating\DTO\Application\ApplicationUpsertData;
-use App\Applicating\DTO\Application\TenantApplicationAssignmentData;
+use App\Applicating\DTO\ApplicationManifestDTO;
+use App\Applicating\DTO\ApplicationPublishEligibilityDTO;
+use App\Applicating\DTO\ApplicationReleaseDTO;
+use App\Applicating\DTO\ApplicationUpsertDTO;
+use App\Applicating\DTO\TenantApplicationAssignmentDTO;
 use App\Applicating\Entity\Application;
-use App\Applicating\Form\Application\ApplicationManifestType;
-use App\Applicating\Form\Application\ApplicationReleaseType;
-use App\Applicating\Form\Application\ApplicationType;
-use App\Applicating\Form\Application\TenantApplicationAssignmentType;
+use App\Applicating\Form\ApplicationManifestType;
+use App\Applicating\Form\ApplicationReleaseType;
+use App\Applicating\Form\ApplicationType;
+use App\Applicating\Form\TenantApplicationAssignmentType;
 use App\Applicating\Repository\ApplicationRepository;
 use App\Applicating\Security\Voter\ApplicationVoter;
 use App\Applicating\ServiceInterface\ApplicationAdminViewBuilderInterface;
@@ -30,12 +30,13 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/admin/applications')]
 final class ApplicationAdminController extends AbstractController
 {
+    /** @return array<string, mixed> */
     #[Route('', name: 'applicating_application_index', methods: ['GET'])]
     public function index(
         ApplicationRepository $applicationRepository,
         ApplicationReportServiceInterface $applicationReportService,
         ApplicationAdminViewBuilderInterface $applicationAdminViewBuilder,
-    ): Response|array {
+    ): array {
         $this->denyAccessUnlessGranted('ROLE_APPLICATION_VIEWER');
 
         return $this->viewPayload('index', [
@@ -44,12 +45,13 @@ final class ApplicationAdminController extends AbstractController
         ], 'Application administration index');
     }
 
+    /** @return Response|array<string, mixed> */
     #[Route('/new', name: 'applicating_application_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ApplicationLifecycleServiceInterface $applicationLifecycleService): Response|array
     {
         $this->denyAccessUnlessGranted('ROLE_APPLICATION_MANAGER');
 
-        $data = new ApplicationUpsertData();
+        $data = new ApplicationUpsertDTO();
         $form = $this->createForm(ApplicationType::class, $data);
         $form->handleRequest($request);
 
@@ -65,8 +67,9 @@ final class ApplicationAdminController extends AbstractController
         ], 'Create application');
     }
 
+    /** @return array<string, mixed> */
     #[Route('/report', name: 'applicating_application_report', methods: ['GET'])]
-    public function report(ApplicationReportServiceInterface $applicationReportService): Response|array
+    public function report(ApplicationReportServiceInterface $applicationReportService): array
     {
         $this->denyAccessUnlessGranted('ROLE_APPLICATION_VIEWER');
 
@@ -75,21 +78,22 @@ final class ApplicationAdminController extends AbstractController
         ], 'Application report');
     }
 
+    /** @return array<string, mixed> */
     #[Route('/{id}', name: 'applicating_application_show', methods: ['GET', 'POST'])]
     public function show(
         Application $application,
         ApplicationPublishEligibilityServiceInterface $applicationPublishEligibilityService,
         ApplicationAdminViewBuilderInterface $applicationAdminViewBuilder,
-    ): Response|array {
+    ): array {
         $this->denyAccessUnlessGranted('ROLE_APPLICATION_VIEWER');
 
-        $releaseForm = $this->createForm(ApplicationReleaseType::class, new ApplicationReleaseData(), [
+        $releaseForm = $this->createForm(ApplicationReleaseType::class, new ApplicationReleaseDTO(), [
             'action' => $this->generateUrl('applicating_application_release', ['id' => $application->getId()]),
         ]);
-        $manifestForm = $this->createForm(ApplicationManifestType::class, new ApplicationManifestData(), [
+        $manifestForm = $this->createForm(ApplicationManifestType::class, new ApplicationManifestDTO(), [
             'action' => $this->generateUrl('applicating_application_manifest', ['id' => $application->getId()]),
         ]);
-        $assignmentForm = $this->createForm(TenantApplicationAssignmentType::class, new TenantApplicationAssignmentData(), [
+        $assignmentForm = $this->createForm(TenantApplicationAssignmentType::class, new TenantApplicationAssignmentDTO(), [
             'action' => $this->generateUrl('applicating_application_assign', ['id' => $application->getId()]),
         ]);
 
@@ -110,7 +114,7 @@ final class ApplicationAdminController extends AbstractController
             'assignmentForm' => $assignmentForm->createView(),
             'publishEligibility' => array_reduce(
                 $applicationPublishEligibilityService->buildEligibilityMap($application),
-                static function (array $carry, ApplicationPublishEligibility $eligibility): array {
+                static function (array $carry, ApplicationPublishEligibilityDTO $eligibility): array {
                     $carry[$eligibility->releaseId] = $eligibility->toLegacyMapItem();
 
                     return $carry;
@@ -124,6 +128,7 @@ final class ApplicationAdminController extends AbstractController
         ], 'Application detail');
     }
 
+    /** @return Response|array<string, mixed> */
     #[Route('/{id}/edit', name: 'applicating_application_edit', methods: ['GET', 'POST'])]
     public function edit(
         Application $application,
@@ -132,7 +137,7 @@ final class ApplicationAdminController extends AbstractController
     ): Response|array {
         $this->denyAccessUnlessGranted(ApplicationVoter::EDIT, $application);
 
-        $data = new ApplicationUpsertData();
+        $data = new ApplicationUpsertDTO();
         $data->nameEntity = $application->getName();
         $data->slug = $application->getSlug();
         $data->packageName = $application->getPackageName();

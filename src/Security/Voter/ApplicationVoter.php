@@ -50,7 +50,6 @@ final class ApplicationVoter extends Voter
         }
 
         return self::TOGGLE === $attribute
-            && $subject instanceof TenantApplication
             && $this->security->isGranted('ROLE_APPLICATION_MANAGER');
     }
 }

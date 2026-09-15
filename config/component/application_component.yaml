@@ -13,8 +13,8 @@ component:
     doctrine: config/component/doctrine.yaml
     messenger: config/component/messenger.yaml
     security: config/component/security.yaml
-    env: config/component/env.yaml
-    smoke: config/component/smoke.yaml
+    env: config/component/application_env.yaml
+    smoke: config/component/application_smoke.yaml
   host_policy:
     business_logic_owner: component
     composition_owner: host_application

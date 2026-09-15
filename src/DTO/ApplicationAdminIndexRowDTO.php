@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Applicating\DTO\Application;
+namespace App\Applicating\DTO;
 
 use App\Applicating\Entity\Application;
 
-final readonly class ApplicationAdminIndexRow
+final readonly class ApplicationAdminIndexRowDTO
 {
     public function __construct(
         public int $id,
@@ -24,7 +24,7 @@ final readonly class ApplicationAdminIndexRow
     {
         return new self(
             id: $application->getId() ?? 0,
-            name: $application->getName(),
+            nameEntity: $application->getName(),
             packageName: $application->getPackageName(),
             slug: $application->getSlug(),
             publicationState: $application->getPublicationState()->value,

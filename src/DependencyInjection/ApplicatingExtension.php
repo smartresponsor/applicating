@@ -36,7 +36,7 @@ final class ApplicatingExtension extends Extension implements PrependExtensionIn
 
     public function prepend(ContainerBuilder $container): void
     {
-        $frameworkConfigFile = __DIR__.'/../../config/packages/applicating_framework.yaml';
+        $frameworkConfigFile = __DIR__.'/../../config/packages/application_framework.yaml';
         if (!is_file($frameworkConfigFile)) {
             return;
         }
@@ -46,11 +46,23 @@ final class ApplicatingExtension extends Extension implements PrependExtensionIn
             return;
         }
 
+        /** @var array<string, mixed> $framework */
         $framework = $config['framework'];
-        $framework['csrf_protection']['enabled'] ??= true;
-        $framework['form']['enabled'] ??= true;
-        $framework['form']['csrf_protection']['enabled'] ??= true;
-        $framework['validation']['enabled'] ??= true;
+
+        $csrfProtection = is_array($framework['csrf_protection'] ?? null) ? $framework['csrf_protection'] : [];
+        $csrfProtection['enabled'] ??= true;
+        $framework['csrf_protection'] = $csrfProtection;
+
+        $form = is_array($framework['form'] ?? null) ? $framework['form'] : [];
+        $form['enabled'] ??= true;
+        $formCsrfProtection = is_array($form['csrf_protection'] ?? null) ? $form['csrf_protection'] : [];
+        $formCsrfProtection['enabled'] ??= true;
+        $form['csrf_protection'] = $formCsrfProtection;
+        $framework['form'] = $form;
+
+        $validation = is_array($framework['validation'] ?? null) ? $framework['validation'] : [];
+        $validation['enabled'] ??= true;
+        $framework['validation'] = $validation;
 
         $container->prependExtensionConfig('framework', $framework);
     }

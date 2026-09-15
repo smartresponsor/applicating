@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Applicating\DTO\Application;
+namespace App\Applicating\DTO;
 
 use App\Applicating\Enum\ApplicationAccessLevel;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class ApplicationUpsertData
+final class ApplicationUpsertDTO
 {
     #[Assert\NotBlank]
     #[Assert\Length(max: 160)]

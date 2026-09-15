@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Applicating\Service;
 
-use App\Applicating\DTO\Application\ApplicationManifestData;
+use App\Applicating\DTO\ApplicationManifestDTO;
 use App\Applicating\ServiceInterface\ApplicationManifestServiceInterface;
 
 final class ApplicationManifestService implements ApplicationManifestServiceInterface
@@ -46,7 +46,7 @@ final class ApplicationManifestService implements ApplicationManifestServiceInte
      *     governanceState: string
      * }
      */
-    public function normalizeManifestPayload(ApplicationManifestData $data): array
+    public function normalizeManifestPayload(ApplicationManifestDTO $data): array
     {
         return [
             'manifestVersion' => $data->manifestVersion,

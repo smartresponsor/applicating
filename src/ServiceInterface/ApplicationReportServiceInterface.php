@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Applicating\ServiceInterface;
 
-use App\Applicating\DTO\Application\ApplicationSummary;
+use App\Applicating\DTO\ApplicationSummaryDTO;
 
 interface ApplicationReportServiceInterface
 {
-    public function buildSummary(): ApplicationSummary;
+    public function buildSummary(): ApplicationSummaryDTO;
 }

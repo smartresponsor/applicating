@@ -36,7 +36,7 @@ final class ApplicatingApplicationSuspendCommand extends Command
             return Command::INVALID;
         }
 
-        $application = $this->applicationRepository->findOneBy(['slug' => $slug]);
+        $application = $this->applicationRepository->findOneBySlug($slug);
         if (null === $application) {
             $output->writeln('<error>Application not found.</error>');
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Applicating\Service;
 
-use App\Applicating\DTO\Application\ApplicationReadiness;
-use App\Applicating\DTO\Application\ApplicationReadinessSignals;
+use App\Applicating\DTO\ApplicationReadinessDTO;
+use App\Applicating\DTO\ApplicationReadinessSignalsDTO;
 use App\Applicating\Repository\ApplicationRepository;
 use App\Applicating\ServiceInterface\ApplicationPublishEligibilityServiceInterface;
 use App\Applicating\ServiceInterface\ApplicationReadinessServiceInterface;
@@ -18,15 +18,15 @@ final readonly class ApplicationReadinessService implements ApplicationReadiness
     ) {
     }
 
-    public function buildReadiness(string $applicationSlug): ApplicationReadiness
+    public function buildReadiness(string $applicationSlug): ApplicationReadinessDTO
     {
-        $application = $this->applicationRepository->findOneBy(['slug' => $applicationSlug]);
+        $application = $this->applicationRepository->findOneBySlug($applicationSlug);
         if (null === $application) {
-            return new ApplicationReadiness(
+            return new ApplicationReadinessDTO(
                 canPublish: false,
                 blockingReasons: ['Application not found.'],
                 warnings: [],
-                signals: new ApplicationReadinessSignals(
+                signals: new ApplicationReadinessSignalsDTO(
                     applicationFound: false,
                     applicationSlug: $applicationSlug,
                     releaseCount: 0,
@@ -57,11 +57,11 @@ final readonly class ApplicationReadinessService implements ApplicationReadiness
             }
         }
 
-        return new ApplicationReadiness(
+        return new ApplicationReadinessDTO(
             canPublish: [] === $blocking,
             blockingReasons: array_values(array_unique($blocking)),
             warnings: [],
-            signals: new ApplicationReadinessSignals(
+            signals: new ApplicationReadinessSignalsDTO(
                 applicationFound: true,
                 applicationSlug: $application->getSlug(),
                 releaseCount: $application->getReleases()->count(),

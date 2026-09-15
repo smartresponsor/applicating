@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Applicating\DTO\Application;
+namespace App\Applicating\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class ApplicationReleaseData
+final class ApplicationReleaseDTO
 {
     #[Assert\NotBlank]
     #[Assert\Regex(pattern: '/^\d+\.\d+\.\d+(?:-[a-z0-9.-]+)?$/i')]

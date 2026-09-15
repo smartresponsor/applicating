@@ -59,7 +59,7 @@ Database policy:
 
 Login page: `/login`
 
-API contract UI (Nelmio/OpenAPI): `/api/doc`
+API contract UI (Nelmio/OpenAPI, dev/test): `/api/applicating/doc`
 
 Demo users (created by `applicating:fixtures:load-demo`):
 - `admin / admin`

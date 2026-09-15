@@ -11,12 +11,20 @@
   ],
   "require": {
     "php": "^8.4",
+    "administering/administration": "dev-master",
     "ext-json": "*",
     "ext-pdo": "*",
     "doctrine/dbal": "^4.3",
     "doctrine/doctrine-bundle": "^3.2",
     "doctrine/doctrine-migrations-bundle": "^4.0",
     "doctrine/orm": "^3.3",
+    "collectioning/collection": "dev-master",
+    "cruding/crud": "dev-master",
+    "easycorp/easyadmin-bundle": "^5.5.1",
+    "interfacing/interface": "dev-master",
+    "objecting/object": "dev-master",
+    "tabling/table": "dev-master",
+    "viewing/view": "dev-master",
     "symfony/console": "^8.1",
     "symfony/dependency-injection": "^8.1",
     "symfony/doctrine-bridge": "^8.1",
@@ -35,8 +43,7 @@
     "symfony/twig-bundle": "^8.1",
     "symfony/validator": "^8.1",
     "symfony/var-exporter": "^8.1",
-    "symfony/yaml": "^8.1",
-    "objecting/object": "*@dev"
+    "symfony/yaml": "^8.1"
   },
   "require-dev": {
     "doctrine/doctrine-fixtures-bundle": "^4.3",
@@ -46,6 +53,8 @@
     "phpmd/phpmd": "3.x-dev@dev",
     "pdepend/pdepend": "3.x-dev@dev",
     "phpstan/phpstan": "^2.1",
+    "phpstan/phpstan-doctrine": "^2.0",
+    "phpstan/phpstan-symfony": "^2.0",
     "phpunit/phpunit": "^11.5",
     "symfony/browser-kit": "^8.1",
     "symfony/css-selector": "^8.1",
@@ -75,8 +84,8 @@
     "stan": "@stan:runtime-target",
     "stan:conservative": "@php tools/php/php82.php vendor/bin/phpstan analyse",
     "stan:runtime-target": "@php tools/php/php84.php vendor/bin/phpstan analyse",
-    "md": "@php -d error_reporting=6143 vendor/bin/phpmd src text phpmd.xml.dist",
-    "md:tests": "@php -d error_reporting=6143 vendor/bin/phpmd tests text phpmd.xml.dist",
+    "md": "@php -d error_reporting=6143 vendor/bin/phpmd analyze src --format=text --ruleset=phpmd.xml.dist",
+    "md:tests": "@php -d error_reporting=6143 vendor/bin/phpmd analyze tests --format=text --ruleset=phpmd.xml.dist",
     "test": "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist",
     "test:unit": "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist --testsuite unit",
     "test:integration": "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist --testsuite integration",
@@ -164,7 +173,7 @@
     "pipeline:local:full": "powershell -ExecutionPolicy Bypass -File tools/ci/run-application-local-pipeline.ps1 -IncludeSmokes -IncludeReports -IncludeSecurity",
     "pipeline:local:strict": "powershell -ExecutionPolicy Bypass -File tools/ci/run-application-local-pipeline.ps1 -FailOnErrors"
   },
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "prefer-stable": true,
   "config": {
     "allow-plugins": {
@@ -175,9 +184,72 @@
   "repositories": [
     {
       "type": "path",
+      "url": "../Administering",
+      "options": {
+        "symlink": true,
+        "versions": {
+          "administering/administration": "dev-master"
+        }
+      }
+    },
+    {
+      "type": "path",
       "url": "../Objecting",
       "options": {
-        "symlink": true
+        "symlink": true,
+        "versions": {
+          "objecting/object": "dev-master"
+        }
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Collectioning",
+      "options": {
+        "symlink": true,
+        "versions": {
+          "collectioning/collection": "dev-master"
+        }
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Tabling",
+      "options": {
+        "symlink": true,
+        "versions": {
+          "tabling/table": "dev-master"
+        }
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Cruding",
+      "options": {
+        "symlink": true,
+        "versions": {
+          "cruding/crud": "dev-master"
+        }
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Viewing",
+      "options": {
+        "symlink": true,
+        "versions": {
+          "viewing/view": "dev-master"
+        }
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Interfacing",
+      "options": {
+        "symlink": true,
+        "versions": {
+          "interfacing/interface": "dev-master"
+        }
       }
     }
   ]

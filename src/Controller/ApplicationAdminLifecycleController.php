@@ -6,17 +6,18 @@ declare(strict_types=1);
 
 namespace App\Applicating\Controller;
 
-use App\Applicating\DTO\Application\ApplicationManifestData;
-use App\Applicating\DTO\Application\ApplicationReleaseData;
-use App\Applicating\DTO\Application\TenantApplicationAssignmentData;
+use App\Applicating\DTO\ApplicationManifestDTO;
+use App\Applicating\DTO\ApplicationReleaseDTO;
+use App\Applicating\DTO\TenantApplicationAssignmentDTO;
 use App\Applicating\Entity\Application;
 use App\Applicating\Entity\TenantApplication;
-use App\Applicating\Form\Application\ApplicationManifestType;
-use App\Applicating\Form\Application\ApplicationReleaseType;
-use App\Applicating\Form\Application\TenantApplicationAssignmentType;
+use App\Applicating\Form\ApplicationManifestType;
+use App\Applicating\Form\ApplicationReleaseType;
+use App\Applicating\Form\TenantApplicationAssignmentType;
 use App\Applicating\Security\Voter\ApplicationVoter;
 use App\Applicating\ServiceInterface\ApplicationLifecycleServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -36,8 +37,8 @@ final class ApplicationAdminLifecycleController extends AbstractController
             $application,
             $request,
             ApplicationReleaseType::class,
-            new ApplicationReleaseData(),
-            fn (ApplicationReleaseData $data): string => sprintf(
+            new ApplicationReleaseDTO(),
+            fn (ApplicationReleaseDTO $data): string => sprintf(
                 'Release %s created.',
                 $applicationLifecycleService->createRelease($application, $data)->getVersion(),
             ),
@@ -57,8 +58,8 @@ final class ApplicationAdminLifecycleController extends AbstractController
             $application,
             $request,
             ApplicationManifestType::class,
-            new ApplicationManifestData(),
-            fn (ApplicationManifestData $data): string => sprintf(
+            new ApplicationManifestDTO(),
+            fn (ApplicationManifestDTO $data): string => sprintf(
                 'Manifest %s attached.',
                 $applicationLifecycleService->createManifest($application, $data)->getIdentifier(),
             ),
@@ -115,8 +116,8 @@ final class ApplicationAdminLifecycleController extends AbstractController
             $application,
             $request,
             TenantApplicationAssignmentType::class,
-            new TenantApplicationAssignmentData(),
-            fn (TenantApplicationAssignmentData $data): string => sprintf(
+            new TenantApplicationAssignmentDTO(),
+            fn (TenantApplicationAssignmentDTO $data): string => sprintf(
                 'Tenant "%s" assigned.',
                 $applicationLifecycleService->assignTenant($application, $data)->getTenantKey(),
             ),
@@ -146,9 +147,9 @@ final class ApplicationAdminLifecycleController extends AbstractController
     /**
      * @template T of object
      *
-     * @param class-string        $formType
-     * @param T                   $data
-     * @param callable(T): string $onValid
+     * @param class-string<FormTypeInterface<T>> $formType
+     * @param T                                  $data
+     * @param callable(T): string                $onValid
      */
     private function processLifecycleForm(
         Application $application,

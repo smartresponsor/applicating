@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Applicating\Service;
 
-use App\Applicating\DTO\Application\ApplicationManifestData;
-use App\Applicating\DTO\Application\ApplicationReleaseData;
-use App\Applicating\DTO\Application\ApplicationUpsertData;
-use App\Applicating\DTO\Application\TenantApplicationAssignmentData;
+use App\Applicating\DTO\ApplicationManifestDTO;
+use App\Applicating\DTO\ApplicationReleaseDTO;
+use App\Applicating\DTO\ApplicationUpsertDTO;
+use App\Applicating\DTO\TenantApplicationAssignmentDTO;
 use App\Applicating\Entity\Application;
 use App\Applicating\Entity\ApplicationManifest;
 use App\Applicating\Entity\ApplicationRelease;
@@ -36,7 +36,7 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
     ) {
     }
 
-    public function createApplication(ApplicationUpsertData $data): Application
+    public function createApplication(ApplicationUpsertDTO $data): Application
     {
         $application = new Application(
             $data->nameEntity,
@@ -53,7 +53,7 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
         return $application;
     }
 
-    public function updateApplication(Application $application, ApplicationUpsertData $data): Application
+    public function updateApplication(Application $application, ApplicationUpsertDTO $data): Application
     {
         $application->rename($data->nameEntity);
         $application->changeSlug((new ApplicationSlug($data->slug))->toString());
@@ -67,7 +67,7 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
         return $application;
     }
 
-    public function createRelease(Application $application, ApplicationReleaseData $data): ApplicationRelease
+    public function createRelease(Application $application, ApplicationReleaseDTO $data): ApplicationRelease
     {
         $version = (new ApplicationVersion($data->version))->toString();
         $existingRelease = $this->applicationReleaseRepository->findOneForApplicationAndVersion($application, $version);
@@ -130,7 +130,7 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
         $this->entityManager->flush();
     }
 
-    public function createManifest(Application $application, ApplicationManifestData $data): ApplicationManifest
+    public function createManifest(Application $application, ApplicationManifestDTO $data): ApplicationManifest
     {
         $payload = $this->applicationManifestService->normalizeManifestPayload($data);
         $identifier = new ApplicationManifestIdentifier($payload['identifier']);
@@ -163,7 +163,7 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
     /**
      * @throws \JsonException
      */
-    public function assignTenant(Application $application, TenantApplicationAssignmentData $data): TenantApplication
+    public function assignTenant(Application $application, TenantApplicationAssignmentDTO $data): TenantApplication
     {
         /** @var array<string, mixed> $policy */
         $policy = json_decode($data->accessPolicy, true, 512, JSON_THROW_ON_ERROR);
@@ -204,7 +204,7 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
         $this->entityManager->flush();
     }
 
-    private function applyApplicationData(Application $application, ApplicationUpsertData $data): void
+    private function applyApplicationData(Application $application, ApplicationUpsertDTO $data): void
     {
         $application->changeAccessLevel(ApplicationAccessLevel::from($data->accessLevel));
         $application->changeBillingCode($data->billingCode ?: null);

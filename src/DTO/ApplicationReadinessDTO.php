@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Applicating\DTO\Application;
+namespace App\Applicating\DTO;
 
-final readonly class ApplicationReadiness
+final readonly class ApplicationReadinessDTO
 {
     /**
      * @param list<string> $blockingReasons
@@ -14,7 +14,7 @@ final readonly class ApplicationReadiness
         public bool $canPublish,
         public array $blockingReasons,
         public array $warnings,
-        public ApplicationReadinessSignals $signals,
+        public ApplicationReadinessSignalsDTO $signals,
     ) {
     }
 

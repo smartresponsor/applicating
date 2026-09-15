@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'importmap:audit', description: 'Audit importmap assets for the Applicating application')]
-final class ImportMapAuditCommand extends Command
+final class ApplicatingImportMapAuditCommand extends Command
 {
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

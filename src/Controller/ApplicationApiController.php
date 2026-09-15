@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Applicating\Controller;
 
-use App\Applicating\DTO\Application\ApplicationAdminApiRow;
+use App\Applicating\DTO\ApplicationAdminApiRowDTO;
 use App\Applicating\Repository\ApplicationRepository;
 use App\Applicating\ServiceInterface\ApplicationReportServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +19,7 @@ final class ApplicationApiController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_APPLICATION_MANAGER');
 
         $rows = array_map(
-            static fn ($application): array => ApplicationAdminApiRow::fromApplication($application)->toArray(),
+            static fn ($application): array => ApplicationAdminApiRowDTO::fromApplication($application)->toArray(),
             $applicationRepository->findOrderedForAdmin(),
         );
 

@@ -32,7 +32,7 @@ abstract class AbstractApplicatingApplicationSlugCommand extends Command
             return null;
         }
 
-        $application = $this->applicationRepository->findOneBy(['slug' => $slug]);
+        $application = $this->applicationRepository->findOneBySlug($slug);
         if (!$application instanceof Application) {
             $output->writeln('<error>Application not found.</error>');
 

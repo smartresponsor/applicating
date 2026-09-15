@@ -6,10 +6,10 @@ declare(strict_types=1);
 
 namespace App\Applicating\DataFixtures;
 
-use App\Applicating\DTO\Application\ApplicationManifestData;
-use App\Applicating\DTO\Application\ApplicationReleaseData;
-use App\Applicating\DTO\Application\ApplicationUpsertData;
-use App\Applicating\DTO\Application\TenantApplicationAssignmentData;
+use App\Applicating\DTO\ApplicationManifestDTO;
+use App\Applicating\DTO\ApplicationReleaseDTO;
+use App\Applicating\DTO\ApplicationUpsertDTO;
+use App\Applicating\DTO\TenantApplicationAssignmentDTO;
 use App\Applicating\ServiceInterface\ApplicationLifecycleServiceInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -44,7 +44,7 @@ final class ApplicationFixtures extends Fixture
         ];
 
         for ($index = 1; $index <= 6; ++$index) {
-            $applicationData = new ApplicationUpsertData();
+            $applicationData = new ApplicationUpsertDTO();
             $applicationData->nameEntity = sprintf('Demo Application %02d Suite', $index);
             $applicationData->slug = sprintf('application-%d', $index);
             $applicationData->packageName = sprintf('applicating/demo-application-%d', $index);
@@ -56,7 +56,7 @@ final class ApplicationFixtures extends Fixture
             $applicationData->enabledByDefault = 0 === $index % 2;
             $application = $this->applicationLifecycleService->createApplication($applicationData);
 
-            $releaseData = new ApplicationReleaseData();
+            $releaseData = new ApplicationReleaseDTO();
             $releaseData->version = sprintf('1.%d.0', $index);
             $releaseData->channel = 0 === $index % 2 ? 'stable' : 'beta';
             $releaseData->checksum = hash('sha256', $application->getSlug().$index);
@@ -64,7 +64,7 @@ final class ApplicationFixtures extends Fixture
             $releaseData->releaseNotes = $notes[$index - 1];
             $release = $this->applicationLifecycleService->createRelease($application, $releaseData);
 
-            $manifestData = new ApplicationManifestData();
+            $manifestData = new ApplicationManifestDTO();
             $manifestData->identifier = sprintf('io.applicating.%s', str_replace('-', '.', $application->getSlug()));
             $manifestData->capabilities = "listing\nreporting\nbilling-hook";
             $manifestData->permissions = "tenant:read\ntenant:write";
@@ -77,7 +77,7 @@ final class ApplicationFixtures extends Fixture
                 $this->applicationLifecycleService->publishApplication($application, $release);
             }
 
-            $assignmentData = new TenantApplicationAssignmentData();
+            $assignmentData = new TenantApplicationAssignmentDTO();
             $assignmentData->tenantKey = sprintf('tenant-%02d', $index);
             $assignmentData->installedVersion = $releaseData->version;
             $assignmentData->enabled = 0 !== $index % 3;

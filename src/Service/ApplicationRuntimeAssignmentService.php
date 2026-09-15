@@ -28,7 +28,7 @@ final readonly class ApplicationRuntimeAssignmentService implements ApplicationR
             throw new \InvalidArgumentException('Application slug and environment must not be empty.');
         }
 
-        $application = $this->applicationRepository->findOneBy(['slug' => $applicationSlug]);
+        $application = $this->applicationRepository->findOneBySlug($applicationSlug);
         if (null === $application) {
             throw new \DomainException(sprintf('Application "%s" was not found.', $applicationSlug));
         }

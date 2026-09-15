@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Applicating\DTO\Application;
+namespace App\Applicating\DTO;
 
-final readonly class ApplicationPublishEligibility
+final readonly class ApplicationPublishEligibilityDTO
 {
     public function __construct(
         public int $releaseId,

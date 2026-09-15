@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Applicating\Value\Form\Config;
+namespace App\Applicating\Form\Config;
 
 final class ApplicatingFrameworkConfigData
 {

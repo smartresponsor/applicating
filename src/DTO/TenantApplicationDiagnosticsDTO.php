@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Applicating\DTO\Application;
+namespace App\Applicating\DTO;
 
-final readonly class TenantApplicationDiagnostics
+final readonly class TenantApplicationDiagnosticsDTO
 {
     public function __construct(
         public string $tenantKey,
@@ -13,7 +13,7 @@ final readonly class TenantApplicationDiagnostics
         public bool $enabled,
         public bool $billingActive,
         public string $installationState,
-        public TenantApplicationDiagnosticsChecks $checks,
+        public TenantApplicationDiagnosticsChecksDTO $checks,
         public string $reportedAt,
     ) {
     }

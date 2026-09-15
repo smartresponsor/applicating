@@ -20,6 +20,17 @@ final class ApplicationRepository extends ServiceEntityRepository implements App
         parent::__construct($registry, Application::class);
     }
 
+    public function findOneBySlug(string $slug): ?Application
+    {
+        $result = $this->createQueryBuilder('application')
+            ->andWhere('application.objectIdentity.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $result instanceof Application ? $result : null;
+    }
+
     /** @return list<Application> */
     public function findOrderedForAdmin(): array
     {

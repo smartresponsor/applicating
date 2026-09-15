@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Applicating\DTO\Application;
+namespace App\Applicating\DTO;
 
-final readonly class TenantApplicationDiagnosticsChecks
+final readonly class TenantApplicationDiagnosticsChecksDTO
 {
     /** @param list<string> $accessPolicyKeys */
     public function __construct(

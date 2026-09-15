@@ -4,30 +4,30 @@ declare(strict_types=1);
 
 namespace App\Applicating\Service\Config;
 
-use App\Administering\Service\Config\ConfigApplyService;
-use App\Administering\Service\Config\ConfigFileWriterService;
-use App\Administering\ServiceInterface\Config\AdministrationConfigToolServiceInterface;
-use App\Administering\Value\Config\AdministrationConfigToolDescriptor;
+use App\Administering\Service\Config\AdministrationConfigApplyService;
+use App\Administering\Service\Config\AdministrationConfigFileWriterService;
+use App\Administering\ServiceInterface\Config\ConfigToolServiceInterface;
+use App\Administering\Value\Config\ConfigToolDescriptor;
+use App\Applicating\Form\Config\ApplicatingFrameworkConfigData;
 use App\Applicating\Form\Config\ApplicatingFrameworkConfigFormType;
-use App\Applicating\Value\Form\Config\ApplicatingFrameworkConfigData;
 use Symfony\Component\Yaml\Yaml;
 
-final readonly class ApplicatingFrameworkConfigService implements AdministrationConfigToolServiceInterface
+final readonly class ApplicatingFrameworkConfigService implements ConfigToolServiceInterface
 {
     public function __construct(
         private string $projectDir,
-        private ConfigApplyService $applyService,
-        private ConfigFileWriterService $fileWriter,
+        private AdministrationConfigApplyService $applyService,
+        private AdministrationConfigFileWriterService $fileWriter,
     ) {
     }
 
-    public function descriptor(): AdministrationConfigToolDescriptor
+    public function descriptor(): ConfigToolDescriptor
     {
-        return new AdministrationConfigToolDescriptor(
+        return new ConfigToolDescriptor(
             applicationCode: 'Applicating',
             toolCode: 'applicating.framework',
             label: 'Applicating Framework',
-            description: 'Safe Symfony framework flags and rate-limiter settings stored in applicating_framework.yaml.',
+            description: 'Safe Symfony framework flags and rate-limiter settings stored in application_framework.yaml.',
             formClass: ApplicatingFrameworkConfigFormType::class,
             serviceClass: self::class,
             requiredPermission: 'administration.config.update',
@@ -44,8 +44,8 @@ final readonly class ApplicatingFrameworkConfigService implements Administration
                 'adminApiThrottleIntervalMinutes',
             ],
             sensitiveFields: [],
-            readableFiles: ['config/packages/applicating_framework.yaml'],
-            writableFiles: ['config/packages/applicating_framework.yaml'],
+            readableFiles: ['config/packages/application_framework.yaml'],
+            writableFiles: ['config/packages/application_framework.yaml'],
             metadata: [
                 'section' => 'Configuration',
                 'kind' => 'framework',
@@ -59,18 +59,26 @@ final readonly class ApplicatingFrameworkConfigService implements Administration
     {
         $data = new ApplicatingFrameworkConfigData();
         $manifest = $this->frameworkManifest();
-        $framework = is_array($manifest['framework'] ?? null) ? $manifest['framework'] : [];
+        $framework = $this->arrayValue($manifest, 'framework');
+        $csrfProtection = $this->arrayValue($framework, 'csrf_protection');
+        $form = $this->arrayValue($framework, 'form');
+        $validation = $this->arrayValue($framework, 'validation');
+        $session = $this->arrayValue($framework, 'session');
+        $rateLimiter = $this->arrayValue($framework, 'rate_limiter');
+        $loginLimiter = $this->arrayValue($rateLimiter, 'applicating_login');
+        $adminApiLimiter = $this->arrayValue($rateLimiter, 'applicating_admin_api');
+        $adminApiRate = $this->arrayValue($adminApiLimiter, 'rate');
 
-        $data->csrfProtectionEnabled = !empty($framework['csrf_protection']['enabled'] ?? true) ? '1' : '0';
-        $data->formEnabled = !empty($framework['form']['enabled'] ?? true) ? '1' : '0';
-        $data->validationEnabled = !empty($framework['validation']['enabled'] ?? true) ? '1' : '0';
-        $data->sessionCookieSecure = (string) ($framework['session']['cookie_secure'] ?? $data->sessionCookieSecure);
-        $data->sessionCookieSameSite = (string) ($framework['session']['cookie_samesite'] ?? $data->sessionCookieSameSite);
-        $data->loginThrottleLimit = (string) ($framework['rate_limiter']['applicating_login']['limit'] ?? $data->loginThrottleLimit);
-        $data->loginThrottleIntervalMinutes = $this->intervalToMinutes((string) ($framework['rate_limiter']['applicating_login']['interval'] ?? '15 minutes'));
-        $data->adminApiThrottleLimit = (string) ($framework['rate_limiter']['applicating_admin_api']['limit'] ?? $data->adminApiThrottleLimit);
-        $data->adminApiThrottleAmount = (string) ($framework['rate_limiter']['applicating_admin_api']['rate']['amount'] ?? $data->adminApiThrottleAmount);
-        $data->adminApiThrottleIntervalMinutes = $this->intervalToMinutes((string) ($framework['rate_limiter']['applicating_admin_api']['rate']['interval'] ?? '1 minute'));
+        $data->csrfProtectionEnabled = !empty($csrfProtection['enabled'] ?? true) ? '1' : '0';
+        $data->formEnabled = !empty($form['enabled'] ?? true) ? '1' : '0';
+        $data->validationEnabled = !empty($validation['enabled'] ?? true) ? '1' : '0';
+        $data->sessionCookieSecure = $this->scalarString($session['cookie_secure'] ?? null, $data->sessionCookieSecure);
+        $data->sessionCookieSameSite = $this->scalarString($session['cookie_samesite'] ?? null, $data->sessionCookieSameSite);
+        $data->loginThrottleLimit = $this->scalarString($loginLimiter['limit'] ?? null, $data->loginThrottleLimit);
+        $data->loginThrottleIntervalMinutes = $this->intervalToMinutes($this->scalarString($loginLimiter['interval'] ?? null, '15 minutes'));
+        $data->adminApiThrottleLimit = $this->scalarString($adminApiLimiter['limit'] ?? null, $data->adminApiThrottleLimit);
+        $data->adminApiThrottleAmount = $this->scalarString($adminApiRate['amount'] ?? null, $data->adminApiThrottleAmount);
+        $data->adminApiThrottleIntervalMinutes = $this->intervalToMinutes($this->scalarString($adminApiRate['interval'] ?? null, '1 minute'));
 
         return $data;
     }
@@ -92,7 +100,7 @@ final readonly class ApplicatingFrameworkConfigService implements Administration
             'framework_admin_api_throttle_interval_minutes' => $payload->adminApiThrottleIntervalMinutes,
         ];
 
-        return $this->applyService->save($this->descriptor(), (string) ($context['actor'] ?? 'system'), $values, $masked, []);
+        return $this->applyService->save($this->descriptor(), $this->actor($context), $values, $masked, []);
     }
 
     public function apply(object $data, array $context = []): array
@@ -101,7 +109,7 @@ final readonly class ApplicatingFrameworkConfigService implements Administration
         $patch = $this->frameworkPatch($payload);
         $write = $this->fileWriter->write(
             $this->projectDir.'/../Applicating',
-            'config/packages/applicating_framework.yaml',
+            'config/packages/application_framework.yaml',
             $patch,
             $this->descriptor()->writableFiles,
         );
@@ -111,7 +119,7 @@ final readonly class ApplicatingFrameworkConfigService implements Administration
 
         return $this->applyService->apply(
             $this->descriptor(),
-            (string) ($context['actor'] ?? 'system'),
+            $this->actor($context),
             $values,
             $patch,
             [],
@@ -139,10 +147,10 @@ final readonly class ApplicatingFrameworkConfigService implements Administration
     /** @return array<string, mixed> */
     private function frameworkManifest(): array
     {
-        $path = $this->projectDir.'/../Applicating/config/packages/applicating_framework.yaml';
+        $path = $this->projectDir.'/../Applicating/config/packages/application_framework.yaml';
         $parsed = is_file($path) ? Yaml::parseFile($path) : [];
 
-        return is_array($parsed) ? $parsed : [];
+        return $this->stringKeyedArray($parsed);
     }
 
     /**
@@ -209,6 +217,44 @@ final readonly class ApplicatingFrameworkConfigService implements Administration
             'framework_admin_api_throttle_amount' => ['fieldType' => 'integer', 'secret' => false, 'current' => $data->adminApiThrottleAmount, 'pending' => $data->adminApiThrottleAmount, 'masked' => null, 'status' => $status],
             'framework_admin_api_throttle_interval_minutes' => ['fieldType' => 'integer', 'secret' => false, 'current' => $data->adminApiThrottleIntervalMinutes, 'pending' => $data->adminApiThrottleIntervalMinutes, 'masked' => null, 'status' => $status],
         ];
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     *
+     * @return array<string, mixed>
+     */
+    private function arrayValue(array $data, string $key): array
+    {
+        return $this->stringKeyedArray($data[$key] ?? null);
+    }
+
+    /** @return array<string, mixed> */
+    private function stringKeyedArray(mixed $value): array
+    {
+        if (!is_array($value)) {
+            return [];
+        }
+
+        $normalized = [];
+        foreach ($value as $key => $item) {
+            if (is_string($key)) {
+                $normalized[$key] = $item;
+            }
+        }
+
+        return $normalized;
+    }
+
+    /** @param array<string, mixed> $context */
+    private function actor(array $context): string
+    {
+        return $this->scalarString($context['actor'] ?? null, 'system');
+    }
+
+    private function scalarString(mixed $value, string $fallback): string
+    {
+        return is_scalar($value) ? (string) $value : $fallback;
     }
 
     private function intervalToMinutes(string $interval): string
