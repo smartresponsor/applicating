@@ -7,6 +7,11 @@ namespace App\Applicating\Entity;
 use App\Applicating\Enum\ApplicationAccessLevel;
 use App\Applicating\Enum\ApplicationPublicationState;
 use App\Applicating\Repository\ApplicationRepository;
+use App\Objecting\EntityInterface\ObjectEntityInterface;
+use App\Objecting\EntityTrait\Embeddable\ObjectAuditEmbeddableTrait;
+use App\Objecting\EntityTrait\Embeddable\ObjectIdentityEmbeddableTrait;
+use App\Objecting\EntityTrait\Embeddable\ObjectStateEmbeddableTrait;
+use App\Objecting\EntityTrait\Embeddable\ObjectTitleEmbeddableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,8 +25,12 @@ use Doctrine\ORM\Mapping as ORM;
     ],
 )]
 #[ORM\HasLifecycleCallbacks]
-class Application
+class Application implements ObjectEntityInterface
 {
+    use ObjectIdentityEmbeddableTrait;
+    use ObjectTitleEmbeddableTrait;
+    use ObjectAuditEmbeddableTrait;
+    use ObjectStateEmbeddableTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -57,12 +66,6 @@ class Application
     #[ORM\Column]
     private bool $enabledByDefault = false;
 
-    #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $createdAt;
-
-    #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $updatedAt;
-
     /** @var Collection<int, ApplicationRelease> */
     #[ORM\OneToMany(targetEntity: ApplicationRelease::class, mappedBy: 'application', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['createdAt' => 'DESC'])]
@@ -88,8 +91,12 @@ class Application
         $this->releases = new ArrayCollection();
         $this->manifests = new ArrayCollection();
         $this->tenantApplications = new ArrayCollection();
-        $this->createdAt = new \DateTimeImmutable();
-        $this->updatedAt = new \DateTimeImmutable();
+        $now = new \DateTimeImmutable();
+        $this->initializeObjectIdentity(objectSlug: $slug);
+        $this->initializeObjectTitle($nameEntity);
+        $this->initializeObjectAudit($now);
+        $this->touchModified($now);
+        $this->initializeObjectState(objectStatus: ApplicationPublicationState::Draft->value);
     }
 
     public function getId(): ?int
@@ -105,6 +112,8 @@ class Application
     public function rename(string $nameEntity): void
     {
         $this->nameEntity = $nameEntity;
+        $this->setFirstTitle($nameEntity);
+        $this->touchModified();
     }
 
     public function getSlug(): string
@@ -115,6 +124,8 @@ class Application
     public function changeSlug(string $slug): void
     {
         $this->slug = $slug;
+        $this->setObjectSlug($slug);
+        $this->touchModified();
     }
 
     public function getPackageName(): string
@@ -155,16 +166,24 @@ class Application
     public function markForModeration(): void
     {
         $this->publicationState = ApplicationPublicationState::Moderation;
+        $this->setObjectStatus(ApplicationPublicationState::Moderation->value);
+        $this->touchModified();
     }
 
     public function publish(): void
     {
         $this->publicationState = ApplicationPublicationState::Published;
+        $this->setObjectStatus(ApplicationPublicationState::Published->value);
+        $this->setObjectActive(true);
+        $this->touchModified();
     }
 
     public function suspend(): void
     {
         $this->publicationState = ApplicationPublicationState::Suspended;
+        $this->setObjectStatus(ApplicationPublicationState::Suspended->value);
+        $this->setObjectActive(false);
+        $this->touchModified();
     }
 
     public function getAccessLevel(): ApplicationAccessLevel
@@ -246,27 +265,22 @@ class Application
         }
     }
 
-    public function getCreatedAt(): \DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
     public function getUpdatedAt(): \DateTimeImmutable
     {
-        return $this->updatedAt;
+        return $this->getModifiedAt() ?? $this->getCreatedAt();
     }
 
     #[ORM\PrePersist]
     public function onCreate(): void
     {
-        $now = new \DateTimeImmutable();
-        $this->createdAt = $now;
-        $this->updatedAt = $now;
+        if (null === $this->getModifiedAt()) {
+            $this->touchModified($this->getCreatedAt());
+        }
     }
 
     #[ORM\PreUpdate]
     public function onUpdate(): void
     {
-        $this->updatedAt = new \DateTimeImmutable();
+        $this->touchModified();
     }
 }

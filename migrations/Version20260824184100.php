@@ -21,7 +21,10 @@ final class Version20260824184100 extends AbstractMigration
         $this->addSql('CREATE INDEX idx_application_runtime_assignment_environment ON application_runtime_assignment (environment)');
         $this->addSql('CREATE INDEX idx_application_runtime_assignment_mode ON application_runtime_assignment (runtime_mode)');
         $this->addSql('CREATE UNIQUE INDEX uniq_application_runtime_assignment ON application_runtime_assignment (application_id, environment)');
-        $this->addSql('ALTER TABLE application_runtime_assignment ADD CONSTRAINT fk_application_runtime_assignment_application FOREIGN KEY (application_id) REFERENCES application_listing (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+
+        if ($schema->hasTable('application_listing')) {
+            $this->addSql('ALTER TABLE application_runtime_assignment ADD CONSTRAINT fk_application_runtime_assignment_application FOREIGN KEY (application_id) REFERENCES application_listing (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        }
     }
 
     public function down(Schema $schema): void

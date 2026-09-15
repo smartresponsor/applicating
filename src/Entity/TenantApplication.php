@@ -6,6 +6,8 @@ namespace App\Applicating\Entity;
 
 use App\Applicating\Enum\ApplicationInstallationState;
 use App\Applicating\Repository\TenantApplicationRepository;
+use App\Objecting\EntityInterface\ObjectRelationEntityInterface;
+use App\Objecting\EntityTrait\Embeddable\ObjectAuditEmbeddableTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TenantApplicationRepository::class)]
@@ -18,8 +20,9 @@ use Doctrine\ORM\Mapping as ORM;
     ],
     uniqueConstraints: [new ORM\UniqueConstraint(name: 'uniq_tenant_application_assignment', columns: ['application_id', 'tenant_key'])],
 )]
-class TenantApplication
+class TenantApplication implements ObjectRelationEntityInterface
 {
+    use ObjectAuditEmbeddableTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -74,6 +77,7 @@ class TenantApplication
         $this->installationState = $enabled ? ApplicationInstallationState::Installed : ApplicationInstallationState::Assigned;
         $this->assignedAt = new \DateTimeImmutable();
         $this->installedAt = $enabled ? new \DateTimeImmutable() : null;
+        $this->initializeObjectAudit($this->assignedAt);
     }
 
     public function getId(): ?int
