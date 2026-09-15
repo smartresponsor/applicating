@@ -55,4 +55,4 @@
 
 - RC-critical implementation and verification are complete in the working tree.
 - Post-RC growth remains intentionally separate: catalog scorecards, richer environment promotion UX, self-service templates, and expanded cross-runtime observability.
-- Git review and signed integration are complete; remaining acceptance action is push of the verified commit chain to `origin/master`.
+- Git review, signed integration, and push to `origin/master` are complete; no RC-critical tail remains in the repository task.
