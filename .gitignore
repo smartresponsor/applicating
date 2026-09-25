@@ -28,6 +28,7 @@ Thumbs.db
 /var/sessions/
 /var/test/
 /var/tmp/
+/var/coverage/
 /var/export/
 /var/data/
 /var/backups/
@@ -134,6 +135,10 @@ Thumbs.db
 /var/report/local/
 /var/report/inspection/
 /var/payment-create-endpoint-error.txt
+/var/cmcp_*.php
+/var/cmcp-*
+/var/gating-legacy-*
+/.console-mcp/
 
 # API reference cache
 /.cache/doctum/
