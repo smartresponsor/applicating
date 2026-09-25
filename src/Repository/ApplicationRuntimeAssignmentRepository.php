@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace App\Applicating\Repository;
 
-use App\Applicating\Entity\Application;
-use App\Applicating\Entity\ApplicationRuntimeAssignment;
+use App\Applicating\Entity\ApplicationEntity;
+use App\Applicating\Entity\ApplicationRuntimeAssignmentEntity;
 use App\Applicating\RepositoryInterface\ApplicationRuntimeAssignmentRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/** @extends ServiceEntityRepository<ApplicationRuntimeAssignment> */
+/** @extends ServiceEntityRepository<ApplicationRuntimeAssignmentEntity> */
 final class ApplicationRuntimeAssignmentRepository extends ServiceEntityRepository implements ApplicationRuntimeAssignmentRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ApplicationRuntimeAssignment::class);
+        parent::__construct($registry, ApplicationRuntimeAssignmentEntity::class);
     }
 
-    public function findOneForApplicationAndEnvironment(string $applicationSlug, string $environment): ?ApplicationRuntimeAssignment
+    public function findOneForApplicationAndEnvironment(string $applicationSlug, string $environment): ?ApplicationRuntimeAssignmentEntity
     {
-        /** @var ApplicationRuntimeAssignment|null $assignment */
+        /** @var ApplicationRuntimeAssignmentEntity|null $assignment */
         $assignment = $this->createQueryBuilder('runtimeAssignment')
             ->innerJoin('runtimeAssignment.application', 'application')
             ->addSelect('application')
@@ -35,13 +35,19 @@ final class ApplicationRuntimeAssignmentRepository extends ServiceEntityReposito
         return $assignment;
     }
 
-    public function findOneForApplicationEntityAndEnvironment(Application $application, string $environment): ?ApplicationRuntimeAssignment
+    public function findOneForApplicationEntityAndEnvironment(ApplicationEntity $application, string $environment): ?ApplicationRuntimeAssignmentEntity
     {
         $assignment = $this->findOneBy([
             'application' => $application,
             'environment' => trim($environment),
         ]);
 
-        return $assignment instanceof ApplicationRuntimeAssignment ? $assignment : null;
+        return $assignment instanceof ApplicationRuntimeAssignmentEntity ? $assignment : null;
+    }
+
+    public function save(ApplicationRuntimeAssignmentEntity $assignment): void
+    {
+        $this->getEntityManager()->persist($assignment);
+        $this->getEntityManager()->flush();
     }
 }

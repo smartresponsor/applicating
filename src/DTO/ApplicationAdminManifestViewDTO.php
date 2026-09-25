@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Applicating\DTO;
 
-use App\Applicating\Entity\ApplicationManifest;
+use App\Applicating\Entity\ApplicationManifestEntity;
 
 final readonly class ApplicationAdminManifestViewDTO
 {
@@ -22,7 +22,7 @@ final readonly class ApplicationAdminManifestViewDTO
     ) {
     }
 
-    public static function fromManifest(ApplicationManifest $manifest): self
+    public static function fromManifest(ApplicationManifestEntity $manifest): self
     {
         return new self(
             identifier: $manifest->getIdentifier(),

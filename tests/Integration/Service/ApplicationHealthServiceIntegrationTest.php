@@ -4,21 +4,26 @@ declare(strict_types=1);
 
 namespace App\Applicating\Tests\Integration\Service;
 
-use App\Applicating\Entity\Application;
+use App\Applicating\Entity\ApplicationEntity;
+use App\Applicating\Repository\ApplicationRepository;
 use App\Applicating\Service\ApplicationHealthService;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\SchemaTool;
+use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\TestCase;
 
 final class ApplicationHealthServiceIntegrationTest extends TestCase
 {
     public function testBuildReadinessReturnsReadyWithConfiguredConnection(): void
     {
-        $entityManager = $this->createEntityManager([Application::class]);
-        $service = new ApplicationHealthService($entityManager);
+        $entityManager = $this->createEntityManager([ApplicationEntity::class]);
+        $registry = $this->createMock(ManagerRegistry::class);
+        $registry->method('getManagerForClass')->with(ApplicationEntity::class)->willReturn($entityManager);
+        $repository = new ApplicationRepository($registry);
+        $service = new ApplicationHealthService($repository);
         $payload = $service->buildReadiness();
 
         self::assertSame('ready', $payload['status']);

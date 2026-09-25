@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Applicating\RepositoryInterface;
 
-use App\Applicating\Entity\Application;
-use App\Applicating\Entity\ApplicationManifest;
+use App\Applicating\Entity\ApplicationEntity;
+use App\Applicating\Entity\ApplicationManifestEntity;
 
 interface ApplicationManifestRepositoryInterface
 {
-    public function findOneForApplicationAndIdentifier(Application $application, string $identifier): ?ApplicationManifest;
+    public function findOneForApplicationAndIdentifier(ApplicationEntity $application, string $identifier): ?ApplicationManifestEntity;
+
+    public function save(ApplicationManifestEntity $manifest): void;
 }

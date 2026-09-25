@@ -6,8 +6,8 @@ namespace App\Applicating\Tests\Unit\Form;
 
 use App\Applicating\Form\ApplicationManifestType;
 use App\Applicating\Form\ApplicationReleaseType;
+use App\Applicating\Form\ApplicationTenantAssignmentType;
 use App\Applicating\Form\ApplicationType;
-use App\Applicating\Form\TenantApplicationAssignmentType;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Forms;
@@ -22,6 +22,6 @@ final class ApplicationFormsTest extends TestCase
         self::assertSame(['nameEntity', 'slug', 'packageName', 'developerName', 'listingSummary', 'accessLevel', 'billingCode', 'sandboxProfile', 'enabledByDefault'], array_keys($factory->create(ApplicationType::class)->all()));
         self::assertSame(['version', 'channel', 'checksum', 'downloadUrl', 'releaseNotes'], array_keys($factory->create(ApplicationReleaseType::class)->all()));
         self::assertSame(['manifestVersion', 'identifier', 'capabilities', 'permissions', 'runtimeHooks', 'sandboxProfile', 'governanceState'], array_keys($factory->create(ApplicationManifestType::class)->all()));
-        self::assertSame(['tenantKey', 'installedVersion', 'enabled', 'billingActive', 'accessPolicy'], array_keys($factory->create(TenantApplicationAssignmentType::class)->all()));
+        self::assertSame(['tenantKey', 'installedVersion', 'enabled', 'billingActive', 'accessPolicy'], array_keys($factory->create(ApplicationTenantAssignmentType::class)->all()));
     }
 }

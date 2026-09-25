@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Applicating\Tests\Functional;
 
-use App\Applicating\Entity\Application;
-use App\Applicating\Entity\ApplicationManifest;
-use App\Applicating\Entity\ApplicationRelease;
+use App\Applicating\Entity\ApplicationEntity;
+use App\Applicating\Entity\ApplicationManifestEntity;
+use App\Applicating\Entity\ApplicationReleaseEntity;
 use App\Applicating\Tests\Support\DoctrineSchemaResetter;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -28,14 +28,14 @@ final class ApplicatingApplicationPublishCommandTest extends KernelTestCase
         $entityManager = $doctrine->getManager();
         DoctrineSchemaResetter::reset($entityManager);
 
-        $application = new Application(
+        $application = new ApplicationEntity(
             'Command Publish Application',
             'command-publish-application',
             'applicating/command-publish-application',
             'Applicating Labs',
             'Command publish summary'
         );
-        $release = new ApplicationRelease(
+        $release = new ApplicationReleaseEntity(
             $application,
             '1.0.0',
             'stable',
@@ -45,7 +45,7 @@ final class ApplicatingApplicationPublishCommandTest extends KernelTestCase
         );
         $application->addRelease($release);
 
-        $manifest = new ApplicationManifest(
+        $manifest = new ApplicationManifestEntity(
             $application,
             '1.0.0',
             'io.applicating.command.publish',

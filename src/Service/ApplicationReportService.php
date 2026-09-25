@@ -6,14 +6,14 @@ namespace App\Applicating\Service;
 
 use App\Applicating\DTO\ApplicationSummaryDTO;
 use App\Applicating\Repository\ApplicationRepository;
-use App\Applicating\Repository\TenantApplicationRepository;
+use App\Applicating\Repository\ApplicationTenantAssignmentRepository;
 use App\Applicating\ServiceInterface\ApplicationReportServiceInterface;
 
 final readonly class ApplicationReportService implements ApplicationReportServiceInterface
 {
     public function __construct(
         private ApplicationRepository $applicationRepository,
-        private TenantApplicationRepository $tenantApplicationRepository,
+        private ApplicationTenantAssignmentRepository $tenantApplicationRepository,
     ) {
     }
 

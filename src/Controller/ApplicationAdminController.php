@@ -6,32 +6,31 @@ declare(strict_types=1);
 
 namespace App\Applicating\Controller;
 
+use App\Applicating\BuilderInterface\ApplicationAdminViewBuilderInterface;
 use App\Applicating\DTO\ApplicationManifestDTO;
 use App\Applicating\DTO\ApplicationPublishEligibilityDTO;
 use App\Applicating\DTO\ApplicationReleaseDTO;
+use App\Applicating\DTO\ApplicationTenantAssignmentDTO;
 use App\Applicating\DTO\ApplicationUpsertDTO;
-use App\Applicating\DTO\TenantApplicationAssignmentDTO;
-use App\Applicating\Entity\Application;
+use App\Applicating\Entity\ApplicationEntity;
 use App\Applicating\Form\ApplicationManifestType;
 use App\Applicating\Form\ApplicationReleaseType;
+use App\Applicating\Form\ApplicationTenantAssignmentType;
 use App\Applicating\Form\ApplicationType;
-use App\Applicating\Form\TenantApplicationAssignmentType;
 use App\Applicating\Repository\ApplicationRepository;
-use App\Applicating\Security\Voter\ApplicationVoter;
-use App\Applicating\ServiceInterface\ApplicationAdminViewBuilderInterface;
 use App\Applicating\ServiceInterface\ApplicationLifecycleServiceInterface;
 use App\Applicating\ServiceInterface\ApplicationPublishEligibilityServiceInterface;
 use App\Applicating\ServiceInterface\ApplicationReportServiceInterface;
+use App\Applicating\Voter\ApplicationVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/admin/applications')]
 final class ApplicationAdminController extends AbstractController
 {
     /** @return array<string, mixed> */
-    #[Route('', name: 'applicating_application_index', methods: ['GET'])]
+    #[Route('/admin/applications', name: 'applicating_application_index', methods: ['GET'])]
     public function index(
         ApplicationRepository $applicationRepository,
         ApplicationReportServiceInterface $applicationReportService,
@@ -46,7 +45,7 @@ final class ApplicationAdminController extends AbstractController
     }
 
     /** @return Response|array<string, mixed> */
-    #[Route('/new', name: 'applicating_application_new', methods: ['GET', 'POST'])]
+    #[Route('/admin/applications/new', name: 'applicating_application_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ApplicationLifecycleServiceInterface $applicationLifecycleService): Response|array
     {
         $this->denyAccessUnlessGranted('ROLE_APPLICATION_MANAGER');
@@ -68,7 +67,7 @@ final class ApplicationAdminController extends AbstractController
     }
 
     /** @return array<string, mixed> */
-    #[Route('/report', name: 'applicating_application_report', methods: ['GET'])]
+    #[Route('/admin/applications/report', name: 'applicating_application_report', methods: ['GET'])]
     public function report(ApplicationReportServiceInterface $applicationReportService): array
     {
         $this->denyAccessUnlessGranted('ROLE_APPLICATION_VIEWER');
@@ -79,9 +78,9 @@ final class ApplicationAdminController extends AbstractController
     }
 
     /** @return array<string, mixed> */
-    #[Route('/{id}', name: 'applicating_application_show', methods: ['GET', 'POST'])]
+    #[Route('/admin/applications/{id}', name: 'applicating_application_show', methods: ['GET', 'POST'])]
     public function show(
-        Application $application,
+        ApplicationEntity $application,
         ApplicationPublishEligibilityServiceInterface $applicationPublishEligibilityService,
         ApplicationAdminViewBuilderInterface $applicationAdminViewBuilder,
     ): array {
@@ -93,7 +92,7 @@ final class ApplicationAdminController extends AbstractController
         $manifestForm = $this->createForm(ApplicationManifestType::class, new ApplicationManifestDTO(), [
             'action' => $this->generateUrl('applicating_application_manifest', ['id' => $application->getId()]),
         ]);
-        $assignmentForm = $this->createForm(TenantApplicationAssignmentType::class, new TenantApplicationAssignmentDTO(), [
+        $assignmentForm = $this->createForm(ApplicationTenantAssignmentType::class, new ApplicationTenantAssignmentDTO(), [
             'action' => $this->generateUrl('applicating_application_assign', ['id' => $application->getId()]),
         ]);
 
@@ -129,9 +128,9 @@ final class ApplicationAdminController extends AbstractController
     }
 
     /** @return Response|array<string, mixed> */
-    #[Route('/{id}/edit', name: 'applicating_application_edit', methods: ['GET', 'POST'])]
+    #[Route('/admin/applications/edit/{id}', name: 'applicating_application_edit', methods: ['GET', 'POST'])]
     public function edit(
-        Application $application,
+        ApplicationEntity $application,
         Request $request,
         ApplicationLifecycleServiceInterface $applicationLifecycleService,
     ): Response|array {

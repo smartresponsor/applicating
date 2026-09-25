@@ -8,8 +8,8 @@ namespace App\Applicating\DataFixtures;
 
 use App\Applicating\DTO\ApplicationManifestDTO;
 use App\Applicating\DTO\ApplicationReleaseDTO;
+use App\Applicating\DTO\ApplicationTenantAssignmentDTO;
 use App\Applicating\DTO\ApplicationUpsertDTO;
-use App\Applicating\DTO\TenantApplicationAssignmentDTO;
 use App\Applicating\ServiceInterface\ApplicationLifecycleServiceInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -77,7 +77,7 @@ final class ApplicationFixtures extends Fixture
                 $this->applicationLifecycleService->publishApplication($application, $release);
             }
 
-            $assignmentData = new TenantApplicationAssignmentDTO();
+            $assignmentData = new ApplicationTenantAssignmentDTO();
             $assignmentData->tenantKey = sprintf('tenant-%02d', $index);
             $assignmentData->installedVersion = $releaseData->version;
             $assignmentData->enabled = 0 !== $index % 3;

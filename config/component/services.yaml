@@ -17,18 +17,19 @@ services:
     alias: App\Applicating\Repository\ApplicationRuntimeAssignmentRepository
     public: true
 
-  App\Applicating\ServiceInterface\ApplicationRuntimeAssignmentResolverInterface:
-    alias: App\Applicating\Service\ApplicationRuntimeAssignmentResolver
+  App\Applicating\ResolverInterface\ApplicationRuntimeAssignmentResolverInterface:
+    alias: App\Applicating\Resolver\ApplicationRuntimeAssignmentResolver
     public: true
 
   App\Applicating\ServiceInterface\ApplicationRuntimeAssignmentServiceInterface:
     alias: App\Applicating\Service\ApplicationRuntimeAssignmentService
     public: true
 
-  App\Applicating\Command\ApplicatingRuntimeSetCommand:
+  App\Applicating\Command\ApplicationRuntimeSetCommand:
     tags: ['console.command']
 
-  App\Applicating\Service\Config\ApplicatingFrameworkConfigService:
+  App\Applicating\Service\Config\ApplicationFrameworkConfigService:
     arguments:
       $projectDir: '%kernel.project_dir%'
     tags: ['administering.config_tool']
+

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Applicating\EventSubscriber;
 
-use App\Applicating\Entity\ApplicationUser;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Applicating\Entity\ApplicationUserEntity;
+use App\Applicating\Repository\ApplicationUserRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
 final readonly class ApplicationUserLoginSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private ApplicationUserRepository $applicationUserRepository)
     {
     }
 
@@ -25,12 +25,11 @@ final readonly class ApplicationUserLoginSubscriber implements EventSubscriberIn
     public function onLoginSuccess(LoginSuccessEvent $event): void
     {
         $user = $event->getUser();
-        if (!$user instanceof ApplicationUser) {
+        if (!$user instanceof ApplicationUserEntity) {
             return;
         }
 
         $user->markLogin();
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
+        $this->applicationUserRepository->save($user);
     }
 }

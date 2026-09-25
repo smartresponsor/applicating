@@ -56,3 +56,64 @@
 - RC-critical implementation and verification are complete in the working tree.
 - Post-RC growth remains intentionally separate: catalog scorecards, richer environment promotion UX, self-service templates, and expanded cross-runtime observability.
 - Git review, signed integration, and push to `origin/master` are complete; no RC-critical tail remains in the repository task.
+
+## 2026-09-23 — Canonization refresh and RC revalidation
+
+### Reconnaissance baseline
+
+- Re-read repository `AGENTS.md`, `README.md`, Composer manifests, Symfony/Doctrine bootstrap, PHPUnit configuration, current Git state, and the existing CMCP journal.
+- Re-read the current dependency contracts for Objecting, Cruding, Viewing, Interfacing, and Gating, plus the normative Canonization rule texts used by this pass.
+- Current worktree was already dirty before this pass: Gating integration changes in `composer.json`, `composer.lock`, `composer.prod.json`, `.gating/README.md`, staged deletion of three superseded local linters, and a materialized `.gating/` tree. These pre-existing changes are preserved and are not treated as disposable scratch state.
+- Composer validation passes. After installing the lockfile, `gating/gate` is available through the canonical local Gating junction and the current executable canon can be run.
+
+### Canonization mapping consulted
+
+- `Canon018`: Composer identity `applicating/application` maps to `App\\Applicating\\` and the `Application*` subject vocabulary.
+- `Canon019`: no alternative `src/Domain`, `Application`, `Infrastructure`, `Port`, `Adapter`, or `Adaptor` root taxonomy.
+- `Canon021`: generic CRUD remains in Cruding; Applicating keeps lifecycle-specific behavior only.
+- `Canon022`: standalone baseline requires Cruding, Collectioning, Tabling, Viewing, Interfacing, Objecting, and EasyAdmin; the current Composer manifest satisfies this.
+- `Canon023`, `Canon043`, `Canon045`: local first-party development dependencies use path symlinks, exact `dev-master` identity, and root repository closure.
+- `Canon024`: production Composer remains path-independent.
+- `Canon052`: Gating is a Composer development dependency; consumer `.gating/` is artifact-only.
+- `Canon053`: the current eleven-item symlink exception contour includes Gating, Cruding, Viewing, Interfacing, Collectioning, Objecting, Tabling, Runtime, Indexing, Discovering, and Administering. Applicating's existing helper symlinks are therefore allowed.
+- `Canon054`: standalone Objecting identity consumers must activate `App\\Objecting\\ObjectBundle`; Doctrine physical identifiers use lower_snake_case and standalone ORM uses `underscore_number_aware`.
+
+### Market and maturity baseline
+
+- Mature software/application lifecycle systems separate catalog metadata, lifecycle orchestration, runtime health, assignments/access, and extension/plugin boundaries instead of concentrating them in generic CRUD.
+- RC-critical expectations are deterministic lifecycle state, reproducible package/runtime wiring, explicit health/readiness diagnostics, schema parity, test evidence, and clear responsibility boundaries.
+- Growth remains separate: richer catalog scorecards, self-service templates, environment promotion UX, release policy automation, and broader runtime observability.
+
+### Current executable findings and selected work
+
+- Passing contours include Composer validation, dependency baseline, dev symlink wiring, production package wiring, PSR-4 identity, zero generic CRUD, Objecting persisted field naming, and local repository closure.
+- Current hard failures include technical-role placement, Entity suffix naming, subject-prefix drift, Doctrine schema-parity script exposure, bundle registration, and canonical PHPUnit coverage evidence. Warning debt includes PHPDoc and behavioral/UI coverage evidence.
+- **RC-critical:** first close deterministic bootstrap/release-contract failures (bundle registration, Objecting bundle activation, Doctrine parity scripts, coverage execution contract), then re-run Gating and continue into the bounded naming/topology migration using actual remaining findings.
+- **Growth:** do not block RC on speculative catalog/portal features.
+
+### Material risks
+
+- The worktree contains pre-existing staged and unstaged changes; all repairs must preserve them and avoid broad resets.
+- The naming/topology migration touches many callers and tests and must be performed as an atomic rename wave rather than partial aliases.
+- Doctrine parity may depend on disposable database availability; runtime failures must be classified from actual command output.
+
+### Gates to run
+
+- `composer validate --strict --check-lock`
+- `composer gate`
+- targeted Symfony/Doctrine validation
+- `composer qa:style`, `composer qa:static`, `composer qa:test`
+- `composer release:verify`
+- final Git/status/upstream verification
+
+### 2026-09-24 continuation — RC convergence
+
+- Revalidated the current worktree without restarting reconnaissance; preserved the existing canonical rename/topology migration.
+- Re-read current Canon018, Canon019, Canon021, Canon022, Canon052, Canon053, and Canon054 normative rule texts. Canon053 now has thirteen allowed sibling symlink exceptions; Applicating remains inside the allowed contour.
+- Removed an accidentally materialized untracked Gating engine/policy copy from consumer `.gating/`; retained the consumer artifact boundary. `composer gate` now reports 0 failed rules.
+- Fixed PHP-CS-Fixer findings in the current migration wave.
+- Narrowed `ApplicationFrameworkConfigService` results to the public Administering config-tool contract so PHPStan can prove `masked_changes` is `array<string,string>` without changing the sibling package.
+- Replaced ad-hoc SQLite table teardown in `DoctrineSchemaResetter` with Doctrine `SchemaTool::dropSchema()` / `createSchema()`; the complete test suite now passes deterministically.
+- Verification PASS: Composer validate, Gating hard rules, qa:env, qa:style, qa:static, qa:smell, qa:inspection, qa:test (14 tests / 43 assertions), runtime, branch-wiring, controller-decomposition, fixtures, fixture-load, container, Doctrine, admin, functional-readiness, and PostgreSQL-matrix smokes.
+- The aggregate `release:verify` exceeded the Console MCP RPC window, but every constituent Composer script in that aggregate was executed separately and passed.
+- Remaining Gating warnings are evidence/documentation warnings only: Canon031 PHPDoc coverage, Canon040 persistent coverage summary, and Canon042 behavioral/UI coverage evidence. They are not hard canonical failures and remain a post-RC evidence/documentation tail.

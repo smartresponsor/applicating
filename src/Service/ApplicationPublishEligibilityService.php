@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Applicating\Service;
 
 use App\Applicating\DTO\ApplicationPublishEligibilityDTO;
-use App\Applicating\Entity\Application;
+use App\Applicating\Entity\ApplicationEntity;
 use App\Applicating\ServiceInterface\ApplicationPublishEligibilityServiceInterface;
 
 final class ApplicationPublishEligibilityService implements ApplicationPublishEligibilityServiceInterface
 {
     /** @return list<ApplicationPublishEligibilityDTO> */
-    public function buildEligibilityMap(Application $application): array
+    public function buildEligibilityMap(ApplicationEntity $application): array
     {
         $hasManifest = 0 !== $application->getManifests()->count();
         $hasApprovedManifest = false;

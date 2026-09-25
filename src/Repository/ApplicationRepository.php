@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace App\Applicating\Repository;
 
-use App\Applicating\Entity\Application;
+use App\Applicating\Entity\ApplicationEntity;
 use App\Applicating\Enum\ApplicationPublicationState;
 use App\Applicating\RepositoryInterface\ApplicationRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Application>
+ * @extends ServiceEntityRepository<ApplicationEntity>
  */
 final class ApplicationRepository extends ServiceEntityRepository implements ApplicationRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Application::class);
+        parent::__construct($registry, ApplicationEntity::class);
     }
 
-    public function findOneBySlug(string $slug): ?Application
+    public function findOneBySlug(string $slug): ?ApplicationEntity
     {
         $result = $this->createQueryBuilder('application')
             ->andWhere('application.objectIdentity.slug = :slug')
@@ -28,13 +28,13 @@ final class ApplicationRepository extends ServiceEntityRepository implements App
             ->getQuery()
             ->getOneOrNullResult();
 
-        return $result instanceof Application ? $result : null;
+        return $result instanceof ApplicationEntity ? $result : null;
     }
 
-    /** @return list<Application> */
+    /** @return list<ApplicationEntity> */
     public function findOrderedForAdmin(): array
     {
-        /** @var list<Application> $result */
+        /** @var list<ApplicationEntity> $result */
         $result = $this->createQueryBuilder('application')
             ->leftJoin('application.releases', 'release')->addSelect('release')
             ->leftJoin('application.tenantApplications', 'tenantApplication')->addSelect('tenantApplication')
@@ -61,5 +61,11 @@ final class ApplicationRepository extends ServiceEntityRepository implements App
             ->setParameter('state', ApplicationPublicationState::Published)
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    public function save(ApplicationEntity $application): void
+    {
+        $this->getEntityManager()->persist($application);
+        $this->getEntityManager()->flush();
     }
 }

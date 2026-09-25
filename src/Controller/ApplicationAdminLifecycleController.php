@@ -8,26 +8,25 @@ namespace App\Applicating\Controller;
 
 use App\Applicating\DTO\ApplicationManifestDTO;
 use App\Applicating\DTO\ApplicationReleaseDTO;
-use App\Applicating\DTO\TenantApplicationAssignmentDTO;
-use App\Applicating\Entity\Application;
-use App\Applicating\Entity\TenantApplication;
+use App\Applicating\DTO\ApplicationTenantAssignmentDTO;
+use App\Applicating\Entity\ApplicationEntity;
+use App\Applicating\Entity\ApplicationTenantAssignmentEntity;
 use App\Applicating\Form\ApplicationManifestType;
 use App\Applicating\Form\ApplicationReleaseType;
-use App\Applicating\Form\TenantApplicationAssignmentType;
-use App\Applicating\Security\Voter\ApplicationVoter;
+use App\Applicating\Form\ApplicationTenantAssignmentType;
 use App\Applicating\ServiceInterface\ApplicationLifecycleServiceInterface;
+use App\Applicating\Voter\ApplicationVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/admin/applications')]
 final class ApplicationAdminLifecycleController extends AbstractController
 {
-    #[Route('/{id}/release', name: 'applicating_application_release', methods: ['POST'])]
+    #[Route('/admin/applications/release/{id}', name: 'applicating_application_release', methods: ['POST'])]
     public function createRelease(
-        Application $application,
+        ApplicationEntity $application,
         Request $request,
         ApplicationLifecycleServiceInterface $applicationLifecycleService,
     ): RedirectResponse {
@@ -46,9 +45,9 @@ final class ApplicationAdminLifecycleController extends AbstractController
         );
     }
 
-    #[Route('/{id}/manifest', name: 'applicating_application_manifest', methods: ['POST'])]
+    #[Route('/admin/applications/manifest/{id}', name: 'applicating_application_manifest', methods: ['POST'])]
     public function createManifest(
-        Application $application,
+        ApplicationEntity $application,
         Request $request,
         ApplicationLifecycleServiceInterface $applicationLifecycleService,
     ): RedirectResponse {
@@ -67,9 +66,9 @@ final class ApplicationAdminLifecycleController extends AbstractController
         );
     }
 
-    #[Route('/{id}/publish/{releaseId}', name: 'applicating_application_publish', methods: ['POST'])]
+    #[Route('/admin/applications/publish/{releaseId}/{id}', name: 'applicating_application_publish', methods: ['POST'])]
     public function publish(
-        Application $application,
+        ApplicationEntity $application,
         int $releaseId,
         ApplicationLifecycleServiceInterface $applicationLifecycleService,
     ): RedirectResponse {
@@ -91,9 +90,9 @@ final class ApplicationAdminLifecycleController extends AbstractController
         throw $this->createNotFoundException('Release not found for application.');
     }
 
-    #[Route('/{id}/suspend', name: 'applicating_application_suspend', methods: ['POST'])]
+    #[Route('/admin/applications/suspend/{id}', name: 'applicating_application_suspend', methods: ['POST'])]
     public function suspend(
-        Application $application,
+        ApplicationEntity $application,
         ApplicationLifecycleServiceInterface $applicationLifecycleService,
     ): RedirectResponse {
         $this->denyAccessUnlessGranted(ApplicationVoter::PUBLISH, $application);
@@ -104,9 +103,9 @@ final class ApplicationAdminLifecycleController extends AbstractController
         return $this->redirectToRoute('applicating_application_show', ['id' => $application->getId()]);
     }
 
-    #[Route('/{id}/assign', name: 'applicating_application_assign', methods: ['POST'])]
+    #[Route('/admin/applications/assign/{id}', name: 'applicating_application_assign', methods: ['POST'])]
     public function assign(
-        Application $application,
+        ApplicationEntity $application,
         Request $request,
         ApplicationLifecycleServiceInterface $applicationLifecycleService,
     ): RedirectResponse {
@@ -115,9 +114,9 @@ final class ApplicationAdminLifecycleController extends AbstractController
         return $this->processLifecycleForm(
             $application,
             $request,
-            TenantApplicationAssignmentType::class,
-            new TenantApplicationAssignmentDTO(),
-            fn (TenantApplicationAssignmentDTO $data): string => sprintf(
+            ApplicationTenantAssignmentType::class,
+            new ApplicationTenantAssignmentDTO(),
+            fn (ApplicationTenantAssignmentDTO $data): string => sprintf(
                 'Tenant "%s" assigned.',
                 $applicationLifecycleService->assignTenant($application, $data)->getTenantKey(),
             ),
@@ -125,9 +124,9 @@ final class ApplicationAdminLifecycleController extends AbstractController
         );
     }
 
-    #[Route('/tenant-assignment/{id}/toggle', name: 'applicating_tenant_application_toggle', methods: ['POST'])]
+    #[Route('/admin/applications/tenant/assignment/toggle/{id}', name: 'applicating_tenant_application_toggle', methods: ['POST'])]
     public function toggle(
-        TenantApplication $tenantApplication,
+        ApplicationTenantAssignmentEntity $tenantApplication,
         Request $request,
         ApplicationLifecycleServiceInterface $applicationLifecycleService,
     ): RedirectResponse {
@@ -152,7 +151,7 @@ final class ApplicationAdminLifecycleController extends AbstractController
      * @param callable(T): string                $onValid
      */
     private function processLifecycleForm(
-        Application $application,
+        ApplicationEntity $application,
         Request $request,
         string $formType,
         object $data,

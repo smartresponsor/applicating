@@ -3,8 +3,8 @@ config_tools:
     tool_code: applicating.framework
     label: Applicating Framework
     description: Safe Symfony framework flags and rate-limiter settings stored in application_framework.yaml.
-    form_class: App\Applicating\Form\Config\ApplicatingFrameworkConfigFormType
-    service_class: App\Applicating\Service\Config\ApplicatingFrameworkConfigService
+    form_class: App\Applicating\Form\Config\ApplicationFrameworkConfigFormType
+    service_class: App\Applicating\Service\Config\ApplicationFrameworkConfigService
     required_permission: administration.config.update
     editable_fields:
       - csrfProtectionEnabled

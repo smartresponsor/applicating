@@ -8,7 +8,7 @@ $payload = [
     'tool' => 'applicating-fixture-publish-guard',
     'status' => 'complete',
     'counts' => [
-        'files' => count(applicating_scan_php_files(['src/DataFixtures', 'src/Command/ApplicatingFixturesLoadDemoCommand.php'])),
+        'files' => count(applicating_scan_php_files(['src/DataFixtures', 'src/Command/ApplicationFixturesLoadDemoCommand.php'])),
         'vendorReady' => applicating_has_vendor_autoload(),
     ],
 ];

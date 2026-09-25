@@ -17,16 +17,8 @@ final class DoctrineSchemaResetter
             return;
         }
 
-        $connection = $entityManager->getConnection();
-        $platform = $connection->getDatabasePlatform();
-        $schemaManager = $connection->createSchemaManager();
-
-        foreach ($schemaManager->listTableNames() as $tableName) {
-            $sql = $platform->getDropTableSQL($tableName);
-            $connection->executeStatement($sql);
-        }
-
         $schemaTool = new SchemaTool($entityManager);
+        $schemaTool->dropSchema($metadata);
         $schemaTool->createSchema($metadata);
     }
 }

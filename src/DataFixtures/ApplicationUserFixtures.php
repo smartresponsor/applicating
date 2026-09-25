@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Applicating\DataFixtures;
 
-use App\Applicating\Entity\ApplicationUser;
+use App\Applicating\Entity\ApplicationUserEntity;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -59,7 +59,7 @@ final class ApplicationUserFixtures extends Fixture
         array $roles,
         ?string $email = null,
     ): void {
-        $user = new ApplicationUser($userIdentifier, $displayName);
+        $user = new ApplicationUserEntity($userIdentifier, $displayName);
         $user->changeRoles($roles);
         $user->changeEmail($email);
         $user->changeAuthSource('local');

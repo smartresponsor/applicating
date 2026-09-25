@@ -2,7 +2,7 @@
   "name": "applicating/application",
   "description": "Applicating process component",
   "type": "symfony-bundle",
-  "license": "proprietary",
+  "license": "PolyForm-Noncommercial-1.0.0",
   "authors": [
     {
       "name": "Oleksandr Tishchenko / Marketing America Corp",
@@ -60,7 +60,8 @@
     "symfony/css-selector": "^8.1",
     "symfony/debug-bundle": "^8.1",
     "symfony/panther": "^2.2",
-    "symfony/web-profiler-bundle": "^8.1"
+    "symfony/web-profiler-bundle": "^8.1",
+    "gating/gate": "dev-master"
   },
   "autoload": {
     "psr-4": {
@@ -74,9 +75,6 @@
   },
   "scripts": {
     "lint": "@php tools/php/php84.php tools/qa/ApplicationPhpLint.php",
-    "lint:app-namespace": "@php tools/php/php84.php tools/linter/app_namespace_check.php",
-    "lint:config-prefix": "@php tools/php/php84.php tools/linter/applicating_config_prefix_check.php",
-    "lint:canonical-roots": "@php tools/php/php84.php tools/linter/applicating_canonical_roots_check.php",
     "lint:service-interface-parity": "@php tools/php/php84.php tools/linter/applicating_service_interface_parity_check.php",
     "cs:fix": "@php tools/php/php84.php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php",
     "cs:check": "@php tools/php/php84.php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --dry-run --diff",
@@ -93,12 +91,19 @@
     "test:panther": "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist --testsuite panther",
     "test:e2e": "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist --testsuite panther",
     "test:playwright": "npm run test:playwright",
+    "test:coverage": [
+      "@php -r \"is_dir('var/coverage') || mkdir('var/coverage', 0777, true);\"",
+      "@php -d xdebug.mode=coverage vendor/bin/phpunit -c phpunit.xml.dist --coverage-text=var/coverage/summary.txt"
+    ],
+    "schema:validate": "@php tools/php/php84.php bin/console doctrine:schema:validate --no-interaction",
+    "schema:migrations:up-to-date": "@php tools/php/php84.php bin/console doctrine:migrations:up-to-date --no-interaction",
+    "schema:parity": [
+      "@schema:validate",
+      "@schema:migrations:up-to-date"
+    ],
     "qa:env": "@php tools/php/php84.php tools/qa/ApplicationQaEnvironmentCheck.php",
     "qa:style": [
       "@lint",
-      "@lint:app-namespace",
-      "@lint:config-prefix",
-      "@lint:canonical-roots",
       "@lint:service-interface-parity",
       "@cs:check"
     ],
@@ -171,7 +176,14 @@
     "pipeline:inspection:applicating": "powershell -ExecutionPolicy Bypass -File tools/ci/run-applicating-inspection-wave.ps1",
     "pipeline:local": "powershell -ExecutionPolicy Bypass -File tools/ci/run-application-local-pipeline.ps1",
     "pipeline:local:full": "powershell -ExecutionPolicy Bypass -File tools/ci/run-application-local-pipeline.ps1 -IncludeSmokes -IncludeReports -IncludeSecurity",
-    "pipeline:local:strict": "powershell -ExecutionPolicy Bypass -File tools/ci/run-application-local-pipeline.ps1 -FailOnErrors"
+    "pipeline:local:strict": "powershell -ExecutionPolicy Bypass -File tools/ci/run-application-local-pipeline.ps1 -FailOnErrors",
+    "gate": "@php vendor/bin/gating check --target=.",
+    "quality": [
+      "@cs:check",
+      "@stan",
+      "@test",
+      "@gate"
+    ]
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -251,7 +263,16 @@
           "interfacing/interface": "dev-master"
         }
       }
+    },
+    {
+      "type": "path",
+      "url": "../Gating",
+      "options": {
+        "symlink": true,
+        "versions": {
+          "gating/gate": "dev-master"
+        }
+      }
     }
   ]
 }
-

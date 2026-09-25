@@ -8,7 +8,7 @@ $payload = [
     'tool' => 'applicating-publish-guard',
     'status' => 'complete',
     'counts' => [
-        'files' => count(applicating_scan_php_files(['src/Service/ApplicationPublishEligibilityService.php', 'src/Command/ApplicatingApplicationPublishCommand.php'])),
+        'files' => count(applicating_scan_php_files(['src/Service/ApplicationPublishEligibilityService.php', 'src/Command/ApplicationPublishCommand.php'])),
         'vendorReady' => applicating_has_vendor_autoload(),
     ],
 ];

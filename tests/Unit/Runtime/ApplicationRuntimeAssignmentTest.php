@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Applicating\Tests\Unit\Runtime;
 
-use App\Applicating\Entity\Application;
-use App\Applicating\Entity\ApplicationRuntimeAssignment;
+use App\Applicating\Entity\ApplicationEntity;
+use App\Applicating\Entity\ApplicationRuntimeAssignmentEntity;
 use App\Applicating\Enum\ApplicationRuntimeMode;
 use PHPUnit\Framework\TestCase;
 
@@ -16,19 +16,19 @@ final class ApplicationRuntimeAssignmentTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Application runtime environment must not be empty.');
 
-        new ApplicationRuntimeAssignment($this->application(), '   ');
+        new ApplicationRuntimeAssignmentEntity($this->application(), '   ');
     }
 
     public function testConstructorNormalizesEnvironmentAndDefaultsToSharedHost(): void
     {
-        $assignment = new ApplicationRuntimeAssignment($this->application(), ' production ');
+        $assignment = new ApplicationRuntimeAssignmentEntity($this->application(), ' production ');
 
         self::assertSame('production', $assignment->getEnvironment());
         self::assertSame(ApplicationRuntimeMode::HostShared, $assignment->getRuntimeMode());
     }
 
-    private function application(): Application
+    private function application(): ApplicationEntity
     {
-        return new Application('One Tasker', 'one_tasker', 'one-tasker/application', 'SmartResponsor', 'One Tasker application.');
+        return new ApplicationEntity('One Tasker', 'one_tasker', 'one-tasker/application', 'SmartResponsor', 'One Tasker application.');
     }
 }

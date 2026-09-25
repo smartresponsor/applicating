@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Applicating\Tests\Unit\Runtime;
 
-use App\Applicating\Entity\Application;
-use App\Applicating\Entity\ApplicationRuntimeAssignment;
+use App\Applicating\Entity\ApplicationEntity;
+use App\Applicating\Entity\ApplicationRuntimeAssignmentEntity;
 use App\Applicating\Enum\ApplicationRuntimeMode;
 use App\Applicating\RepositoryInterface\ApplicationRuntimeAssignmentRepositoryInterface;
-use App\Applicating\Service\ApplicationRuntimeAssignmentResolver;
+use App\Applicating\Resolver\ApplicationRuntimeAssignmentResolver;
 use PHPUnit\Framework\TestCase;
 
 final class ApplicationRuntimeAssignmentResolverTest extends TestCase
@@ -28,8 +28,8 @@ final class ApplicationRuntimeAssignmentResolverTest extends TestCase
 
     public function testExistingAssignmentReturnsPersistedMode(): void
     {
-        $application = new Application('One Tasker', 'one_tasker', 'one-tasker/application', 'SmartResponsor', 'One Tasker application.');
-        $assignment = new ApplicationRuntimeAssignment($application, 'production', ApplicationRuntimeMode::CustomDomain);
+        $application = new ApplicationEntity('One Tasker', 'one_tasker', 'one-tasker/application', 'SmartResponsor', 'One Tasker application.');
+        $assignment = new ApplicationRuntimeAssignmentEntity($application, 'production', ApplicationRuntimeMode::CustomDomain);
         $repository = $this->createMock(ApplicationRuntimeAssignmentRepositoryInterface::class);
         $repository->expects(self::once())
             ->method('findOneForApplicationAndEnvironment')

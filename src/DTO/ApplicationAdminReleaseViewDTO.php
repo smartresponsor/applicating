@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Applicating\DTO;
 
-use App\Applicating\Entity\ApplicationRelease;
+use App\Applicating\Entity\ApplicationReleaseEntity;
 
 final readonly class ApplicationAdminReleaseViewDTO
 {
@@ -17,7 +17,7 @@ final readonly class ApplicationAdminReleaseViewDTO
     ) {
     }
 
-    public static function fromRelease(ApplicationRelease $release): self
+    public static function fromRelease(ApplicationReleaseEntity $release): self
     {
         return new self(
             id: $release->getId() ?? 0,

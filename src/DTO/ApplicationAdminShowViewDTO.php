@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Applicating\DTO;
 
-use App\Applicating\Entity\Application;
+use App\Applicating\Entity\ApplicationEntity;
 
 final readonly class ApplicationAdminShowViewDTO
 {
@@ -31,7 +31,7 @@ final readonly class ApplicationAdminShowViewDTO
      * @param list<ApplicationAdminManifestViewDTO>         $manifests
      * @param list<ApplicationAdminTenantAssignmentViewDTO> $tenantAssignments
      */
-    public static function fromApplication(Application $application, array $releases, array $manifests, array $tenantAssignments): self
+    public static function fromApplication(ApplicationEntity $application, array $releases, array $manifests, array $tenantAssignments): self
     {
         return new self(
             id: $application->getId() ?? 0,

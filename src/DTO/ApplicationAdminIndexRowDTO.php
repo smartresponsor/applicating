@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Applicating\DTO;
 
-use App\Applicating\Entity\Application;
+use App\Applicating\Entity\ApplicationEntity;
 
 final readonly class ApplicationAdminIndexRowDTO
 {
@@ -20,7 +20,7 @@ final readonly class ApplicationAdminIndexRowDTO
     ) {
     }
 
-    public static function fromApplication(Application $application): self
+    public static function fromApplication(ApplicationEntity $application): self
     {
         return new self(
             id: $application->getId() ?? 0,

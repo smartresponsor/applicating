@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Applicating\ServiceInterface;
 
-use App\Applicating\DTO\TenantApplicationDiagnosticsDTO;
-use App\Applicating\Entity\TenantApplication;
+use App\Applicating\DTO\ApplicationTenantDiagnosticsDTO;
+use App\Applicating\Entity\ApplicationTenantAssignmentEntity;
 
 interface ApplicationDiagnosticsServiceInterface
 {
-    public function buildTenantDiagnostics(TenantApplication $tenantApplication): TenantApplicationDiagnosticsDTO;
+    public function buildTenantDiagnostics(ApplicationTenantAssignmentEntity $tenantApplication): ApplicationTenantDiagnosticsDTO;
 }

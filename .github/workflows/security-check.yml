@@ -5,7 +5,8 @@ on:
     branches: [master]
     paths:
       - 'config/**'
-      - 'src/Security/**'
+      - 'src/Service/ApplicationUserChecker.php'
+      - 'src/Voter/**'
       - 'src/Controller/**'
       - 'docs/**'
       - '.github/workflows/security-check.yml'
@@ -13,7 +14,8 @@ on:
     branches: [master]
     paths:
       - 'config/**'
-      - 'src/Security/**'
+      - 'src/Service/ApplicationUserChecker.php'
+      - 'src/Voter/**'
       - 'src/Controller/**'
       - 'docs/**'
       - '.github/workflows/security-check.yml'
@@ -32,7 +34,7 @@ jobs:
       - name: Verify persistent provider and user checker are enabled
         run: |
           grep -n "applicating_persistent_users" config/packages/application_security.yaml
-          grep -n "App\\Security\\ApplicationUserChecker" config/packages/application_security.yaml
+          grep -n "App\\Applicating\\Service\\ApplicationUserChecker" config/packages/application_security.yaml
       - name: Verify admin API stays manager-scoped
         run: |
           grep -n "^        - { path: \^/api/admin/v1, roles: ROLE_APPLICATION_MANAGER }" config/packages/application_security.yaml

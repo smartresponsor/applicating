@@ -6,39 +6,39 @@ namespace App\Applicating\Service;
 
 use App\Applicating\DTO\ApplicationManifestDTO;
 use App\Applicating\DTO\ApplicationReleaseDTO;
+use App\Applicating\DTO\ApplicationTenantAssignmentDTO;
 use App\Applicating\DTO\ApplicationUpsertDTO;
-use App\Applicating\DTO\TenantApplicationAssignmentDTO;
-use App\Applicating\Entity\Application;
-use App\Applicating\Entity\ApplicationManifest;
-use App\Applicating\Entity\ApplicationRelease;
-use App\Applicating\Entity\TenantApplication;
+use App\Applicating\Entity\ApplicationEntity;
+use App\Applicating\Entity\ApplicationManifestEntity;
+use App\Applicating\Entity\ApplicationReleaseEntity;
+use App\Applicating\Entity\ApplicationTenantAssignmentEntity;
 use App\Applicating\Enum\ApplicationAccessLevel;
 use App\Applicating\Repository\ApplicationManifestRepository;
 use App\Applicating\Repository\ApplicationReleaseRepository;
-use App\Applicating\Repository\TenantApplicationRepository;
+use App\Applicating\Repository\ApplicationRepository;
+use App\Applicating\Repository\ApplicationTenantAssignmentRepository;
 use App\Applicating\ServiceInterface\ApplicationDiagnosticsServiceInterface;
 use App\Applicating\ServiceInterface\ApplicationLifecycleServiceInterface;
 use App\Applicating\ServiceInterface\ApplicationManifestServiceInterface;
 use App\Applicating\ValueObject\ApplicationManifestIdentifier;
 use App\Applicating\ValueObject\ApplicationSlug;
 use App\Applicating\ValueObject\ApplicationVersion;
-use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class ApplicationLifecycleService implements ApplicationLifecycleServiceInterface
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
+        private ApplicationRepository $applicationRepository,
         private ApplicationManifestServiceInterface $applicationManifestService,
         private ApplicationDiagnosticsServiceInterface $applicationDiagnosticsService,
         private ApplicationReleaseRepository $applicationReleaseRepository,
         private ApplicationManifestRepository $applicationManifestRepository,
-        private TenantApplicationRepository $tenantApplicationRepository,
+        private ApplicationTenantAssignmentRepository $tenantApplicationRepository,
     ) {
     }
 
-    public function createApplication(ApplicationUpsertDTO $data): Application
+    public function createApplication(ApplicationUpsertDTO $data): ApplicationEntity
     {
-        $application = new Application(
+        $application = new ApplicationEntity(
             $data->nameEntity,
             (new ApplicationSlug($data->slug))->toString(),
             $data->packageName,
@@ -47,13 +47,12 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
         );
 
         $this->applyApplicationData($application, $data);
-        $this->entityManager->persist($application);
-        $this->entityManager->flush();
+        $this->applicationRepository->save($application);
 
         return $application;
     }
 
-    public function updateApplication(Application $application, ApplicationUpsertDTO $data): Application
+    public function updateApplication(ApplicationEntity $application, ApplicationUpsertDTO $data): ApplicationEntity
     {
         $application->rename($data->nameEntity);
         $application->changeSlug((new ApplicationSlug($data->slug))->toString());
@@ -62,12 +61,12 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
         $application->changeListingSummary($data->listingSummary);
         $this->applyApplicationData($application, $data);
 
-        $this->entityManager->flush();
+        $this->applicationRepository->save($application);
 
         return $application;
     }
 
-    public function createRelease(Application $application, ApplicationReleaseDTO $data): ApplicationRelease
+    public function createRelease(ApplicationEntity $application, ApplicationReleaseDTO $data): ApplicationReleaseEntity
     {
         $version = (new ApplicationVersion($data->version))->toString();
         $existingRelease = $this->applicationReleaseRepository->findOneForApplicationAndVersion($application, $version);
@@ -76,7 +75,7 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
             throw new \LogicException(sprintf('Release version %s already exists for application %s.', $version, $application->getSlug()));
         }
 
-        $release = new ApplicationRelease(
+        $release = new ApplicationReleaseEntity(
             $application,
             $version,
             $data->channel,
@@ -86,13 +85,12 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
         );
         $application->addRelease($release);
 
-        $this->entityManager->persist($release);
-        $this->entityManager->flush();
+        $this->applicationReleaseRepository->save($release);
 
         return $release;
     }
 
-    public function publishApplication(Application $application, ApplicationRelease $release): void
+    public function publishApplication(ApplicationEntity $application, ApplicationReleaseEntity $release): void
     {
         if ($release->getApplication() !== $application) {
             throw new \LogicException('Application release does not belong to the selected application.');
@@ -121,16 +119,16 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
         $application->markForModeration();
         $application->publish();
         $release->publish();
-        $this->entityManager->flush();
+        $this->applicationReleaseRepository->save($release);
     }
 
-    public function suspendApplication(Application $application): void
+    public function suspendApplication(ApplicationEntity $application): void
     {
         $application->suspend();
-        $this->entityManager->flush();
+        $this->applicationRepository->save($application);
     }
 
-    public function createManifest(Application $application, ApplicationManifestDTO $data): ApplicationManifest
+    public function createManifest(ApplicationEntity $application, ApplicationManifestDTO $data): ApplicationManifestEntity
     {
         $payload = $this->applicationManifestService->normalizeManifestPayload($data);
         $identifier = new ApplicationManifestIdentifier($payload['identifier']);
@@ -141,7 +139,7 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
             throw new \LogicException(sprintf('Manifest %s is already attached to application %s.', $identifierValue, $application->getSlug()));
         }
 
-        $manifest = new ApplicationManifest(
+        $manifest = new ApplicationManifestEntity(
             $application,
             $payload['manifestVersion'],
             $identifierValue,
@@ -154,8 +152,7 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
         );
         $application->addManifest($manifest);
 
-        $this->entityManager->persist($manifest);
-        $this->entityManager->flush();
+        $this->applicationManifestRepository->save($manifest);
 
         return $manifest;
     }
@@ -163,7 +160,7 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
     /**
      * @throws \JsonException
      */
-    public function assignTenant(Application $application, TenantApplicationAssignmentDTO $data): TenantApplication
+    public function assignTenant(ApplicationEntity $application, ApplicationTenantAssignmentDTO $data): ApplicationTenantAssignmentEntity
     {
         /** @var array<string, mixed> $policy */
         $policy = json_decode($data->accessPolicy, true, 512, JSON_THROW_ON_ERROR);
@@ -172,7 +169,7 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
         $tenantApplication = $this->tenantApplicationRepository->findOneForTenantAndApplicationEntity($data->tenantKey, $application);
 
         if (null === $tenantApplication) {
-            $tenantApplication = new TenantApplication(
+            $tenantApplication = new ApplicationTenantAssignmentEntity(
                 $application,
                 $data->tenantKey,
                 $version,
@@ -181,18 +178,17 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
                 $policy,
             );
             $application->addTenantApplication($tenantApplication);
-            $this->entityManager->persist($tenantApplication);
         } else {
             $tenantApplication->updateAssignment($version, $data->enabled, $data->billingActive, $policy);
         }
 
         $tenantApplication->setDiagnostics($this->applicationDiagnosticsService->buildTenantDiagnostics($tenantApplication)->toArray());
-        $this->entityManager->flush();
+        $this->tenantApplicationRepository->save($tenantApplication);
 
         return $tenantApplication;
     }
 
-    public function toggleTenantApplication(TenantApplication $tenantApplication, bool $enabled): void
+    public function toggleTenantApplication(ApplicationTenantAssignmentEntity $tenantApplication, bool $enabled): void
     {
         if ($enabled) {
             $tenantApplication->enable();
@@ -201,10 +197,10 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
         }
 
         $tenantApplication->setDiagnostics($this->applicationDiagnosticsService->buildTenantDiagnostics($tenantApplication)->toArray());
-        $this->entityManager->flush();
+        $this->tenantApplicationRepository->save($tenantApplication);
     }
 
-    private function applyApplicationData(Application $application, ApplicationUpsertDTO $data): void
+    private function applyApplicationData(ApplicationEntity $application, ApplicationUpsertDTO $data): void
     {
         $application->changeAccessLevel(ApplicationAccessLevel::from($data->accessLevel));
         $application->changeBillingCode($data->billingCode ?: null);

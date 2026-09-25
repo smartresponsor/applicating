@@ -6,13 +6,12 @@ declare(strict_types=1);
 
 namespace App\Applicating\Service;
 
-use App\Applicating\Entity\Application;
+use App\Applicating\RepositoryInterface\ApplicationRepositoryInterface;
 use App\Applicating\ServiceInterface\ApplicationHealthServiceInterface;
-use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class ApplicationHealthService implements ApplicationHealthServiceInterface
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private ApplicationRepositoryInterface $applicationRepository)
     {
     }
 
@@ -72,10 +71,6 @@ final readonly class ApplicationHealthService implements ApplicationHealthServic
 
     private function countApplications(): int
     {
-        return (int) $this->entityManager->createQueryBuilder()
-            ->select('COUNT(application.id)')
-            ->from(Application::class, 'application')
-            ->getQuery()
-            ->getSingleScalarResult();
+        return $this->applicationRepository->countAllApplications();
     }
 }

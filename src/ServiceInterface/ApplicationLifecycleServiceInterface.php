@@ -6,28 +6,28 @@ namespace App\Applicating\ServiceInterface;
 
 use App\Applicating\DTO\ApplicationManifestDTO;
 use App\Applicating\DTO\ApplicationReleaseDTO;
+use App\Applicating\DTO\ApplicationTenantAssignmentDTO;
 use App\Applicating\DTO\ApplicationUpsertDTO;
-use App\Applicating\DTO\TenantApplicationAssignmentDTO;
-use App\Applicating\Entity\Application;
-use App\Applicating\Entity\ApplicationManifest;
-use App\Applicating\Entity\ApplicationRelease;
-use App\Applicating\Entity\TenantApplication;
+use App\Applicating\Entity\ApplicationEntity;
+use App\Applicating\Entity\ApplicationManifestEntity;
+use App\Applicating\Entity\ApplicationReleaseEntity;
+use App\Applicating\Entity\ApplicationTenantAssignmentEntity;
 
 interface ApplicationLifecycleServiceInterface
 {
-    public function createApplication(ApplicationUpsertDTO $data): Application;
+    public function createApplication(ApplicationUpsertDTO $data): ApplicationEntity;
 
-    public function updateApplication(Application $application, ApplicationUpsertDTO $data): Application;
+    public function updateApplication(ApplicationEntity $application, ApplicationUpsertDTO $data): ApplicationEntity;
 
-    public function createRelease(Application $application, ApplicationReleaseDTO $data): ApplicationRelease;
+    public function createRelease(ApplicationEntity $application, ApplicationReleaseDTO $data): ApplicationReleaseEntity;
 
-    public function publishApplication(Application $application, ApplicationRelease $release): void;
+    public function publishApplication(ApplicationEntity $application, ApplicationReleaseEntity $release): void;
 
-    public function suspendApplication(Application $application): void;
+    public function suspendApplication(ApplicationEntity $application): void;
 
-    public function createManifest(Application $application, ApplicationManifestDTO $data): ApplicationManifest;
+    public function createManifest(ApplicationEntity $application, ApplicationManifestDTO $data): ApplicationManifestEntity;
 
-    public function assignTenant(Application $application, TenantApplicationAssignmentDTO $data): TenantApplication;
+    public function assignTenant(ApplicationEntity $application, ApplicationTenantAssignmentDTO $data): ApplicationTenantAssignmentEntity;
 
-    public function toggleTenantApplication(TenantApplication $tenantApplication, bool $enabled): void;
+    public function toggleTenantApplication(ApplicationTenantAssignmentEntity $tenantApplication, bool $enabled): void;
 }

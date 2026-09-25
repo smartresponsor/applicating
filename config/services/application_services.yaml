@@ -9,19 +9,23 @@ services:
             - '../../src/Entity/'
             - '../../src/Kernel.php'
 
+    App\Applicating\RepositoryInterface\ApplicationRepositoryInterface:
+        alias: App\Applicating\Repository\ApplicationRepository
+        public: true
+
     App\Applicating\RepositoryInterface\ApplicationRuntimeAssignmentRepositoryInterface:
         alias: App\Applicating\Repository\ApplicationRuntimeAssignmentRepository
         public: true
 
-    App\Applicating\ServiceInterface\ApplicationRuntimeAssignmentResolverInterface:
-        alias: App\Applicating\Service\ApplicationRuntimeAssignmentResolver
+    App\Applicating\ResolverInterface\ApplicationRuntimeAssignmentResolverInterface:
+        alias: App\Applicating\Resolver\ApplicationRuntimeAssignmentResolver
         public: true
 
     App\Applicating\ServiceInterface\ApplicationRuntimeAssignmentServiceInterface:
         alias: App\Applicating\Service\ApplicationRuntimeAssignmentService
         public: true
 
-    App\Applicating\Command\ApplicatingRuntimeSetCommand:
+    App\Applicating\Command\ApplicationRuntimeSetCommand:
         tags: ['console.command']
 
     App\Applicating\ServiceInterface\ApplicationLifecycleServiceInterface:
@@ -40,8 +44,8 @@ services:
         alias: App\Applicating\Service\ApplicationReportService
         public: true
 
-    App\Applicating\ServiceInterface\ApplicationAdminViewBuilderInterface:
-        alias: App\Applicating\Service\ApplicationAdminViewBuilder
+    App\Applicating\BuilderInterface\ApplicationAdminViewBuilderInterface:
+        alias: App\Applicating\Builder\ApplicationAdminViewBuilder
         public: true
 
     App\Applicating\ServiceInterface\ApplicationReadinessServiceInterface:

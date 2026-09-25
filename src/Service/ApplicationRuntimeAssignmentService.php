@@ -4,23 +4,21 @@ declare(strict_types=1);
 
 namespace App\Applicating\Service;
 
-use App\Applicating\Entity\ApplicationRuntimeAssignment;
+use App\Applicating\Entity\ApplicationRuntimeAssignmentEntity;
 use App\Applicating\Enum\ApplicationRuntimeMode;
-use App\Applicating\Repository\ApplicationRepository;
+use App\Applicating\RepositoryInterface\ApplicationRepositoryInterface;
 use App\Applicating\RepositoryInterface\ApplicationRuntimeAssignmentRepositoryInterface;
 use App\Applicating\ServiceInterface\ApplicationRuntimeAssignmentServiceInterface;
-use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class ApplicationRuntimeAssignmentService implements ApplicationRuntimeAssignmentServiceInterface
 {
     public function __construct(
-        private ApplicationRepository $applicationRepository,
+        private ApplicationRepositoryInterface $applicationRepository,
         private ApplicationRuntimeAssignmentRepositoryInterface $runtimeAssignmentRepository,
-        private EntityManagerInterface $entityManager,
     ) {
     }
 
-    public function setMode(string $applicationSlug, string $environment, ApplicationRuntimeMode $runtimeMode): ApplicationRuntimeAssignment
+    public function setMode(string $applicationSlug, string $environment, ApplicationRuntimeMode $runtimeMode): ApplicationRuntimeAssignmentEntity
     {
         $applicationSlug = trim($applicationSlug);
         $environment = trim($environment);
@@ -35,13 +33,12 @@ final readonly class ApplicationRuntimeAssignmentService implements ApplicationR
 
         $assignment = $this->runtimeAssignmentRepository->findOneForApplicationEntityAndEnvironment($application, $environment);
         if (null === $assignment) {
-            $assignment = new ApplicationRuntimeAssignment($application, $environment, $runtimeMode);
-            $this->entityManager->persist($assignment);
+            $assignment = new ApplicationRuntimeAssignmentEntity($application, $environment, $runtimeMode);
         } else {
             $assignment->changeRuntimeMode($runtimeMode);
         }
 
-        $this->entityManager->flush();
+        $this->runtimeAssignmentRepository->save($assignment);
 
         return $assignment;
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Applicating\DTO;
 
-use App\Applicating\Entity\TenantApplication;
+use App\Applicating\Entity\ApplicationTenantAssignmentEntity;
 
 final readonly class ApplicationAdminTenantAssignmentViewDTO
 {
@@ -20,7 +20,7 @@ final readonly class ApplicationAdminTenantAssignmentViewDTO
     ) {
     }
 
-    public static function fromTenantApplication(TenantApplication $tenantApplication): self
+    public static function fromTenantApplication(ApplicationTenantAssignmentEntity $tenantApplication): self
     {
         return new self(
             id: $tenantApplication->getId() ?? 0,
