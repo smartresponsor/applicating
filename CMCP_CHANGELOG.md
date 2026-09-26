@@ -117,3 +117,47 @@
 - Verification PASS: Composer validate, Gating hard rules, qa:env, qa:style, qa:static, qa:smell, qa:inspection, qa:test (14 tests / 43 assertions), runtime, branch-wiring, controller-decomposition, fixtures, fixture-load, container, Doctrine, admin, functional-readiness, and PostgreSQL-matrix smokes.
 - The aggregate `release:verify` exceeded the Console MCP RPC window, but every constituent Composer script in that aggregate was executed separately and passed.
 - Remaining Gating warnings are evidence/documentation warnings only: Canon031 PHPDoc coverage, Canon040 persistent coverage summary, and Canon042 behavioral/UI coverage evidence. They are not hard canonical failures and remain a post-RC evidence/documentation tail.
+
+## 2026-09-26 — Applicating RC baseline refresh
+
+### Reconnaissance baseline
+
+- Re-read the authoritative task specification, root AGENTS/README/Composer contract, current CMCP journal, Git/upstream state, Composer scripts, and Code Memory scope/graph plan through Console MCP.
+- Re-inspected the mandatory Objecting, Cruding, Viewing, Interfacing, Gating, and Canonization contour; no sibling repository was mutated.
+- The worktree starts with preserved unrelated local `.gating/` materialization. Master is synchronized with `origin/master` (ahead 0 / behind 0); those existing paths are not part of this workstream.
+- Composer strict validation passes. Current executable Gating fails only Canon055 on the root AGENTS heading.
+
+### Canonization mapping consulted
+
+- `Canon018`: `applicating/application` maps to `App\\Applicating\\` and Application-prefixed subject types.
+- `Canon019`: no Domain/Application/Infrastructure/Port/Adapter/Adaptor alternative layer roots.
+- `Canon021`: generic application CRUD remains owned by Cruding; EasyAdmin admin surfaces are the explicit exception.
+- `Canon022`: Applicating keeps direct Objecting, Cruding, Collectioning, Tabling, Viewing, Interfacing, and EasyAdmin runtime dependencies.
+- `Canon043`, `Canon045`, `Canon053`: development path-repository identity/closure and sibling symlink constraints govern local helper wiring.
+- `Canon055`: SmartResponsor is a consumer/domain identity and must not label shared platform rules; neutral multi-domain SaaS platform terminology is required for the root agent-facing contract.
+
+### Selected work
+
+- **RC-critical:** remove the deterministic Canon055 failure in the repository-owned agent contract, then re-run Gating and the relevant quality/release contours.
+- **Growth (post-RC):** richer catalog health/ownership scorecards, automated catalog enrichment, self-service lifecycle actions, and release/environment promotion UX. These remain separate from RC correctness.
+
+### Market/maturity baseline
+
+- Mature software catalogs treat lifecycle metadata, ownership, relationships, and status as first-class catalog concepts.
+- Mature internal developer portals add automated catalog enrichment, health/standards checks, and self-service actions around that catalog.
+- Applicating's RC boundary therefore stays on deterministic application lifecycle contracts, diagnostics, dependency wiring, and release safety; portal-wide discovery/scorecard UX remains growth work.
+
+### Material risks and gates
+
+- Preserve the pre-existing `.gating/` working-tree material; no reset/clean/stash is permitted.
+- Run Composer validation, Gating, style/static/test checks, and release verification. UI/browser evidence is required only if this work changes user-observable UI behavior.
+
+### Verification checkpoint
+
+- `composer validate --strict --no-interaction`: PASS.
+- `composer gate`: PASS — 9 rules, 0 failed, 0 warning, 2 profile-dependent skips; Canon055 is GREEN after the neutral heading repair.
+- Changed-PHP lint: PASS / not applicable — this pass changes no PHP files.
+- `qa:style`, `qa:static`, `qa:test`, and `release:verify` were requested through the canonical Composer worker, but Console MCP refused to start heavy jobs under current runtime-capacity policy (`RESOURCE_PRESSURE_WATCH`, `ENGINE_BACKLOG_HIGH`, `ADMIT_LIGHT_ONLY`). No failing test output exists from those jobs because their processes were not started.
+- No browser/mobile/UI behavior changed, so Panther/Playwright screenshots are not applicable to this patch.
+
+
