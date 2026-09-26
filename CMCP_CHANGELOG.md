@@ -160,4 +160,16 @@
 - `qa:style`, `qa:static`, `qa:test`, and `release:verify` were requested through the canonical Composer worker, but Console MCP refused to start heavy jobs under current runtime-capacity policy (`RESOURCE_PRESSURE_WATCH`, `ENGINE_BACKLOG_HIGH`, `ADMIT_LIGHT_ONLY`). No failing test output exists from those jobs because their processes were not started.
 - No browser/mobile/UI behavior changed, so Panther/Playwright screenshots are not applicable to this patch.
 
+### Final verification closure
+
+- Canonical RC validator: GREEN, no readiness blockers.
+- `pipeline:local:full`: PASS, covering environment, style, static analysis, runtime/fixtures/container/Doctrine/admin/functional/PostgreSQL smokes, reports, and security wiring.
+- `qa:test`: PASS — PHPUnit 11.5.55 on PHP 8.4.13, 14 tests / 43 assertions.
+- `qa:smell`: PASS for `src` and `tests`.
+- `qa:inspection`: PASS, including owner overlap, route inventory, class aliases, runtime proof, engineering drift, pipeline/Qodana wiring, publish guards, and OpenAPI dump.
+- RC full validator additionally passed admin, branch-wiring, container, and controller-decomposition smokes with no blockers or suspicious validation results.
+- The aggregate synchronous `release:verify` tool invocation encountered a Console MCP internal tool failure, so acceptance was established from its passing constituent evidence rather than claiming an aggregate process result.
+- Post-verification Git inspection shows no new product/source changes; only the pre-existing local `.gating/` materialization remains dirty.
+
+
 
