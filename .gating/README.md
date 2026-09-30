@@ -1,6 +1,6 @@
 # Gating Gate
 
-Gating is the executable Smart Responsor ecosystem gate.
+Gating is the executable gate for the multi-domain SaaS platform ecosystem.
 
 Canonical naming:
 

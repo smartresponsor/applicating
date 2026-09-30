@@ -171,5 +171,69 @@
 - The aggregate synchronous `release:verify` tool invocation encountered a Console MCP internal tool failure, so acceptance was established from its passing constituent evidence rather than claiming an aggregate process result.
 - Post-verification Git inspection shows no new product/source changes; only the pre-existing local `.gating/` materialization remains dirty.
 
+## 2026-09-29 — Applicating autonomous RC remediation
+
+### Reconnaissance baseline
+
+- Read the authoritative execution specification, root AGENTS/README, all tracked Markdown/AsciiDoc documentation, Composer/runtime manifests, API controllers/routes, current CMCP journal, Git/upstream state, and the supplied CanonScanning/Inspecting evidence.
+- Read the mandatory Objecting, Cruding, Viewing, Interfacing, Gating, and Canonization contracts/manifests available in the shared workspace. Canonization remains read-only reference material.
+- Current `master` is synchronized with `origin/master` at `77dfc4326992b84c8bac98d7f0307ebee5c23028`, but the worktree already contains preserved unrelated Failing integration changes plus a materialized `.gating/` tree. No reset/clean/stash is permitted.
+- The supplied CanonScanning report recorded four hard failures: Canon039 branch-coverage tooling, Canon052 consumer Gating artifact boundary, Canon056 OpenAPI path parity, and Canon063 OpenAPI method parity. The supplied Inspecting report recorded seven medium maintainability/design observations and no autofixable finding.
+- The current local `composer gate` checks only a nine-rule contour and is GREEN; it is evidence but not a substitute for the full canon/RC validator.
+
+### Canonization mapping consulted
+
+- Canon039/040: PHPUnit coverage execution must emit persistent Lines/Methods/Branches evidence, with branch coverage enabled.
+- Canon041/042: standalone Symfony UI/behavioral tooling is present; behavioral/UI evidence is measurable separately and missing evidence is warning debt unless promoted by a stricter gate.
+- Canon052: Gating is a real dependency/integration surface while consumer `.gating/` remains artifact-only; embedded owner source/tooling is non-canonical.
+- Canon056/058/059/063: external runtime API paths and methods mirror one canonical YAML OpenAPI source under `config/openapi/`; Applicating's Canon018 subject token requires an `application_` filename prefix.
+- Canon061/062: an OpenAPI-owning Symfony repository declares Nelmio directly and uses one canonical source declaration without alias drift.
+
+### Market and maturity baseline
+
+- Mature software catalogs and internal developer portals treat lifecycle metadata, ownership, relations, health/status, and API exposure as first-class but separate concerns.
+- **RC-critical:** deterministic lifecycle/API contract parity, reproducible test evidence, canonical Gating integration, diagnostics, and release verification.
+- **Growth:** richer scorecards, automated catalog enrichment, self-service templates/actions, and broader portal UX; these remain outside RC unless required for correctness or operability.
+
+### Selected work and risks
+
+- Revalidate the full RC/canon contour against the current dirty tree before assuming the upstream RED is still current.
+- Repair only repository-owned deterministic failures, preserving unrelated Failing integration work and avoiding destructive operations.
+- Add/repair canonical OpenAPI and branch-coverage evidence contracts only when confirmed by the current full validator.
+- Run Composer validation, full RC/canon validation, affected quality/test gates, Inspecting after relevant mutation, and final Git/upstream verification.
+
+### Implementation
+
+- Promoted `nelmio/api-doc-bundle` from development-only to direct runtime ownership in `composer.json` and aligned `composer.prod.json`.
+- Added `config/openapi/application_openapi.yaml` as the single Canon058 canonical OpenAPI source for the four current external Applicating GET routes.
+- Updated `test:coverage` to use PHPUnit 11-compatible `--path-coverage`, producing persistent Lines/Methods/Paths/Branches evidence in `var/coverage/summary.txt`.
+- Added `config/application_gating_all.yaml` plus `composer gate:canon` so the complete registered Canon rule set is reproducible locally without changing the fast local-dev gate.
+- Preserved the pre-existing owner-style `.gating/` materialization non-destructively by relocating its disallowed top-level contents beneath the Canon052-allowed `.gating/artifact/` surface. No reset, clean, delete, overwrite, or data loss was used. The generated artifact surface is ignored in root `.gitignore`.
+
+### Verification and acceptance
+
+- `composer validate --strict --check-lock`: PASS.
+- `composer test:coverage`: PASS, PHPUnit 11.5.55 / PHP 8.4.13, 14 tests / 43 assertions; coverage evidence now reports Lines 19.69%, Methods 16.77%, Branches 18.13% and Paths 7.05%.
+- `qa:style`, `qa:static`, `qa:test`, `qa:inspection`, and `api:doc:dump`: PASS.
+- Full `composer gate:canon`: PASS with zero hard failures. Canon039, Canon052, Canon056, Canon058, Canon059, Canon061, and Canon063 are GREEN. Remaining Canon031/040/042 results are warning-class debt: PHPDoc coverage, high PHP test debt, and missing behavioral/UI coverage evidence.
+- Final RC validator: `rc_diagnostic_green`; Composer validation, lint, service/interface parity, and `pipeline:local:full` all PASS with no RC blockers.
+- Fresh standalone Inspecting report `D--PhpstormProjects-www-Applicating-20260930-024447.json`: PHPStan 0 errors; seven medium design/maintainability observations; zero autofixable findings. No production `src/` mutation followed that report.
+- No browser/mobile UI, navigation, form, or interaction surface changed in this remediation; Panther/Playwright visual evidence is therefore not applicable.
+
+### Residual debt and integration state
+
+- Growth/post-RC debt remains intentionally separate: PHPDoc completion, broad test-coverage uplift toward 80/80/70, behavioral/UI coverage evidence generation, and the seven non-autofixable Inspecting design observations.
+- The worktree contained Failing integration changes before this task in `composer.json`, `composer.lock`, `composer.prod.json`, and `config/bundles.php`. This remediation necessarily touches the first three same files.
+- Console MCP staging is path-level only; committing those whole files would absorb unrelated pre-existing Failing work. The task therefore stops publication rather than commingling protected user work. New Applicating-owned files and journal changes remain uncommitted together with the verified shared-file edits until hunk ownership can be safely separated.
+
+### Work 3 integration closure
+
+- User explicitly reclassified the entire remaining uncommitted state as one Work 3 value set and authorized preserving, committing, and integrating all of it together. The earlier hunk-ownership publication blocker is therefore resolved by task authority rather than by discarding any existing value.
+- Failing integration was retained as canonical runtime value: `failing/failure` is a direct development and production dependency, the local repository is symlinked in development, the production manifest resolves it through VCS, and `App\\Failing\\FailingBundle` is active for all environments as required by the standalone baseline.
+- The current lockfile is intentionally accepted as the verified dependency closure. The Nelmio reconciliation also refreshed compatible Symfony/Doctrine/first-party package records; this state has passed Composer validation, the full local pipeline, static analysis, tests, API inspection, and full Canon validation.
+- Final Work 3 acceptance immediately before commit: `composer validate --strict --check-lock` PASS; `composer gate:canon` PASS with zero hard failures; RC validate reports `rc_diagnostic_green`; lint and service/interface parity PASS; `pipeline:local:full` PASS.
+- Aggregate `release:verify` could not be started asynchronously because Console MCP runtime capacity was temporarily restricted to light work. This is not a test failure; its constituent checks and the RC validator are GREEN on the same worktree state.
+- Work 3 is ready for one signed commit containing the complete remaining nine-path value set, followed by push of `master` to its configured `origin/master` upstream.
+
 
 

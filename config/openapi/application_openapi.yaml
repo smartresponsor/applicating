@@ -1,0 +1,46 @@
+openapi: 3.1.0
+info:
+  title: Applicating API
+  version: 1.0.0
+  description: Canonical first-party HTTP API contract owned by Applicating.
+paths:
+  /api/applicating/doc:
+    get:
+      operationId: applicatingApiDocumentation
+      summary: Render the Applicating API documentation UI.
+      responses:
+        '200':
+          description: API documentation UI.
+  /api/applicating/application:
+    get:
+      operationId: listApplications
+      summary: List applications for an application manager.
+      responses:
+        '200':
+          description: Application collection.
+        '403':
+          description: Access denied.
+  /api/applicating/application/report:
+    get:
+      operationId: applicationReport
+      summary: Return the Applicating summary report.
+      responses:
+        '200':
+          description: Application summary report.
+        '403':
+          description: Access denied.
+  /api/applicating/application/readiness/{slug}:
+    get:
+      operationId: applicationReadiness
+      summary: Return readiness information for one application.
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Application readiness state.
+        '403':
+          description: Access denied.

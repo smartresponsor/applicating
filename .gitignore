@@ -71,6 +71,7 @@ Thumbs.db
 /tmp/
 /cache/
 /artifacts/
+/.gating/artifact/
 
 # ──────────────────────────────────────────────
 #  🧰 Temporary & Backup files
