@@ -13,6 +13,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'applicating:manifest:validate', description: 'Validate application manifest semantics')]
+/**
+ * Validates and normalizes an application manifest through the manifest service contract.
+ */
 final class ApplicationManifestValidateCommand extends Command
 {
     public function __construct(private readonly ApplicationManifestServiceInterface $applicationManifestService)
@@ -20,6 +23,9 @@ final class ApplicationManifestValidateCommand extends Command
         parent::__construct();
     }
 
+    /**
+     * Declares the manifest identifier and capability input accepted by the validation command.
+     */
     protected function configure(): void
     {
         $this->addArgument('identifier', InputArgument::REQUIRED);
@@ -27,6 +33,8 @@ final class ApplicationManifestValidateCommand extends Command
     }
 
     /**
+     * Normalizes the requested manifest and emits its canonical JSON representation.
+     *
      * @throws \JsonException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int

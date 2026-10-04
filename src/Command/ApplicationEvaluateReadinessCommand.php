@@ -11,8 +11,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'applicating:application:evaluate-readiness', description: 'Run readiness evaluation scenarios')]
+/**
+ * Executes the repository readiness evaluation harness and reports its policy verdict.
+ */
 final class ApplicationEvaluateReadinessCommand extends Command
 {
+    /**
+     * Declares the score threshold and evaluation profile accepted by the readiness harness.
+     */
     protected function configure(): void
     {
         $this
@@ -20,6 +26,9 @@ final class ApplicationEvaluateReadinessCommand extends Command
             ->addOption('eval-profile', null, InputOption::VALUE_REQUIRED, 'Evaluation profile: strict|soft|dev', 'strict');
     }
 
+    /**
+     * Runs the evaluation script and returns failure when its generated policy requires it.
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         [$minScore, $profile] = $this->evaluationOptions($input);

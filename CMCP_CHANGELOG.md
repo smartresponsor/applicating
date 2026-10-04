@@ -377,5 +377,224 @@
 - Fresh post-mutation Inspecting report `D--PhpstormProjects-www-Applicating-20261004-113006.json`: PHPStan 0 errors; seven medium, non-autofixable design/maintainability observations, matching the pre-change qualitative debt contour; no new hard finding.
 - Visual Gallery service is healthy at the central workspace artifact root; the Playwright screenshot is the acceptance visual for this user-observable login-shell verification.
 
+### Reconciliation — task `engine-20261004084428-applicating-bb680d`
+
+- Re-read the authoritative execution specification and the current Applicating repository baseline through Console MCP, then consumed the supplied 2026-09-29 CanonScanning RED and Inspecting evidence before drawing new conclusions.
+- Read the current Objecting, Cruding, Viewing, Interfacing, Gating, and Canonization contracts. Normative Canonization rules consulted for this pass: Canon021, Canon039, Canon040, Canon042, Canon052, Canon056, Canon058, Canon059, Canon061, Canon063, and Canon067.
+- Preserved the coherent pre-existing functional/UI hardening worktree instead of resetting, stashing, cleaning, or replacing it. Generated `var/` evidence remains outside the source commit.
+- The supplied RED evidence is stale against the current tree: `composer gate:canon` passes with zero hard failures. Canon039, Canon052, Canon056, Canon058, Canon059, Canon061, Canon063, and Canon067 are GREEN; Canon031, Canon040, and Canon042 remain explicit warning-class debt.
+- Current acceptance is GREEN: Composer strict/check-lock validation PASS; targeted functional PHPUnit PASS (11 tests / 21 assertions); Playwright Chromium PASS (1/1) with the login screenshot in the central visual artifact tree; `qa:style` PASS; `qa:static` PASS; `qa:test` PASS (19 tests / 48 assertions); `qa:inspection` PASS; and `release:verify` PASS end-to-end.
+- Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261004-113537.json` reports PHPStan 0 errors and the same seven medium, non-autofixable design/maintainability observations; no new RC-hard architecture defect was introduced.
+- Canon042 evidence is factual: functional 7/7 (100%), behavioral 0/5, UI 1/4 (25%), critical 0/2. The remaining broader workflow/browser coverage uplift is retained as measured remediation debt rather than synthesized coverage.
+
+## 2026-10-04 — Playwright visual provenance hardening
+
+### Reconnaissance baseline
+
+- Task `engine-20261004084435-applicating-969182` starts from `master` synchronized with `origin/master` at `86b447ed3b9cee02ba2072e90144a72918f68e82`; only generated `var/` artifacts were untracked before this pass.
+- Consumed the supplied 2026-09-29 CanonScanning RED and current repository journal before mutation. The historical hard failures are already remediated in the current tree: branch coverage, consumer Gating boundary, canonical OpenAPI parity, and method parity are implemented.
+- Re-read Applicating runtime/testing contracts plus the mandatory Objecting and Cruding dependency boundaries; current Applicating Composer wiring keeps Objecting/Cruding/Viewing/Interfacing as direct local-symlink application dependencies.
+- Market baseline: mature internal developer portals/catalogs keep lifecycle metadata, ownership, health/status and API contracts machine-readable; scorecards and self-service actions layer on top rather than replacing deterministic application lifecycle/release evidence.
+
+### Canonization mapping and selected work
+
+- Canon042 keeps behavioral/UI evidence reproducible and provenance-bound; visual acceptance artifacts must identify the run that generated them rather than silently reusing a previous engine run directory.
+- **RC-critical:** remove the stale hard-coded Playwright screenshot run-id and derive the central `var/Applicating/<date>/<run-id>` path from current execution context (`CMCP_RUN_ID`) with a unique local fallback.
+- **Growth:** broader behavioral workflows, scorecards, self-service catalog actions, and additional UI surfaces remain measured post-RC work and are not promoted into this focused provenance repair.
+
+### Verification plan
+
+- Run Playwright against the existing healthy runtime first; do not restart it solely for this pass.
+- Re-run behavioral evidence, full Canon gate, focused QA, and post-change Inspecting as applicable.
+- Inspect final Git diff/status/upstream and integrate only the coherent repository-owned change set when GREEN.
+
+### Verification checkpoint
+
+- `composer validate --strict --check-lock`: PASS.
+- `composer gate:canon`: PASS with zero hard failures; Canon039/052/056/058/059/061/063/067 remain GREEN. Canon031/040/042 remain warning-class measured debt.
+- `composer test:playwright`: NOT_RUN — Console MCP refused to start the heavy worker under `RUNTIME_CAPACITY_ADMIT_LIGHT_ONLY` / `ENGINE_BACKLOG_HIGH`; no Playwright process started and no failing output exists.
+- Existing port 8000 runtime was probed first and was not restarted; it is unmanaged and `/login` returns 404, so it is not the Applicating acceptance runtime for this pass.
+- Git diff revealed a concurrent/pre-existing `playwright.config.ts` mutation that independently introduces the same `CMCP_RUN_DATE`/`CMCP_RUN_ID` artifact root. This task did not author that file, so publication is withheld rather than silently absorbing concurrent work by path-level commit.
+- No product UI/navigation/form behavior changed in this pass; the missing new screenshot is therefore not a product-UI acceptance blocker, but the changed Playwright test itself remains unexecuted due runtime-capacity policy.
+
+## 2026-10-04 — Canon031 contract documentation remediation
+
+### Reconnaissance baseline
+
+- Task `engine-20261004114624-applicating-69d937` consumed the supplied 2026-09-29 CanonScanning RED before mutation and confirmed the historical Canon039/052/056/063 failures are already remediated in the current repository.
+- Re-read Applicating README/Composer/PHPUnit/current journal plus the mandatory Objecting, Cruding, Viewing, Interfacing, Gating contracts and normative Canon021/039/042/052/056/058/063/067 texts from Canonization.
+- Preserved concurrent work in `playwright.config.ts`, `tests/Playwright/application-login.spec.ts`, `tests/Unit/EventSubscriber/`, generated `var/`, and the pre-existing journal delta; no reset, stash, clean, overwrite, or destructive reconciliation was used.
+
+### Workstreams and implementation
+
+- Market/maturity baseline remains application lifecycle/catalog discipline: machine-readable lifecycle/API/readiness contracts and reproducible verification are RC-critical; richer scorecards, self-service actions, and broader portal UX remain growth work.
+- Current hard Canon is GREEN. The selected independent RC-hardening action reduces measurable Canon031 debt without touching concurrent runtime/UI work.
+- Added semantic class/method documentation to `ApplicationAdminViewBuilderInterface`, documenting its presentation DTO responsibility and index/detail projection contracts without changing runtime behavior.
+
+### Verification
+
+- `composer validate --strict --check-lock`: PASS.
+- Changed PHP lint: PASS.
+- `composer qa:static`: PASS, PHPStan zero errors.
+- `composer qa:test`: PASS, 24 tests / 54 assertions; behavioral evidence regenerated.
+- `composer test:coverage`: PASS, 24 tests / 54 assertions; persistent coverage evidence refreshed.
+- Post-change `composer gate:canon`: PASS with zero hard failures. Canon031 improved from classes 4/101 and contract methods 12/194 to classes 5/101 and contract methods 14/194. Canon040 remains measured HIGH_TEST_DEBT; Canon042 remains measured HIGH_BEHAVIORAL_TEST_DEBT.
+- Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261004-115224.json`: PHPStan zero errors; seven medium non-autofixable design/maintainability observations, unchanged in qualitative contour.
+- No product UI/navigation/form/interaction behavior changed in this task; new visual evidence is not applicable.
+
+
+## 2026-10-04 — Visual evidence provenance closure (`engine-20261004112758-applicating-f4ca1c`)
+
+### Reconnaissance and canon mapping
+
+- Read the authoritative task specification, all current Applicating Markdown/AsciiDoc documentation, Composer development/production manifests, source/test/runtime/OpenAPI/CI contours, the supplied 2026-09-29 CanonScanning RED and Inspecting report, and the current Git/worktree state through Console MCP.
+- Re-read Objecting, Cruding, Viewing, Interfacing, Collectioning, Tabling, Gating, and the relevant textual Canonization rules. Applied Canon022/023/024/025/026 to package/runtime wiring, Canon029/031/039/040/041/042 to QA and evidence, Canon052 to Gating integration, and Canon056-063 to canonical OpenAPI/version/path/method parity.
+- The historical RED is stale against the current tree: canonical OpenAPI, Nelmio ownership, branch/path coverage tooling, Gating integration, and API path/method parity are already present and current hard Canon validation is GREEN.
+- The supplied Inspecting baseline contains seven medium, non-autofixable maintainability/design observations and no hard acceptance finding; this pass does not mutate production PHP to silence observational debt.
+
+### Workstreams and selected RC repair
+
+- **RC-critical:** make Playwright visual evidence reusable and provenance-safe by removing the stale hard-coded prior engine run-id while preserving the central workspace visual artifact contract and runtime reuse policy.
+- **Growth/post-RC:** broader behavioral workflows, critical-path UI coverage, catalog scorecards, richer ownership/relationship graph, and self-service lifecycle automation remain separate measured maturity work.
+- `playwright.config.ts` now derives date/run from `CMCP_RUN_DATE` / `CMCP_RUN_ID` with a manual fallback and writes Playwright output beneath the shared workspace root `../var/Applicating/<date>/<run-id>/playwright`.
+- `tests/Playwright/application-login.spec.ts` uses the same shared workspace-root visual tree for `login-surface.png`. The dynamic test-path change appeared concurrently during this execution window; it was preserved as coherent in-scope value rather than overwritten, while the shared-root correction was verified against the gallery server's factual artifact root.
+- A concurrent untracked `tests/Unit/EventSubscriber/ApplicationRequestCorrelationSubscriberTest.php` also appeared after the baseline. It is independent of this visual-provenance repair and is preserved outside this task's integration set.
+
+### Verification
+
+- Managed runtime policy: existing runtime/gallery were probed first; no healthy service was restarted. The visual gallery responds HTTP 200 and reports the central artifact root `D:\PhpstormProjects\www\var`.
+- `composer test:playwright`: PASS — Chromium 1/1 after the shared-root correction. `login-surface.png` exists under `D:\PhpstormProjects\www\var\Applicating\2026-10-04\manual\` when the Composer worker does not export `CMCP_RUN_ID`.
+- `composer gate:canon`: PASS with zero hard failures. Canon031 remains PHPDoc warning debt; Canon040 remains measured executable coverage debt; Canon042 remains functional 7/7, behavioral 0/5, UI 1/4, critical 0/2 warning debt.
+- `composer qa:style`: PASS.
+- `composer qa:static`: PASS.
+- `composer qa:test`: PASS — PHPUnit 19 tests / 48 assertions at the time of the focused visual-provenance gate pass.
+- Final release/full validation and Git integration classification: `composer gate:canon` PASS with zero hard failures; `composer qa:test` PASS on the concurrent-expanded tree (24 tests / 54 assertions). Aggregate `composer release:verify` stops at `qa:style` solely because the independently added untracked `tests/Unit/EventSubscriber/ApplicationRequestCorrelationSubscriberTest.php` requires PHP-CS-Fixer normalization; that unrelated concurrent file was not mutated by this task.
+- Signed commit `a7b6a13` (`Harden Playwright visual artifact provenance`) contains only `playwright.config.ts` and `tests/Playwright/application-login.spec.ts`; push to configured `origin/master` succeeded (`86b447e..a7b6a13`).
+- Post-push worktree still contains preserved concurrent/unrelated value (`CMCP_CHANGELOG.md`, an independently modified builder interface, the untracked EventSubscriber test, and generated `var/`). None was reset, cleaned, stashed, deleted, or silently absorbed into the visual-provenance commit.
+
+## 2026-10-04 — Request-correlation coverage hardening (`engine-20261004113952-applicating-07f499`)
+
+### Reconnaissance baseline
+
+- Re-read the authoritative execution specification, repository instructions/manifests, current Git state, historical CanonScanning RED, supplied Inspecting evidence, and the mandatory Objecting/Cruding/Viewing/Interfacing/Gating/Canonization contracts through Console MCP.
+- Historical 2026-09-29 hard failures are stale against the current tree: Canon039, Canon052, Canon056, Canon058, Canon059, Canon061, Canon063, and Canon067 are currently GREEN. Supplied Inspecting evidence remains seven medium non-autofixable design/maintainability observations without a hard acceptance finding.
+- Preserved concurrent work and integration from the visual-provenance task. This task owns only the request-correlation unit test plus this appended journal section and does not overwrite unrelated source/UI paths.
+- Market/maturity mapping remains bounded to application lifecycle ownership: machine-readable lifecycle/health/API contracts are RC concerns, while richer catalog scorecards, self-service workflows, and portal-wide UX remain growth work.
+
+### Canonization mapping and selected work
+
+- Canon039 confirms executable PHPUnit branch/path coverage tooling and persistent summary evidence.
+- Canon040 current evidence still classifies the repository as `HIGH_TEST_DEBT`. The selected RC-hardening slice is deterministic coverage of request-correlation propagation because the subscriber began this pass with zero path coverage and zero branch coverage.
+- Canon041/042 tooling/evidence remain configured; this change does not mutate browser UI, navigation, forms, templates, or user flows, so new visual evidence is not applicable.
+- Canon052 and Canon056/058/059/061/063 remain GREEN boundary constraints; no Gating/OpenAPI ownership change is required.
+
+### Implementation and verification
+
+- Added `tests/Unit/EventSubscriber/ApplicationRequestCorrelationSubscriberTest.php` covering event subscription, preservation of an incoming request ID, blank-header ID generation, response-header propagation, and absence behavior when no valid request ID exists.
+- The first PHPUnit discovery exposed a truncated file tail from the initial patch payload; the test was repaired immediately and re-run rather than suppressing the failure. PHP-CS-Fixer normalized only the new test.
+- `composer validate --strict --check-lock`: PASS.
+- `composer test:unit`: PASS — 12 tests / 29 assertions.
+- `composer test:coverage`: PASS — 24 tests / 54 assertions. `ApplicationRequestCorrelationSubscriber` now reports 100% lines and 92.86% branches. Repository aggregate remains warning-class high debt at 19.33% lines, 17.70% methods, and 38.08% branches; no synthetic coverage claim is made.
+- `composer gate:canon`: PASS with zero hard failures. Residual Canon031, Canon040, and Canon042 remain warning-class documentation/test/behavioral coverage debt.
+- `composer qa:style`: PASS after the one-file formatter normalization.
+- `composer qa:static`: PASS — PHPStan zero errors.
+- No production runtime/UI source changed; runtime restart and new screenshot generation are not applicable to this implementation slice.
+
+## 2026-10-04 — Builder contract documentation hardening (`engine-20261004115344-applicating-f4676a`)
+
+### Reconnaissance and selected work
+
+- Re-read the authoritative task specification, Applicating runtime/quality contracts, mandatory Objecting/Cruding/Viewing/Interfacing dependency boundaries, Gating package contract, and normative Canon031/040/042 texts in Canonization.
+- Current `master` started synchronized with `origin/master` at `940ef76ebfb709b07055f5c0bd1045b6542ef9ed`; only the orchestration journal and generated `var/` artifacts were dirty before this pass.
+- Full Canon validation had zero hard failures. Remaining warning debt was Canon031 PHPDoc coverage, Canon040 executable PHP coverage, and Canon042 behavioral/UI coverage.
+- **RC-critical:** reduce a deterministic Canon031 representative gap on the administrative presentation builder without changing runtime behavior. **Growth:** broader catalog/self-service UX and large-scale coverage uplift remain separate post-RC work.
+
+### Implementation and verification
+
+- Added semantic class and contract-method documentation to `ApplicationAdminViewBuilder`, matching its DTO projection responsibility and existing interface contract.
+- `composer validate --strict --check-lock`: PASS.
+- `composer qa:style`: PASS; PHP lint checked 138 files and PHP-CS-Fixer found no fixable files.
+- `composer qa:static`: PASS; PHPStan zero errors.
+- `composer qa:test`: PASS — 24 tests / 54 assertions; behavioral evidence regenerated.
+- `composer test:coverage`: PASS — persistent executable coverage evidence refreshed after the source timestamp change.
+- `composer gate:canon`: PASS with zero hard failures. Canon031 improved from classes 5/101 and contract methods 14/194 to classes 6/101 and contract methods 16/194. Canon040 remains measured HIGH_TEST_DEBT at 19.3% lines / 17.7% methods / 38.1% branches; Canon042 remains measured warning debt at functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261004-120037.json`: PHPStan zero errors and the same seven medium, non-autofixable design/maintainability observations; no hard architecture finding was introduced.
+- No user-observable UI/navigation/form behavior changed; browser/mobile visual evidence is not applicable to this pass.
+
+## 2026-10-04 — CLI contract documentation hardening (`engine-20261004122010-applicating-93aaa4`)
+
+### Reconnaissance baseline
+
+- Re-read the authoritative execution specification, Applicating repository instructions/runtime/quality contracts, supplied CanonScanning RED and Inspecting evidence, current Git/upstream state, and mandatory Objecting/Cruding/Viewing/Interfacing/Gating contracts through Console MCP.
+- Re-read normative Canon031/040/042 texts from Canonization. Current full `composer gate:canon` is GREEN on all hard rules; historical Canon039/052/056/063 failures are stale against the current tree.
+- Current measurable warning debt before this patch: Canon031 classes 6/101 and contract methods 16/194; Canon040 HIGH_TEST_DEBT; Canon042 HIGH_BEHAVIORAL_TEST_DEBT.
+
+### Workstreams and implementation
+
+- Market/maturity boundary remains application lifecycle/release correctness: deterministic package/runtime/API contracts and diagnosable operations are RC concerns; richer catalog scorecards, self-service workflows, and broader portal UX remain growth work.
+- **RC-critical:** reduce deterministic Canon031 debt on concrete operational CLI contracts without changing runtime behavior.
+- Added semantic class and behavior-method documentation to `ApplicationDemoResetCommand` and `ApplicationDiagnosticsRunCommand`, preserving the existing JSON exception contract and command behavior.
+- No product UI/navigation/form/browser behavior changed; visual evidence is not applicable to this patch.
+
+### Verification
+
+- Changed PHP lint: PASS for both command files.
+- `composer validate --strict --check-lock`: PASS.
+- `composer qa:style`: PASS; 138 PHP files linted and PHP-CS-Fixer found 0/115 fixable files.
+- `composer qa:static`: PASS; PHPStan zero errors.
+- `composer qa:test`: PASS — 24 tests / 54 assertions; Canon042 evidence regenerated at functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer test:coverage`: PASS — 24 tests / 54 assertions; persistent executable coverage refreshed.
+- `composer gate:canon`: PASS with zero hard failures. Canon031 improved from classes 6/101 and contract methods 16/194 to classes 8/101 and contract methods 19/194. Canon040 remains measured HIGH_TEST_DEBT at 19.3% lines / 17.7% methods / 38.1% branches; Canon042 remains measured warning debt.
+- Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261004-122737.json`: PHPStan zero errors and the same seven medium non-autofixable design/maintainability observations; no hard finding was introduced.
+- No user-observable UI change occurred; visual acceptance is not applicable to this patch.
+
+## 2026-10-04 — CLI contract documentation continuation (`engine-20261004191255-applicating-016c13`)
+
+### Reconnaissance baseline
+
+- Read the authoritative execution specification, current Applicating AGENTS/README/Composer/PHPUnit/Playwright/journal surfaces, supplied 2026-09-29 CanonScanning RED and Inspecting reports, current Git diff/upstream state, and mandatory Objecting/Cruding/Viewing/Interfacing/Gating contracts through Console MCP.
+- Read the normative Canonization texts for Canon021, Canon031, Canon039, Canon040, Canon042, Canon052, Canon056, Canon058, Canon061, Canon063, and Canon067. The historical hard RED is stale against the current repository; current actionable debt remains warning-class Canon031/040/042.
+- Preserved the pre-existing CLI PHPDoc changes in `ApplicationEvaluateReadinessCommand`, `ApplicationFixturesLoadDemoCommand`, and `ApplicationImportMapAuditCommand`; no reset, stash, clean, overwrite, or destructive reconciliation was used.
+- Market/maturity boundary remains application lifecycle/release correctness: deterministic lifecycle/API/readiness contracts and diagnosable operational commands are RC concerns; richer catalog scorecards, self-service workflows, and broader portal UX remain growth work.
+
+### Selected work
+
+- **RC-critical:** continue the deterministic Canon031 documentation remediation on operational CLI contracts without changing runtime behavior.
+- Added meaningful class/configure/execute documentation to `ApplicationManifestValidateCommand`, including semantic description alongside its existing JSON exception contract.
+- **Growth:** broad executable coverage uplift and behavioral/UI workflow expansion remain measured post-RC work under Canon040/042 and are not masked by synthetic evidence.
+
+### Verification plan
+
+- Run Composer strict/check-lock validation, changed PHP lint, style/static/test/coverage, full `gate:canon`, and post-mutation Inspecting.
+- No UI/navigation/form/browser behavior changed; new visual evidence is not applicable unless verification reveals otherwise.
+- Inspect final Git diff/status/upstream, then signed-commit and push only the coherent source+journal set when all applicable deterministic gates are GREEN.
+
+### Verification checkpoint
+
+- `composer validate --strict --check-lock`: PASS.
+- Changed PHP lint: PASS for all four command files in this documentation slice.
+- `composer qa:style`: PASS; 138 PHP files linted, service/interface parity GREEN, PHP-CS-Fixer found 0/115 fixable files.
+- `composer qa:static`: PASS; PHPStan zero errors.
+- `composer test:coverage`: PASS — PHPUnit 24 tests / 54 assertions; persistent branch/path coverage refreshed.
+- `composer test:behavioral-coverage`: PASS — evidence refreshed at functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer gate:canon`: PASS with zero hard failures. Canon031 is now classes 13/101 (12.9%) and contract methods 27/194 (13.9%); Canon040 remains warning-class HIGH_TEST_DEBT at 21.5% lines / 18.9% methods / 21.5% branches; Canon042 remains warning-class HIGH_BEHAVIORAL_TEST_DEBT.
+- Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261004-193051.json`: PHPStan zero errors; seven medium, non-autofixable design/maintainability observations, unchanged in qualitative contour; no hard finding introduced.
+- The synchronous aggregate `qa:test` call exceeded its RPC window and the async retry was refused before process start by runtime-capacity policy. Acceptance is nevertheless factual because `test:coverage` executed the complete PHPUnit suite successfully and the separate behavioral coverage producer passed on the same tree.
+- No user-observable UI/navigation/form/interaction source changed; Playwright/Panther screenshot generation is not applicable to this documentation-only slice.
+
+## 2026-10-04 — Publish command contract documentation (`engine-20261004191920-applicating-477bf9`)
+
+### Reconnaissance baseline
+
+- Read the authoritative execution specification, current Applicating AGENTS/README/development and production Composer manifests/PHPUnit configuration, supplied CanonScanning RED and Inspecting evidence, and current Git diff through Console MCP.
+- Re-read the mandatory Objecting, Cruding, Viewing, Interfacing, and Gating package boundaries plus Canonization's normative Canon031 text and guard matrix. The 2026-09-29 hard RED is stale against later current-tree verification recorded in this journal; the active deterministic remediation front is warning-class Canon031 documentation debt.
+- Preserved the pre-existing uncommitted CLI documentation work in `ApplicationEvaluateReadinessCommand`, `ApplicationFixturesLoadDemoCommand`, `ApplicationImportMapAuditCommand`, and `ApplicationManifestValidateCommand` without reset, stash, clean, or overwrite.
+- Market/maturity boundary: reliable lifecycle/readiness/API/operational contracts are RC-critical; richer scorecards, self-service catalog workflows, and broad portal UX remain a separate growth stream.
+
+### Selected work and verification plan
+
+- **RC-critical:** add semantic Canon031 documentation to the independent `ApplicationPublishCommand` contract without changing runtime behavior.
+- **Growth:** broader executable/behavioral coverage uplift remains measured Canon040/042 debt and is not replaced by synthetic evidence.
+- Planned acceptance: changed PHP lint, Composer validation, style/static/tests, full Canon gate, post-mutation Inspecting, and final Git/upstream inspection. No user-observable UI behavior is changed, so new visual evidence is not applicable.
 
 

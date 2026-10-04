@@ -12,6 +12,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'applicating:fixtures:load-demo', description: 'Load demo application lifecycle fixtures')]
+/**
+ * Loads the canonical demo lifecycle fixture set through the repository fixture boundary.
+ */
 final class ApplicationFixturesLoadDemoCommand extends Command
 {
     public function __construct(
@@ -21,6 +24,9 @@ final class ApplicationFixturesLoadDemoCommand extends Command
         parent::__construct();
     }
 
+    /**
+     * Loads all registered fixtures and fails explicitly when the fixture loader is unavailable.
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!$this->loader instanceof SymfonyFixturesLoader) {
