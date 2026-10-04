@@ -707,6 +707,17 @@
 - Changed-file PHP lint, Composer strict/check-lock validation, style/static/full tests, persistent coverage refresh, full `gate:canon`, post-mutation Inspecting, and final Git/upstream integration checks.
 - New visual evidence is not applicable to this documentation-only mutation.
 
+### Verification and acceptance
+
+- Changed-file PHP lint: PASS for `src/Command/ApplicationSuspendCommand.php`.
+- `composer validate --strict --check-lock`: PASS.
+- `composer qa:style`: PASS after the concurrent voter-coverage task completed and integrated its independent test normalization.
+- `composer gate:canon`: PASS with zero hard failures; Canon031 improved from classes 17/101 and contract methods 34/194 to classes 18/101 (17.8%) and contract methods 36/194 (18.6%). Canon040/042 remain warning-class measured debt.
+- Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261004-224704.json`: PHPStan zero errors; seven medium non-autofixable design/maintainability observations, unchanged in qualitative contour.
+- A direct `qa:static` rerun after the concurrent commit exceeded the Console MCP transport window; no failing PHPStan output was returned. The fresh standalone Inspecting run on this exact PHP source reports PHPStan zero errors.
+- `test:coverage` could not be started asynchronously because runtime capacity was restricted to `ADMIT_LIGHT_ONLY`; the documentation-only mutation changes no executable behavior. Full Canon validation nevertheless remains hard-GREEN and recognizes the intended Canon031 improvement.
+- No product UI/navigation/form/template/route behavior changed; Panther/Playwright screenshot generation is not applicable.
+
 ### Continuation — Application voter coverage hardening
 
 - Post-push baseline remained `master == origin/master` at `bede70c58d0056396d9bfc3453c5edf68b10d978`; only generated `var/` evidence was untracked.

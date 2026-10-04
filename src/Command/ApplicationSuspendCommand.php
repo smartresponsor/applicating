@@ -13,6 +13,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'applicating:application:suspend', description: 'Suspend an application publication lifecycle')]
+/**
+ * Suspends publication for one existing application through the canonical lifecycle service boundary.
+ */
 final class ApplicationSuspendCommand extends Command
 {
     public function __construct(
@@ -22,11 +25,17 @@ final class ApplicationSuspendCommand extends Command
         parent::__construct();
     }
 
+    /**
+     * Defines the application slug required to suspend its publication lifecycle.
+     */
     protected function configure(): void
     {
         $this->addArgument('slug', InputArgument::REQUIRED, 'Application slug');
     }
 
+    /**
+     * Validates the target application, suspends it, and reports a process status suitable for automation.
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $slug = $input->getArgument('slug');
