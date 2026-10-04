@@ -15,8 +15,18 @@ use App\Applicating\Entity\ApplicationManifestEntity;
 use App\Applicating\Entity\ApplicationReleaseEntity;
 use App\Applicating\Entity\ApplicationTenantAssignmentEntity;
 
+/**
+ * Projects application lifecycle entities into DTOs consumed by administrative views.
+ */
 final class ApplicationAdminViewBuilder implements ApplicationAdminViewBuilderInterface
 {
+    /**
+     * Convert application entities into the ordered index-row presentation projection.
+     *
+     * @param list<ApplicationEntity> $applications
+     *
+     * @return list<ApplicationAdminIndexRowDTO>
+     */
     public function buildIndexRows(array $applications): array
     {
         return array_map(
@@ -25,6 +35,9 @@ final class ApplicationAdminViewBuilder implements ApplicationAdminViewBuilderIn
         );
     }
 
+    /**
+     * Assemble the detail projection with releases, manifests, and tenant assignments.
+     */
     public function buildShowView(ApplicationEntity $application): ApplicationAdminShowViewDTO
     {
         $releases = array_values(array_map(
