@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
-use App\Kernel;
+use App\Applicating\Kernel;
+
+$_SERVER['APP_RUNTIME_OPTIONS'] ??= [
+    'disable_dotenv' => true,
+];
 
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 

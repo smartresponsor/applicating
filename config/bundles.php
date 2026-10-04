@@ -14,6 +14,8 @@ return [
     Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class => ['dev' => true, 'test' => true],
     Nelmio\ApiDocBundle\NelmioApiDocBundle::class => ['dev' => true, 'test' => true],
     App\Objecting\ObjectBundle::class => ['all' => true],
+    App\Viewing\ViewingBundle::class => ['all' => true],
+    App\Interfacing\InterfacingBundle::class => ['all' => true],
     App\Failing\FailingBundle::class => ['all' => true],
     App\Applicating\ApplicatingBundle::class => ['all' => true],
 ];

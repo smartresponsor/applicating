@@ -1,0 +1,13 @@
+{% set viewKey = (view.surface|default('')) ~ ':' ~ (view.operation|default('')) %}
+{% set applicationTemplates = {
+    'security:login': 'security/login.html.twig',
+    'application:index': 'application/index.html.twig',
+    'application:new': 'application/new.html.twig',
+    'application:report': 'application/report.html.twig',
+    'application:show': 'application/show.html.twig',
+    'application:edit': 'application/edit.html.twig',
+} %}
+
+{% set selectedTemplate = applicationTemplates[viewKey] ?? '@Viewing/view/index.html.twig' %}
+
+{% include selectedTemplate %}

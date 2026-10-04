@@ -336,5 +336,45 @@
 - Remaining Canon031, Canon040, and Canon042 threshold debt is intentionally preserved as factual remediation backlog; it is not hidden by synthetic coverage.
 - `composer release:verify` was requested after the focused gates, but Console MCP refused to start the heavy process under `RUNTIME_CAPACITY_ADMIT_LIGHT_ONLY` / `ENGINE_BACKLOG_HIGH`; no release-verification failure output exists because the process never started.
 
+## 2026-10-04 — Functional surface RC hardening
+
+### Reconnaissance baseline
+
+- Task `engine-20261004101143-applicating-73e9a2` starts from clean `master` synchronized with `origin/master` at `f1d52e49e255140feb4ae34aa3f3fd7bf7478ce6`.
+- Read the authoritative task specification, Applicating README/Composer/test/security/API surfaces, current journal, the supplied CanonScanning and Inspecting evidence, and the mandatory Objecting/Cruding/Viewing/Interfacing/Gating/Canonization contracts through Console MCP.
+- The supplied 2026-09-29 RED report is stale against the current repository: current `composer gate:canon` has zero hard failures; Canon039, Canon052, Canon056, Canon058, Canon059, Canon061, Canon063, and Canon067 are GREEN.
+- Current warning debt is factual rather than hidden: Canon031 PHPDoc coverage, Canon040 executable PHP coverage, and Canon042 behavioral/UI coverage. Canon042 currently measures functional 2/7, behavioral 0/5, UI 0/4, critical 0/2.
+- Supplied Inspecting evidence contains seven medium, non-autofixable design/maintainability observations. No production-source mutation is selected merely to silence an observational finding.
+
+### Canonization mapping consulted
+
+- Canon039/040 keep executable PHP line/method/branch coverage independent from application-surface coverage.
+- Canon042 requires explicit eligible/covered inventories and executable evidence; passing test counts or raw route counts cannot be substituted for real functional requests.
+- Canon052 keeps consumer `.gating/` artifact-only; the current repository is GREEN on that boundary.
+- Canon056/058/059/061/063 require one canonical OpenAPI source and bidirectional path/method parity; the current four external GET operations are GREEN.
+- Canon021 preserves Cruding ownership of generic CRUD while allowing the existing EasyAdmin/back-office surface; this pass does not introduce generic CRUD mechanics.
+
+### Market/maturity baseline and workstreams
+
+- Mature software catalogs and internal developer portals expose inventory, ownership/relationships, health/status, and API contracts as machine-readable surfaces; higher-order scorecards and self-service actions layer on top of deterministic lifecycle contracts.
+- **RC-critical:** exercise currently inventoried Applicating functional HTTP surfaces through real Symfony BrowserKit requests, preserving their access-control behavior, then regenerate Canon042 evidence and re-run deterministic gates.
+- **Growth:** broad browser workflow automation, richer scorecards/catalog enrichment, and self-service lifecycle UX remain post-RC unless required by a correctness or operability invariant.
+
+### Material risks and planned gates
+
+- Test-environment security intentionally disables the firewall; controller-level authorization must therefore be verified from actual HTTP responses rather than assumed.
+- No production UI/form/template/navigation source is planned for mutation, so visual evidence is not applicable unless the implementation scope changes.
+- Planned acceptance: targeted functional PHPUnit, behavioral-evidence producer, `composer gate:canon`, style/static/test gates, then final Git/upstream inspection and publication if GREEN.
+
+### Continuation — task `engine-20261004111052-applicating-6fd6e9`
+
+- Preserved the existing functional-surface work and verified it rather than resetting the dirty tree. `ApplicationAccessBoundaryTest` exercises `/login` plus anonymous rejection on the application admin/API/readiness surfaces; targeted functional PHPUnit passes 11 tests / 21 assertions.
+- Regenerated Canon042 evidence from executable repository-owned tests: functional coverage is now 7/7 (100%). Behavioral 0/5, UI 1/4, and critical 0/2 remain explicit warning debt rather than synthetic coverage.
+- Repaired the Playwright acceptance assertion to match Viewing's documented fallback order: the current login payload renders through the existing `@Interfacing/index.html.twig` candidate before the component-local fallback. Playwright Chromium passes 1/1 and writes `login-surface.png` under `var/Applicating/2026-10-04/engine-20261004111052-applicating-6fd6e9/`.
+- Moved the stale generated root `test-results/` directory non-destructively into the current `var/Applicating/...` artifact tree. This removed generated error-context contamination from Canon055 without deleting evidence; the subsequent full Canon gate passes with zero hard failures.
+- Deterministic acceptance is GREEN: Composer strict/check-lock validation PASS; `qa:style` PASS after one repository-owned PHP-CS-Fixer normalization; `qa:static` PASS; `qa:test` PASS with 19 tests / 48 assertions; `qa:inspection` PASS; `release:verify` PASS end-to-end including runtime, branch wiring, controller decomposition, fixture, container, Doctrine, admin, functional-readiness, and PostgreSQL-matrix smoke contracts.
+- Residual Canon031, Canon040, and Canon042 findings remain warning-class measured debt: PHPDoc coverage, executable PHP coverage, and broader behavioral/UI/critical workflow coverage. They are retained as factual post-RC remediation backlog and do not hide a hard gate failure.
+- Visual Gallery service is healthy at the central artifact root; the Playwright screenshot is the acceptance visual for this user-observable login-shell verification.
+
 
 
