@@ -599,6 +599,34 @@
 - Fresh post-mutation Inspecting report `D--PhpstormProjects-www-Applicating-20261004-193119.json`: PHPStan zero errors and the same seven medium non-autofixable design/maintainability observations; no RC-hard architecture regression.
 - No user-observable UI/navigation/form/interaction source changed, so new visual evidence is not applicable. Generated `var/` evidence remains outside the source integration set.
 
+## 2026-10-04 — Operational command PHPDoc continuation (`engine-20261004200414-applicating-5ed0bc`)
+
+### Reconnaissance baseline
+
+- Read the authoritative task specification, current Applicating instructions/runtime/quality contracts, historical CanonScanning RED and Inspecting evidence, and current Git state through Console MCP.
+- Re-read Objecting, Cruding, Viewing, Interfacing, Gating, and Canonization contracts. Normative Canon031 requires meaningful PHPDoc descriptions for classes and contract-significant public/protected behavior; private helpers, magic methods, constructors/destructors, and conventional accessors are excluded.
+- Current full `composer gate:canon` has zero hard failures. The 2026-09-29 Canon039/052/056/063 RED is stale against the current tree; active measured debt is warning-class Canon031/040/042.
+- Market/maturity boundary remains deterministic application lifecycle, readiness, runtime assignment, diagnostics, and API contracts for RC; richer catalog scorecards, self-service workflows, and broader portal UX remain growth work.
+
+### Selected work
+
+- **RC-critical:** continue deterministic Canon031 remediation on operational commands without changing runtime behavior.
+- Added semantic class/configure/execute documentation to `ApplicationReadinessCommand` and `ApplicationRuntimeSetCommand`, and semantic class/execute documentation to `ApplicationReportSummaryCommand`.
+- **Growth:** executable coverage and behavioral/UI workflow expansion remain separate measured Canon040/042 workstreams; this pass does not synthesize coverage or alter UI/runtime behavior.
+
+### Verification and acceptance
+
+- Changed PHP lint: PASS for all three command files.
+- `composer validate --strict --check-lock`: PASS.
+- `composer cs:check`: PASS; PHP-CS-Fixer found 0/115 fixable files.
+- `composer qa:static`: PASS; PHPStan reports zero errors.
+- `composer test:coverage`: PASS — PHPUnit 24 tests / 54 assertions with persistent branch/path coverage refreshed.
+- `composer test:behavioral-coverage`: PASS — functional 7/7, behavioral 0/5, UI 1/4, critical 0/2; remaining behavioral/UI debt stays explicit.
+- Post-mutation `composer gate:canon`: PASS with zero hard failures. Canon031 improved from classes 14/101 and contract methods 29/194 to classes 17/101 (16.8%) and contract methods 34/194 (17.5%). Canon040/042 remain warning-class measured debt.
+- `composer release:verify`: PASS end-to-end, including environment, lint, service/interface parity, style, static analysis, PHPMD, inspection reports, OpenAPI dump, PHPUnit/behavioral evidence, and runtime/Doctrine/admin/functional/PostgreSQL smoke contracts.
+- Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261004-203350.json`: PHPStan zero errors; seven medium, non-autofixable design/maintainability observations matching the existing qualitative debt contour; no RC-hard regression.
+- No user-observable UI/navigation/form/interaction behavior changed, so new Panther/Playwright screenshots are not applicable to this documentation-only slice.
+
 ## 2026-10-04 — Shared slug command contract documentation
 
 ### Reconnaissance and selected work

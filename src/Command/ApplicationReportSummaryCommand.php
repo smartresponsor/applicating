@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'applicating:report:summary', description: 'Print application lifecycle summary report')]
+/** Emits aggregate application lifecycle counters for operational diagnostics and automation. */
 final class ApplicationReportSummaryCommand extends Command
 {
     public function __construct(private readonly ApplicationReportServiceInterface $applicationReportService)
@@ -18,6 +19,7 @@ final class ApplicationReportSummaryCommand extends Command
         parent::__construct();
     }
 
+    /** Renders the lifecycle summary as stable key-value lines for console consumers. */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $summary = $this->applicationReportService->buildSummary()->toArray();

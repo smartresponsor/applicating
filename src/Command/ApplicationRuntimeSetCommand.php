@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'applicating:runtime:set', description: 'Set application runtime mode for one environment')]
+/** Changes the runtime-mode assignment for one application environment through the lifecycle service boundary. */
 final class ApplicationRuntimeSetCommand extends Command
 {
     public function __construct(private readonly ApplicationRuntimeAssignmentServiceInterface $runtimeAssignmentService)
@@ -20,6 +21,7 @@ final class ApplicationRuntimeSetCommand extends Command
         parent::__construct();
     }
 
+    /** Defines the application, environment, and canonical runtime-mode arguments required by the operation. */
     protected function configure(): void
     {
         $this
@@ -28,6 +30,7 @@ final class ApplicationRuntimeSetCommand extends Command
             ->addArgument('mode', InputArgument::REQUIRED, 'host_shared or custom_domain');
     }
 
+    /** Validates runtime-mode input, applies the assignment, and reports the resulting application environment state. */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $applicationSlug = $input->getArgument('applicationSlug');

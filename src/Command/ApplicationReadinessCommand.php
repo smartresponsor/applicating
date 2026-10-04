@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'applicating:application:readiness', description: 'Show readiness diagnostics for an application')]
+/** Reports whether one application currently satisfies the repository publication-readiness contract. */
 final class ApplicationReadinessCommand extends Command
 {
     public function __construct(
@@ -20,11 +21,13 @@ final class ApplicationReadinessCommand extends Command
         parent::__construct();
     }
 
+    /** Defines the application slug required to evaluate publication readiness. */
     protected function configure(): void
     {
         $this->addArgument('slug', InputArgument::REQUIRED, 'Application slug');
     }
 
+    /** Prints blocking reasons and warnings and returns a process status matching publishability. */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $slug = $input->getArgument('slug');
