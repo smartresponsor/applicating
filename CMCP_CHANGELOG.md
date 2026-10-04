@@ -374,7 +374,8 @@
 - Moved the stale generated root `test-results/` directory non-destructively into the current `var/Applicating/...` artifact tree. This removed generated error-context contamination from Canon055 without deleting evidence; the subsequent full Canon gate passes with zero hard failures.
 - Deterministic acceptance is GREEN: Composer strict/check-lock validation PASS; `qa:style` PASS after one repository-owned PHP-CS-Fixer normalization; `qa:static` PASS; `qa:test` PASS with 19 tests / 48 assertions; `qa:inspection` PASS; `release:verify` PASS end-to-end including runtime, branch wiring, controller decomposition, fixture, container, Doctrine, admin, functional-readiness, and PostgreSQL-matrix smoke contracts.
 - Residual Canon031, Canon040, and Canon042 findings remain warning-class measured debt: PHPDoc coverage, executable PHP coverage, and broader behavioral/UI/critical workflow coverage. They are retained as factual post-RC remediation backlog and do not hide a hard gate failure.
-- Visual Gallery service is healthy at the central artifact root; the Playwright screenshot is the acceptance visual for this user-observable login-shell verification.
+- Fresh post-mutation Inspecting report `D--PhpstormProjects-www-Applicating-20261004-113006.json`: PHPStan 0 errors; seven medium, non-autofixable design/maintainability observations, matching the pre-change qualitative debt contour; no new hard finding.
+- Visual Gallery service is healthy at the central workspace artifact root; the Playwright screenshot is the acceptance visual for this user-observable login-shell verification.
 
 
 
