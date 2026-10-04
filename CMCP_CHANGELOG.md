@@ -681,4 +681,48 @@
 - Aggregate `release:verify` could not be accepted as a completed gate: the heavy asynchronous worker was refused before process start by Console MCP runtime-capacity policy, and a later synchronous invocation exceeded its transport timeout without returning a result. Acceptance is therefore based only on the explicit passing constituent evidence above, not on an inferred aggregate PASS.
 - No user-observable UI/navigation/form/template/route behavior changed, so new Panther/Playwright screenshots are not applicable to this implementation slice.
 
+## 2026-10-04 — Suspend command contract documentation (`engine-20261004211935-applicating-db7abb`)
+
+### Reconnaissance and canon mapping
+
+- Re-read the authoritative execution specification, current Applicating command/quality surfaces, historical CanonScanning RED and Inspecting evidence, current journal, and the mandatory Objecting/Cruding/Viewing/Interfacing/Gating/Canonization contour through Console MCP.
+- The supplied 2026-09-29 hard RED is stale against the current tree: the current full Canon gate has zero hard failures. Canon031 remains measurable warning-class documentation debt; Canon040 and Canon042 remain separate executable/behavioral coverage debt.
+- Canon031 normative mapping remains meaningful class and contract-significant method descriptions, excluding constructors/private helpers/conventional accessors. The representative gap selected here was `ApplicationSuspendCommand`.
+- `Interfacing/MANIFEST.json` was explicitly probed and is absent in the repository (`ENOENT`); its available AGENTS/README/Composer contract remains the consulted dependency evidence.
+
+### Market/maturity boundary and selected work
+
+- Mature application-management/catalog systems keep lifecycle actions, status/readiness, API contracts, and operational commands explicit and automatable; richer scorecards, self-service workflows, and portal UX remain a separate growth layer.
+- **RC-critical:** reduce deterministic Canon031 debt on an existing lifecycle command without changing runtime semantics.
+- **Growth:** broad Canon040 executable coverage uplift and Canon042 behavioral/UI workflow expansion remain separate measured workstreams.
+
+### Implementation
+
+- Added semantic class documentation to `ApplicationSuspendCommand`, defining its canonical lifecycle-service boundary.
+- Added semantic `configure()` and `execute()` documentation describing the slug contract, suspension behavior, and automation-safe process status.
+- No runtime, route, template, form, navigation, or browser interaction behavior changed.
+
+### Verification plan
+
+- Changed-file PHP lint, Composer strict/check-lock validation, style/static/full tests, persistent coverage refresh, full `gate:canon`, post-mutation Inspecting, and final Git/upstream integration checks.
+- New visual evidence is not applicable to this documentation-only mutation.
+
+### Continuation — Application voter coverage hardening
+
+- Post-push baseline remained `master == origin/master` at `bede70c58d0056396d9bfc3453c5edf68b10d978`; only generated `var/` evidence was untracked.
+- Selected `ApplicationVoter` as the next bounded Canon040 target because current executable coverage reports only 33.33% methods, 12.50% paths, 20.00% branches, and 18.75% lines across the authorization policy boundary.
+- This continuation changes tests only: production authorization semantics, routes, UI, forms, templates, persistence, and runtime service wiring remain unchanged.
+- Planned coverage matrix: unsupported attribute abstention, administrator override, manager edit permission, suspended publish denial, published assignment grant, draft assignment denial, tenant toggle grant, and tenant non-toggle denial.
+
+#### Verification
+
+- Initial targeted PHPUnit correctly rejected an incomplete generated test tail (`Unclosed '{'`); the missing class brace was restored before any acceptance claim. `php -l` then passed and `composer test:unit` passed at 23 tests / 55 assertions.
+- PHP-CS-Fixer normalized the new test; repeat `composer cs:check` is GREEN with 0/117 fixable files.
+- Initial PHPStan exposed one test-helper cast from `mixed` to string; the callback was narrowed to the actual string role contract. Repeat `composer qa:static` is GREEN with zero errors.
+- `composer qa:test`: PASS — 35 tests / 80 assertions; behavioral evidence remains factual at functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer test:coverage`: PASS — repository branch coverage improved from 39.56% to 45.63%, lines from 20.23% to 21.97%, methods from 19.57% to 20.19%, and paths from 20.39% to 23.10%. `ApplicationVoter` improved from 20.00% to 92.00% branches and now reports 100% lines.
+- `composer gate:canon`: PASS with zero hard failures. Canon040 remains warning-class `HIGH_TEST_DEBT` at 21.97% lines / 20.19% methods / 45.63% branches; Canon031 and Canon042 remain measured warning debt.
+- No production source, route, form, template, navigation, or runtime service behavior changed in this continuation; browser/mobile visual evidence remains not applicable.
+
+
 
