@@ -11,6 +11,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'applicating:demo:reset', description: 'Reset application demo data')]
+/**
+ * Resets the repository-owned demo dataset used by local Applicating workflows.
+ */
 final class ApplicationDemoResetCommand extends Command
 {
     public function __construct(private readonly ApplicationFixtureRepository $applicationFixtureRepository)
@@ -18,6 +21,9 @@ final class ApplicationDemoResetCommand extends Command
         parent::__construct();
     }
 
+    /**
+     * Recreates the canonical demo records and reports successful completion.
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->applicationFixtureRepository->resetDemoData();

@@ -13,6 +13,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'applicating:diagnostics:run', description: 'Run diagnostics for tenant application assignments')]
+/**
+ * Emits JSON diagnostics for application assignments, optionally scoped by tenant key.
+ */
 final class ApplicationDiagnosticsRunCommand extends Command
 {
     public function __construct(
@@ -22,12 +25,17 @@ final class ApplicationDiagnosticsRunCommand extends Command
         parent::__construct();
     }
 
+    /**
+     * Declares the optional tenant selector used to narrow diagnostic output.
+     */
     protected function configure(): void
     {
         $this->addArgument('tenantKey', InputArgument::OPTIONAL, 'Filter by tenant key');
     }
 
     /**
+     * Serializes each selected assignment diagnostic as one JSON output line.
+     *
      * @throws \JsonException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
