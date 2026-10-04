@@ -718,6 +718,16 @@
 - `test:coverage` could not be started asynchronously because runtime capacity was restricted to `ADMIT_LIGHT_ONLY`; the documentation-only mutation changes no executable behavior. Full Canon validation nevertheless remains hard-GREEN and recognizes the intended Canon031 improvement.
 - No product UI/navigation/form/template/route behavior changed; Panther/Playwright screenshot generation is not applicable.
 
+### Continuation — tenant-assignment entity state coverage
+
+- A concurrent local commit `6ecc7db06d5a40b5e1f0fa091f6e04d2ae42763c` documented `ApplicationSuspendCommand`; this continuation does not rewrite or absorb that change.
+- An untracked `tests/Unit/Entity/ApplicationTenantAssignmentEntityTest.php` appeared concurrently and exactly matched the selected Canon040 remediation front. It was reviewed before integration rather than duplicated.
+- The test covers disabled/enabled construction, assignment updates in both directions, preservation of the first installation timestamp, diagnostics, relation identity, billing/access policy state, and lifecycle timestamps.
+- `php -l tests/Unit/Entity/ApplicationTenantAssignmentEntityTest.php`: PASS.
+- `composer test:unit`: PASS — 29 tests / 87 assertions.
+- Heavy Composer verification is currently blocked before process start by Console MCP runtime admission (`RUNTIME_CAPACITY_ADMIT_LIGHT_ONLY`: `RESOURCE_PRESSURE_WATCH`, `ENGINE_BACKLOG_HIGH`). A prior synchronous `qa:style` returned without an exit code/output suitable for an acceptance claim. Therefore style/static/full-test/coverage/canon are explicitly NOT_VERIFIED for this continuation yet; no false GREEN is recorded.
+- No production PHP, routes, services, forms, templates, navigation, or UI behavior changed in this continuation; visual evidence is not applicable.
+
 ### Continuation — Application voter coverage hardening
 
 - Post-push baseline remained `master == origin/master` at `bede70c58d0056396d9bfc3453c5edf68b10d978`; only generated `var/` evidence was untracked.
