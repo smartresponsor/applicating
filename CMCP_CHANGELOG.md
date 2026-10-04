@@ -235,5 +235,67 @@
 - Aggregate `release:verify` could not be started asynchronously because Console MCP runtime capacity was temporarily restricted to light work. This is not a test failure; its constituent checks and the RC validator are GREEN on the same worktree state.
 - Work 3 is ready for one signed commit containing the complete remaining nine-path value set, followed by push of `master` to its configured `origin/master` upstream.
 
+## 2026-10-04 — Applicating reconnaissance and canon closure
+
+### Reconnaissance baseline
+
+- Re-read the authoritative execution specification, current root `AGENTS.md`, `README.md`, Composer development/production manifests, PHPUnit/Gating/OpenAPI configuration, supplied CanonScanning and Inspecting reports, current Git status/diff, and this orchestration journal through Console MCP.
+- Re-read the mandatory Objecting, Cruding, Viewing, and Interfacing repository contracts and the relevant normative Canonization texts; Canonization and helper repositories were treated as read-only references.
+- The supplied 2026-09-29 CanonScanning RED is stale against the current tree: canonical OpenAPI source and branch-coverage execution were already implemented and previously verified. The current uncommitted delta is limited to `AGENTS.md` canon synchronization plus removal of the consumer-local `.gating/README.md`.
+- Supplied Inspecting evidence contains seven medium, non-autofixable maintainability/design observations and no RC-hard finding; no product PHP source changed in this window.
+
+### Canonization mapping consulted
+
+- `Canon021`: generic application CRUD remains owned by Cruding; EasyAdmin administrative CRUD is an explicit allowed exception, so the root agent contract must not demand zero EasyAdmin CRUD controllers/routes.
+- `Canon039`: executable PHPUnit branch/path coverage and persistent coverage-summary evidence are already present in the current Composer contract.
+- `Canon052`: consumer `.gating/` is artifact-only; normative Gating documentation/policy belongs to the Gating package. Removing the tracked consumer `.gating/README.md` is therefore canonical cleanup.
+- `Canon056`, `Canon058`, `Canon059`, `Canon061`, `Canon063`: `config/openapi/application_openapi.yaml` is the canonical current OpenAPI source and mirrors the current external Applicating GET routes/methods; Nelmio remains a direct dependency.
+
+### Workstreams
+
+- **RC-critical:** verify the current canon-only delta with deterministic Composer/Gating checks, preserve all unrelated repository value, and integrate the coherent documentation/boundary correction when green.
+- **Growth:** software-catalog scorecards, richer self-service lifecycle actions, catalog enrichment, and broader portal UX remain post-RC and outside this bounded correction.
+
+### Market/maturity baseline
+
+- Mature software catalogs and internal developer portals keep authoritative application metadata, lifecycle, ownership/relationships, health evidence, and API contracts explicit and automatable; self-service workflows and scorecards layer on top rather than redefining the application-lifecycle ownership boundary.
+- Applicating therefore remains focused on application lifecycle and release/runtime contracts; portal-wide discovery, scorecard, and workflow-product concerns stay outside RC unless required for correctness or operability.
+
+### Gates for this window
+
+- `composer validate --strict --check-lock`
+- `composer gate:canon`
+- final Git branch/status/diff and publication verification
+
+### Verification checkpoint
+
+- `composer validate --strict --check-lock`: NOT_RUN — the Console MCP synchronous Composer capability returned HTTP 502 before producing Composer output.
+- `composer gate:canon`: NOT_RUN — synchronous execution returned HTTP 502; guarded asynchronous execution was then refused before process start by `RUNTIME_CAPACITY_ADMIT_LIGHT_ONLY` with `RESOURCE_PRESSURE_WATCH` and `ENGINE_BACKLOG_HIGH`.
+- Git state: `master` at `e824e1173d7ee189c0b266b24bd5c8f7e14dd908`, upstream `origin/master`, ahead 0 / behind 0; only `.gating/README.md` deletion, `AGENTS.md`, and this journal are dirty.
+- Because deterministic acceptance gates did not actually execute, this window does not commit or push the canon-only delta. Publication remains intentionally blocked on factual GREEN evidence rather than inferred from prior runs.
+
+### Continuation — Canon067 root Entity convergence
+
+- A current full `composer gate:canon` run exposed one new hard rule that post-dates the supplied RED baseline: Canon067 requires package `applicating/application` to own `src/Entity/Application/ApplicationEntity.php`.
+- Read the normative `Canon067RepositoryRootEntityRule.md` before patching. The existing `ApplicationEntity` was the real repository persistence/composition anchor, so it was moved losslessly from `src/Entity/ApplicationEntity.php` into the Canon067 path and its namespace became `App\\Applicating\\Entity\\Application`.
+- Updated all active source/test imports and the four sibling Doctrine Entity relations to the new FQCN. No duplicate Entity, compatibility alias, alternate architecture root, or schema/table redesign was introduced.
+- Re-read production Composer identity, bundle activation, Playwright package contract, and canonical OpenAPI source. `composer.prod.json` remains package-identical and path-independent; OpenAPI remains four mirrored GET operations.
+
+### Post-mutation verification
+
+- `composer validate --strict --check-lock`: PASS.
+- `composer lint`: PASS — 136 PHP files, zero issues.
+- `composer qa:static`: PASS — PHPStan zero errors.
+- `composer qa:test`: PASS — PHPUnit 11.5.55 / PHP 8.4.13, 14 tests / 43 assertions.
+- `composer test:coverage`: PASS — persistent branch/path coverage evidence refreshed. Canon040 is current again and reports warning-class HIGH_TEST_DEBT rather than stale evidence.
+- Symfony `lint:container --env=test`: PASS; `lint:yaml config --parse-tags --env=test`: PASS for 23 YAML files.
+- `composer gate:canon`: PASS with zero hard failures. Canon067 is GREEN at `src/Entity/Application/ApplicationEntity.php`; Canon039/052/056/058/059/061/063 remain GREEN. Residual Canon031, Canon040, and Canon042 are warning-class documentation/test/UI-evidence debt, not hard RC failures.
+- `composer schema:validate`: Doctrine mapping PASS; database synchronization check could not connect to local PostgreSQL because the configured `app` login was rejected. This is an environment credential/runtime blocker for the DB-sync half, not a mapping failure caused by this migration.
+- Fresh standalone Inspecting report: `D--PhpstormProjects-www-Applicating-20261004-093137.json`; PHPStan zero errors, seven medium non-autofixable design/maintainability observations, matching the prior qualitative debt contour. No Inspecting hard finding was introduced by the Canon067 migration.
+- No user-observable UI/navigation/form behavior changed, so Panther/Playwright screenshot evidence is not applicable to this implementation pass.
+- `composer pipeline:local:full`: PASS, including environment/style/static checks, runtime/fixtures/container/Doctrine/admin/functional/PostgreSQL smokes, reports, and security wiring.
+- `composer release:verify`: PASS end-to-end. Runtime proof reports runtime, container, Doctrine, fixture load, admin, functional readiness, and PostgreSQL matrix checks all GREEN; no compatibility class aliases are present.
+- Managed-runtime policy was respected: the existing loopback Symfony endpoint was probed and not restarted. The server is not Console-MCP-managed, but the existing endpoint responded; release verification used repository-owned smoke contracts rather than forcing a restart.
+
 
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Applicating\DTO;
 
-use App\Applicating\Entity\ApplicationEntity;
+use App\Applicating\Entity\Application\ApplicationEntity;
 
 final readonly class ApplicationAdminApiRowDTO
 {

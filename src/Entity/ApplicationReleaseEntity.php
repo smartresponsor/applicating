@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Applicating\Entity;
 
+use App\Applicating\Entity\Application\ApplicationEntity;
 use App\Applicating\Enum\ApplicationPublicationState;
 use App\Applicating\Repository\ApplicationReleaseRepository;
 use Doctrine\ORM\Mapping as ORM;

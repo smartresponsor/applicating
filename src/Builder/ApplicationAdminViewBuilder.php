@@ -10,7 +10,7 @@ use App\Applicating\DTO\ApplicationAdminManifestViewDTO;
 use App\Applicating\DTO\ApplicationAdminReleaseViewDTO;
 use App\Applicating\DTO\ApplicationAdminShowViewDTO;
 use App\Applicating\DTO\ApplicationAdminTenantAssignmentViewDTO;
-use App\Applicating\Entity\ApplicationEntity;
+use App\Applicating\Entity\Application\ApplicationEntity;
 use App\Applicating\Entity\ApplicationManifestEntity;
 use App\Applicating\Entity\ApplicationReleaseEntity;
 use App\Applicating\Entity\ApplicationTenantAssignmentEntity;

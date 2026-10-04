@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Applicating\Entity;
+namespace App\Applicating\Entity\Application;
 
+use App\Applicating\Entity\ApplicationManifestEntity;
+use App\Applicating\Entity\ApplicationReleaseEntity;
+use App\Applicating\Entity\ApplicationTenantAssignmentEntity;
 use App\Applicating\Enum\ApplicationAccessLevel;
 use App\Applicating\Enum\ApplicationPublicationState;
 use App\Applicating\Repository\ApplicationRepository;

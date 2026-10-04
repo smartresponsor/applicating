@@ -6,7 +6,7 @@ namespace App\Applicating\BuilderInterface;
 
 use App\Applicating\DTO\ApplicationAdminIndexRowDTO;
 use App\Applicating\DTO\ApplicationAdminShowViewDTO;
-use App\Applicating\Entity\ApplicationEntity;
+use App\Applicating\Entity\Application\ApplicationEntity;
 
 interface ApplicationAdminViewBuilderInterface
 {

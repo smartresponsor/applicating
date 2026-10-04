@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Applicating\Repository;
 
-use App\Applicating\Entity\ApplicationEntity;
+use App\Applicating\Entity\Application\ApplicationEntity;
 use App\Applicating\Entity\ApplicationTenantAssignmentEntity;
 use App\Applicating\RepositoryInterface\ApplicationTenantAssignmentRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

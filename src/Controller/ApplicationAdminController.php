@@ -12,7 +12,7 @@ use App\Applicating\DTO\ApplicationPublishEligibilityDTO;
 use App\Applicating\DTO\ApplicationReleaseDTO;
 use App\Applicating\DTO\ApplicationTenantAssignmentDTO;
 use App\Applicating\DTO\ApplicationUpsertDTO;
-use App\Applicating\Entity\ApplicationEntity;
+use App\Applicating\Entity\Application\ApplicationEntity;
 use App\Applicating\Form\ApplicationManifestType;
 use App\Applicating\Form\ApplicationReleaseType;
 use App\Applicating\Form\ApplicationTenantAssignmentType;

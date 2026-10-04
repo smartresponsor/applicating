@@ -8,7 +8,7 @@ use App\Applicating\DTO\ApplicationManifestDTO;
 use App\Applicating\DTO\ApplicationReleaseDTO;
 use App\Applicating\DTO\ApplicationTenantAssignmentDTO;
 use App\Applicating\DTO\ApplicationUpsertDTO;
-use App\Applicating\Entity\ApplicationEntity;
+use App\Applicating\Entity\Application\ApplicationEntity;
 use App\Applicating\Entity\ApplicationManifestEntity;
 use App\Applicating\Entity\ApplicationReleaseEntity;
 use App\Applicating\Entity\ApplicationTenantAssignmentEntity;

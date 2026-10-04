@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Applicating\Entity;
 
+use App\Applicating\Entity\Application\ApplicationEntity;
 use App\Applicating\Repository\ApplicationManifestRepository;
 use Doctrine\ORM\Mapping as ORM;
 

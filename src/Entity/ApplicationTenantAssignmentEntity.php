@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Applicating\Entity;
 
+use App\Applicating\Entity\Application\ApplicationEntity;
 use App\Applicating\Enum\ApplicationInstallationState;
 use App\Applicating\Repository\ApplicationTenantAssignmentRepository;
 use App\Objecting\EntityInterface\ObjectRelationEntityInterface;

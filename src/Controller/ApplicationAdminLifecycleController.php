@@ -9,7 +9,7 @@ namespace App\Applicating\Controller;
 use App\Applicating\DTO\ApplicationManifestDTO;
 use App\Applicating\DTO\ApplicationReleaseDTO;
 use App\Applicating\DTO\ApplicationTenantAssignmentDTO;
-use App\Applicating\Entity\ApplicationEntity;
+use App\Applicating\Entity\Application\ApplicationEntity;
 use App\Applicating\Entity\ApplicationTenantAssignmentEntity;
 use App\Applicating\Form\ApplicationManifestType;
 use App\Applicating\Form\ApplicationReleaseType;

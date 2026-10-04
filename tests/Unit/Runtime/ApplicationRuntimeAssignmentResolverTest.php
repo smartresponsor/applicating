@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Applicating\Tests\Unit\Runtime;
 
-use App\Applicating\Entity\ApplicationEntity;
+use App\Applicating\Entity\Application\ApplicationEntity;
 use App\Applicating\Entity\ApplicationRuntimeAssignmentEntity;
 use App\Applicating\Enum\ApplicationRuntimeMode;
 use App\Applicating\RepositoryInterface\ApplicationRuntimeAssignmentRepositoryInterface;
