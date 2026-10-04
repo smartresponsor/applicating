@@ -595,6 +595,8 @@
 
 - **RC-critical:** add semantic Canon031 documentation to the independent `ApplicationPublishCommand` contract without changing runtime behavior.
 - **Growth:** broader executable/behavioral coverage uplift remains measured Canon040/042 debt and is not replaced by synthetic evidence.
-- Planned acceptance: changed PHP lint, Composer validation, style/static/tests, full Canon gate, post-mutation Inspecting, and final Git/upstream inspection. No user-observable UI behavior is changed, so new visual evidence is not applicable.
+- Acceptance: changed PHP lint PASS; `composer validate --strict --check-lock` PASS; `composer cs:check` PASS; `composer qa:static` PASS with PHPStan zero errors; `composer qa:test` PASS at 24 tests / 54 assertions; `composer test:coverage` PASS at 24 tests / 54 assertions; post-refresh `composer gate:canon` PASS with zero hard failures. Canon031 measures classes 13/101 (12.9%) and contract methods 27/194 (13.9%); Canon040/042 remain explicit warning-class measured debt.
+- Fresh post-mutation Inspecting report `D--PhpstormProjects-www-Applicating-20261004-193119.json`: PHPStan zero errors and the same seven medium non-autofixable design/maintainability observations; no RC-hard architecture regression.
+- No user-observable UI/navigation/form/interaction source changed, so new visual evidence is not applicable. Generated `var/` evidence remains outside the source integration set.
 
 

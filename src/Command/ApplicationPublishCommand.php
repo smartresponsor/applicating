@@ -12,6 +12,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'applicating:application:publish', description: 'Publish an application with its latest release')]
+/**
+ * Publishes an application through the lifecycle service using its latest available release.
+ */
 final class ApplicationPublishCommand extends ApplicationSlugCommand
 {
     public function __construct(
@@ -21,11 +24,17 @@ final class ApplicationPublishCommand extends ApplicationSlugCommand
         parent::__construct($applicationRepository);
     }
 
+    /**
+     * Declares the canonical application slug argument shared by lifecycle commands.
+     */
     protected function configure(): void
     {
         $this->configureSlugArgument();
     }
 
+    /**
+     * Resolves the application and publishes its latest release when lifecycle policy permits it.
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $application = $this->resolveApplication($input, $output);
