@@ -11,6 +11,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Provides the shared slug argument and application lookup contract for lifecycle commands.
+ */
 abstract class ApplicationSlugCommand extends Command
 {
     public function __construct(private readonly ApplicationRepository $applicationRepository)
@@ -18,11 +21,17 @@ abstract class ApplicationSlugCommand extends Command
         parent::__construct();
     }
 
+    /**
+     * Declares the canonical application slug argument used by derived lifecycle commands.
+     */
     protected function configureSlugArgument(): void
     {
         $this->addArgument('slug', InputArgument::REQUIRED, 'Application slug');
     }
 
+    /**
+     * Resolves a non-empty slug to the canonical application entity or reports lookup failure.
+     */
     protected function resolveApplication(InputInterface $input, OutputInterface $output): ?ApplicationEntity
     {
         $slug = $input->getArgument('slug');

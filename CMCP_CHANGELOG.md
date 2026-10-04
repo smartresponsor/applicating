@@ -599,4 +599,21 @@
 - Fresh post-mutation Inspecting report `D--PhpstormProjects-www-Applicating-20261004-193119.json`: PHPStan zero errors and the same seven medium non-autofixable design/maintainability observations; no RC-hard architecture regression.
 - No user-observable UI/navigation/form/interaction source changed, so new visual evidence is not applicable. Generated `var/` evidence remains outside the source integration set.
 
+## 2026-10-04 — Shared slug command contract documentation
+
+### Reconnaissance and selected work
+
+- Continued the same warning-class remediation track from clean `master` plus generated `var/` evidence only.
+- Re-read the current Canon031 representative gaps and selected `ApplicationSlugCommand` because it is the shared application-resolution boundary used by multiple lifecycle commands.
+- **RC-critical:** document the class-level responsibility plus the canonical slug-argument and entity-resolution contracts without changing runtime behavior.
+- **Growth:** Canon040 executable coverage and Canon042 behavioral/UI coverage remain separate measured workstreams.
+
+### Verification plan
+
+- Run changed PHP lint, Composer validation, style/static/tests/coverage, full Canon gate, post-mutation Inspecting, and final Git/upstream inspection before publication.
+- Acceptance: `composer validate --strict --check-lock` PASS; `composer qa:style` PASS; `composer qa:static` PASS with PHPStan zero errors. The synchronous `qa:test` RPC timed out without a result, so acceptance was established through `composer test:coverage`, which executed the full PHPUnit suite successfully at 24 tests / 54 assertions, plus `composer test:behavioral-coverage` PASS.
+- Post-refresh `composer gate:canon` PASS with zero hard failures. Canon031 improved from classes 13/101 (12.9%) and contract methods 27/194 (13.9%) to classes 14/101 (13.9%) and contract methods 29/194 (14.9%). Canon040 remains warning-class HIGH_TEST_DEBT at 19.3% lines / 17.7% methods / 38.1% branches; Canon042 remains functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261004-195601.json`: PHPStan zero errors and the same seven medium non-autofixable design/maintainability observations; no RC-hard regression.
+- No user-observable UI/navigation/form/interaction source changed; new visual evidence is not applicable. Generated `var/` evidence remains outside the source integration set.
+
 
