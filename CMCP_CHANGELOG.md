@@ -297,5 +297,44 @@
 - `composer release:verify`: PASS end-to-end. Runtime proof reports runtime, container, Doctrine, fixture load, admin, functional readiness, and PostgreSQL matrix checks all GREEN; no compatibility class aliases are present.
 - Managed-runtime policy was respected: the existing loopback Symfony endpoint was probed and not restarted. The server is not Console-MCP-managed, but the existing endpoint responded; release verification used repository-owned smoke contracts rather than forcing a restart.
 
+## 2026-10-04 — Canon042 behavioral/UI evidence hardening
+
+### Reconnaissance baseline
+
+- Task `engine-20261004095235-applicating-0e31e7` started from a clean `master` synchronized with `origin/master` at `fca91a698c8b68464f92ae1f134bcb63cb0ae57e`.
+- Re-read the Applicating runtime/API/testing contour, current CMCP journal, Objecting/Cruding/Viewing/Interfacing contracts, Gating implementations, and the normative Canon039/041/042/052/056/058/059/060/061/062/063 texts in Canonization.
+- The supplied 2026-09-29 CanonScanning RED is stale against the current tree: Canon039, Canon052, Canon056, Canon058, Canon059, Canon061, and Canon063 are currently GREEN.
+- The supplied Inspecting report was consumed before mutation. It contained seven medium non-autofixable maintainability/design observations and no hard acceptance finding.
+- Runtime reuse policy was respected: port 8000 is occupied by an unmanaged Symfony process whose `/health` returns 404; it was not restarted or stopped.
+
+### Market/maturity and boundary mapping
+
+- Mature software catalogs and application-management products treat inventory/metadata, lifecycle state, ownership/relationships, release/install state, health evidence, and API contracts as explicit machine-readable surfaces. Self-service scorecards and richer portal UX layer on top rather than redefining application-lifecycle ownership.
+- Applicating remains the application lifecycle/runtime-management owner. Objecting owns reusable system fields, Cruding owns generic CRUD mechanics, Viewing owns rendering decisions, and Interfacing owns passive shell/interface delivery.
+- **RC-critical workstream:** make the existing Canon042 behavioral/UI coverage gap reproducibly measurable without inventing percentages or treating test counts as coverage.
+- **Growth/remediation workstream:** raise PHPDoc, PHP executable coverage, behavioral workflow coverage, and browser/UI coverage; address Inspecting's medium design observations only with focused evidence-driven refactors.
+
+### Implementation
+
+- Added `tools/qa/ApplicationBehavioralUiCoverage.php` as the repository-owned `behavioral-ui-coverage-v2` producer.
+- The producer declares explicit functional, behavioral, UI, and critical eligible inventories. Functional coverage is admitted only from concrete functional-test request tokens; behavioral/UI coverage is admitted only from explicit markers in Panther/Playwright test sources.
+- Added Composer script `test:behavioral-coverage` and wired it into `qa:test`, so normal test execution refreshes `var/coverage/behavioral-ui.json` after PHPUnit.
+- No production runtime, route, form, navigation, template, or user-visible UI behavior changed; visual screenshots are therefore not applicable to this pass.
+
+### Verification
+
+- `composer validate --strict --check-lock`: PASS.
+- `composer cs:check`: PASS, 0/113 fixable files.
+- `composer stan`: PASS, zero errors.
+- `composer qa:test`: PASS, PHPUnit 14 tests / 43 assertions; producer executed successfully afterward.
+- `composer gate:canon`: PASS with zero hard failures. Canon042 now reports measured warning debt instead of missing evidence: functional 2/7 (28.6%), behavioral 0/5, UI 0/4, critical 0/2; `HIGH_BEHAVIORAL_TEST_DEBT` remains explicit.
+- Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261004-100525.json`: PHPStan 0 errors; seven medium non-autofixable design/maintainability observations; no new architecture finding from this tooling change.
+
+### Disposition
+
+- The selected RC-hardening objective is complete: behavioral/UI coverage is now reproducible, provenance-bound, explicit-inventory evidence rather than an unknown/missing artifact.
+- Remaining Canon031, Canon040, and Canon042 threshold debt is intentionally preserved as factual remediation backlog; it is not hidden by synthetic coverage.
+- `composer release:verify` was requested after the focused gates, but Console MCP refused to start the heavy process under `RUNTIME_CAPACITY_ADMIT_LIGHT_ONLY` / `ENGINE_BACKLOG_HIGH`; no release-verification failure output exists because the process never started.
+
 
 

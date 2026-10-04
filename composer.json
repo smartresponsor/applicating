@@ -96,6 +96,7 @@
       "@php -r \"is_dir('var/coverage') || mkdir('var/coverage', 0777, true);\"",
       "@php -d xdebug.mode=coverage vendor/bin/phpunit -c phpunit.xml.dist --path-coverage --coverage-text=var/coverage/summary.txt"
     ],
+    "test:behavioral-coverage": "@php tools/php/php84.php tools/qa/ApplicationBehavioralUiCoverage.php",
     "schema:validate": "@php tools/php/php84.php bin/console doctrine:schema:validate --no-interaction",
     "schema:migrations:up-to-date": "@php tools/php/php84.php bin/console doctrine:migrations:up-to-date --no-interaction",
     "schema:parity": [
@@ -116,7 +117,8 @@
       "@md:tests"
     ],
     "qa:test": [
-      "@test"
+      "@test",
+      "@test:behavioral-coverage"
     ],
     "qa:inspection": [
       "@report:all",
