@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Applicating\EventSubscriber;
 
 use App\Applicating\Entity\ApplicationUserEntity;
-use App\Applicating\Repository\ApplicationUserRepository;
+use App\Applicating\RepositoryInterface\ApplicationUserRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
 final readonly class ApplicationUserLoginSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private ApplicationUserRepository $applicationUserRepository)
+    public function __construct(private ApplicationUserRepositoryInterface $applicationUserRepository)
     {
     }
 

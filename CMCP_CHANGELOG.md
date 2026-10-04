@@ -644,4 +644,41 @@
 - Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261004-195601.json`: PHPStan zero errors and the same seven medium non-autofixable design/maintainability observations; no RC-hard regression.
 - No user-observable UI/navigation/form/interaction source changed; new visual evidence is not applicable. Generated `var/` evidence remains outside the source integration set.
 
+## 2026-10-04 — Login-success repository-contract hardening (`engine-20261004215155-applicating-d2f52c`)
+
+### Reconnaissance baseline
+
+- Read the authoritative execution specification, current Applicating instructions, README, Composer development/production manifests, PHPUnit/OpenAPI/Gating configuration, API/runtime source, tests, current coverage evidence, Git/upstream state, and prior CMCP journal through Console MCP.
+- Consumed the supplied 2026-09-29 CanonScanning RED and Inspecting evidence before mutation. The historical Canon039/052/056/063 failures are stale against the current tree: branch/path coverage tooling, artifact-only Gating integration, the canonical `config/openapi/application_openapi.yaml`, Nelmio ownership, and path/method parity are already implemented.
+- Re-read the mandatory Objecting, Cruding, Viewing, Interfacing, and Gating contracts plus the normative Canon039/040/052/056/058/059/060/061/062/063 texts in Canonization. Canonization remained read-only.
+- Current `master` began synchronized with `origin/master` at `5321e14355e7c49011ebe0ee66fdd3db067ce57e`; only generated `var/` evidence was untracked.
+- Current executable coverage evidence remains `HIGH_TEST_DEBT`: 21.55% lines, 18.94% methods, and 21.45% branches. `ApplicationUserLoginSubscriber` specifically measured 33.33% lines and 20.00% branches before this pass.
+
+### Market/maturity boundary and selected work
+
+- Mature software catalogs and internal developer portals keep lifecycle metadata, ownership/relationships, health/status, and API contracts machine-readable; richer scorecards and self-service workflows layer on top rather than replacing deterministic lifecycle behavior.
+- **RC-critical:** harden the login-success lifecycle hook by depending on Applicating's existing repository interface, explicitly wiring that contract in both standalone and reusable component service exports, and adding unit coverage for event registration, unsupported-user no-op behavior, and successful login persistence.
+- **Growth:** broad repository coverage uplift toward Canon040 thresholds, richer scorecards/catalog enrichment, and broader behavioral/UI workflows remain separate measured workstreams.
+- No UI, route, template, form, navigation, or browser interaction behavior is changed by this slice, so new visual evidence is not applicable unless later verification disproves that classification.
+
+### Verification plan
+
+- Run changed-file PHP lint, Composer strict/check-lock validation, Symfony container/YAML validation, style/static/unit/full tests, persistent coverage refresh, full Canon gate, post-mutation Inspecting, and final Git/upstream integration checks.
+
+### Verification and acceptance
+
+- Initial targeted `composer test:unit` correctly exposed an incomplete constructor type rewrite; the subscriber import had changed but its promoted constructor property still referenced the concrete repository. The constructor type was repaired to `ApplicationUserRepositoryInterface` and the targeted unit suite then passed at 15 tests / 35 assertions.
+- `composer validate --strict --check-lock`: PASS.
+- `composer qa:style`: PASS after canonical PHP-CS-Fixer normalized only the two touched PHP files; repository PHP lint checked 138 files and service/interface parity remained GREEN.
+- `composer qa:static`: PASS; PHPStan reports zero errors.
+- `composer qa:test`: PASS — 27 tests / 60 assertions; behavioral evidence regenerated at functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer test:coverage`: PASS — 27 tests / 60 assertions with persistent path/branch evidence refreshed. `ApplicationUserLoginSubscriber` improved from 33.33% lines / 20.00% branches to 100% methods, paths, branches, and lines. Repository-wide Canon040 remains warning-class `HIGH_TEST_DEBT` at 20.23% lines, 19.57% methods, and 39.56% branches.
+- `composer gate:canon`: PASS with zero hard failures. Canon039/052/056/058/059/061/063/067 remain GREEN; Canon031/040/042 remain measured warning debt.
+- Symfony `lint:yaml config --parse-tags --env=test`: PASS for all 23 YAML files; `lint:container --env=test`: PASS with type-compatible service injection, including the new repository-interface alias.
+- `composer smoke:container`: PASS. `composer qa:inspection`: PASS; runtime proof reports runtime/container/Doctrine/fixture-load/admin/functional-readiness/PostgreSQL matrix checks GREEN, and API/OpenAPI inspection remains coherent.
+- Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261004-221228.json`: PHPStan 0 errors; seven medium, non-autofixable design/maintainability observations, unchanged from the supplied qualitative baseline; no RC-hard regression.
+- Runtime reuse policy was respected: managed port 8000 status was probed before any restart; no managed runtime was running and the existing `/health` probe timed out. No runtime was started solely for this non-UI change.
+- Aggregate `release:verify` could not be accepted as a completed gate: the heavy asynchronous worker was refused before process start by Console MCP runtime-capacity policy, and a later synchronous invocation exceeded its transport timeout without returning a result. Acceptance is therefore based only on the explicit passing constituent evidence above, not on an inferred aggregate PASS.
+- No user-observable UI/navigation/form/template/route behavior changed, so new Panther/Playwright screenshots are not applicable to this implementation slice.
+
 
