@@ -745,5 +745,36 @@
 - `composer gate:canon`: PASS with zero hard failures. Canon040 remains warning-class `HIGH_TEST_DEBT` at 21.97% lines / 20.19% methods / 45.63% branches; Canon031 and Canon042 remain measured warning debt.
 - No production source, route, form, template, navigation, or runtime service behavior changed in this continuation; browser/mobile visual evidence remains not applicable.
 
+## 2026-10-04 — Lifecycle controller contract documentation (`engine-20261004232807-applicating-871954`)
+
+### Reconnaissance baseline
+
+- Read the authoritative execution specification, current repository documentation including the AsciiDoc integration contract, development/production Composer manifests, source/API/OpenAPI/testing surfaces, current Git state, historical CanonScanning RED, and the mandatory Objecting/Cruding/Viewing/Interfacing/Gating/Canonization contracts through Console MCP.
+- The historical Canon039/052/056/063 RED is stale against the current repository. Current `composer gate:canon` has zero hard failures: branch/path coverage tooling, Gating integration, canonical OpenAPI path/method parity, Nelmio ownership, and the Canon067 root Entity are GREEN.
+- Current measured debt is warning-class: Canon031 PHPDoc coverage, Canon040 HIGH_TEST_DEBT, and Canon042 behavioral/UI debt. Existing untracked `tests/Unit/Entity/` and generated `var/` state were preserved and not absorbed.
+
+### Market/maturity boundary and selected work
+
+- Mature software catalogs keep authoritative component metadata/API surfaces explicit, while maturity platforms use automated checks and scorecards to expose readiness debt. For Applicating, deterministic lifecycle/API/authorization contracts remain RC concerns; richer scorecards, self-service actions, and portal UX remain growth work.
+- **RC-critical:** reduce current Canon031 semantic debt on the lifecycle mutation boundary without altering production behavior or fabricating behavioral coverage.
+- Added class-level responsibility documentation to `ApplicationAdminLifecycleController` plus semantic contracts for the two critical lifecycle operations already tracked by Canon042: release publish and tenant-assignment toggle.
+- No route, form, persistence, template, navigation, or user-visible UI behavior changed; visual acceptance is not applicable to this documentation-only mutation.
+
+### Verification plan
+
+- Run changed-file PHP lint, Composer strict/check-lock validation, style/static/full tests, persistent coverage refresh, full Canon validation, fresh Inspecting, and final Git/upstream integration checks.
+
+### Verification and acceptance
+
+- Changed PHP lint: PASS for `ApplicationAdminLifecycleController.php`.
+- `composer validate --strict --check-lock`: PASS.
+- `composer cs:check`: PASS; 0/118 fixable files.
+- `composer qa:static`: PASS; PHPStan zero errors.
+- `composer test:coverage`: PASS — PHPUnit 41 tests / 112 assertions; persistent branch/path evidence refreshed.
+- `composer test:behavioral-coverage`: PASS — functional 7/7, behavioral 0/5, UI 1/4, critical 0/2; warning debt remains explicit.
+- Final `composer gate:canon`: PASS with zero hard failures. Canon031 improved to classes 19/101 (18.8%) and contract methods 38/192 (19.8%); Canon040 remains warning-class HIGH_TEST_DEBT at 25.6% lines / 26.4% methods / 27.9% branches; Canon042 remains warning-class HIGH_BEHAVIORAL_TEST_DEBT.
+- Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261004-235106.json`: PHPStan zero errors; seven medium, non-autofixable design/maintainability observations, unchanged in qualitative contour; no hard regression.
+- No user-observable UI/navigation/form/template/route behavior changed; no new visual artifact is required for this documentation-only slice.
+
 
 

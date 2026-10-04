@@ -22,6 +22,12 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * Executes authorized lifecycle mutations for an existing application.
+ *
+ * Actions delegate domain changes to ApplicationLifecycleServiceInterface and return operators
+ * to the canonical application detail surface with explicit success or error feedback.
+ */
 final class ApplicationAdminLifecycleController extends AbstractController
 {
     #[Route('/admin/applications/release/{id}', name: 'applicating_application_release', methods: ['POST'])]
@@ -66,6 +72,7 @@ final class ApplicationAdminLifecycleController extends AbstractController
         );
     }
 
+    /** Publish the selected release when voter authorization and lifecycle guards allow it. */
     #[Route('/admin/applications/publish/{releaseId}/{id}', name: 'applicating_application_publish', methods: ['POST'])]
     public function publish(
         ApplicationEntity $application,
@@ -124,6 +131,7 @@ final class ApplicationAdminLifecycleController extends AbstractController
         );
     }
 
+    /** Enable or disable one persisted tenant assignment after its voter check succeeds. */
     #[Route('/admin/applications/tenant/assignment/toggle/{id}', name: 'applicating_tenant_application_toggle', methods: ['POST'])]
     public function toggle(
         ApplicationTenantAssignmentEntity $tenantApplication,
