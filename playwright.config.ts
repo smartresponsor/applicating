@@ -1,8 +1,12 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const runDate = process.env.CMCP_RUN_DATE ?? new Date().toISOString().slice(0, 10);
+const runId = process.env.CMCP_RUN_ID ?? 'manual';
+const artifactRoot = `../var/Applicating/${runDate}/${runId}`;
+
 export default defineConfig({
   testDir: './tests/Playwright',
-  outputDir: '../var/Applicating/2026-10-04/engine-20261004111052-applicating-6fd6e9/playwright',
+  outputDir: `${artifactRoot}/playwright`,
   timeout: 30_000,
   fullyParallel: true,
   retries: 0,

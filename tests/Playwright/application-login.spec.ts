@@ -2,13 +2,9 @@ import { expect, test } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
 
-const artifactDirectory = path.resolve(
-  '..',
-  'var',
-  'Applicating',
-  '2026-10-04',
-  'engine-20261004111052-applicating-6fd6e9',
-);
+const artifactDate = process.env.CMCP_RUN_DATE ?? new Date().toISOString().slice(0, 10);
+const artifactRunId = process.env.CMCP_RUN_ID ?? 'manual';
+const artifactDirectory = path.resolve('..', 'var', 'Applicating', artifactDate, artifactRunId);
 
 test('login surface renders through Viewing', async ({ page }) => {
   // @ui-coverage surface:login
