@@ -41,7 +41,7 @@ final class ApplicationTenantAssignmentRepository extends ServiceEntityRepositor
         $tenantApplication = $this->createQueryBuilder('tenantApplication')
             ->leftJoin('tenantApplication.application', 'application')->addSelect('application')
             ->where('tenantApplication.tenantKey = :tenantKey')
-            ->andWhere('application.slug = :applicationSlug')
+            ->andWhere('application.objectIdentity.slug = :applicationSlug')
             ->setParameter('tenantKey', $tenantKey)
             ->setParameter('applicationSlug', $applicationSlug)
             ->setMaxResults(1)
