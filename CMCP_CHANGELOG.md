@@ -798,6 +798,23 @@
 - `composer gate:canon`: PASS with zero hard failures. Canon031 remains warning debt at classes 19/101 and contract methods 38/192; Canon040 and Canon042 remain measured warning-class debt.
 - `composer validate --strict --check-lock`: PASS.
 
+## 2026-10-05 — Runtime assignment entity coverage hardening
+
+### Implementation and verification
+
+- Continued the Canon040 remediation stream from synchronized `master`; only the new runtime-assignment test and generated `var/` evidence were dirty at start.
+- Added `tests/Unit/Entity/ApplicationRuntimeAssignmentEntityTest.php` for trimmed environment normalization, blank-environment rejection, default runtime mode, no-op same-mode transition, changed-mode transition, and timestamp behavior.
+- The initial generated test payload was truncated at the helper constructor tail; PHPUnit reported the syntax error directly. The missing tail was restored before any acceptance claim, then the same unit gate passed.
+- `composer test:unit`: PASS — 36 tests / 124 assertions.
+- `composer test:coverage`: PASS — 48 tests / 149 assertions. `ApplicationRuntimeAssignmentEntity` now reports 100% lines, 93.33% branches, 87.50% methods, and 83.33% paths.
+- Repository aggregate coverage improved to 25.69% lines, 34.16% methods, and 57.77% branches. Canon040 remains warning-class `HIGH_TEST_DEBT`.
+- `composer qa:style`: PASS after PHP-CS-Fixer normalized only the new test.
+- `composer qa:static`: PASS — PHPStan zero errors.
+- `composer qa:test`: PASS — 48 tests / 149 assertions; Canon042 evidence remains functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer gate:canon`: PASS with zero hard failures. Canon031/040/042 remain explicit warning-class debt.
+- `composer validate --strict --check-lock`: PASS.
+- No production source, runtime wiring, route, form, template, navigation, or browser interaction changed; new visual evidence is not applicable.
+
 
 
 
