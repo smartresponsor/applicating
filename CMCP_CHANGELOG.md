@@ -864,6 +864,19 @@
 - `composer validate --strict --check-lock`: PASS.
 - No production runtime/UI behavior changed; new visual evidence is not applicable.
 
+## 2026-10-05 — Voter path coverage continuation
 
+### Implementation and verification
+
+- Continued from synchronized `master` after the concurrent ApplicationEntity coverage commit landed cleanly.
+- Extended `ApplicationVoterTest` with supported-attribute/unsupported-subject abstention plus explicit manager-granted and manager-denied publish cases.
+- `composer test:unit`: PASS — 44 tests / 178 assertions.
+- `composer test:coverage`: PASS — 56 tests / 203 assertions. `ApplicationVoter` path coverage improved from 62.50% to 68.75%; branch coverage remains 92.00% and lines remain 100%.
+- Repository aggregate remains 28.15% lines, 45.65% methods, and 67.23% branches. Canon040 remains warning-class `HIGH_TEST_DEBT`.
+- `composer qa:style`: PASS.
+- `composer qa:static`: PASS — PHPStan zero errors.
+- `composer qa:test`: PASS — 56 tests / 203 assertions; Canon042 evidence remains functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer gate:canon`: PASS with zero hard failures. Canon031/040/042 remain explicit warning-class debt.
+- No production runtime/UI behavior changed; visual evidence is not applicable.
 
 

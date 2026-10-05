@@ -29,6 +29,17 @@ final class ApplicationVoterTest extends TestCase
         self::assertSame(VoterInterface::ACCESS_ABSTAIN, $result);
     }
 
+    public function testSupportedAttributeWithUnsupportedSubjectAbstains(): void
+    {
+        $result = $this->voter([])->vote(
+            $this->createStub(TokenInterface::class),
+            new \stdClass(),
+            [ApplicationVoter::EDIT],
+        );
+
+        self::assertSame(VoterInterface::ACCESS_ABSTAIN, $result);
+    }
+
     public function testAdministratorOverrideGrantsEdit(): void
     {
         $result = $this->voter(['ROLE_APPLICATION_ADMIN' => true])->vote(
@@ -59,6 +70,28 @@ final class ApplicationVoterTest extends TestCase
         $result = $this->voter(['ROLE_APPLICATION_MANAGER' => true])->vote(
             $this->createStub(TokenInterface::class),
             $application,
+            [ApplicationVoter::PUBLISH],
+        );
+
+        self::assertSame(VoterInterface::ACCESS_DENIED, $result);
+    }
+
+    public function testManagerCanPublishActiveApplication(): void
+    {
+        $result = $this->voter(['ROLE_APPLICATION_MANAGER' => true])->vote(
+            $this->createStub(TokenInterface::class),
+            $this->application(),
+            [ApplicationVoter::PUBLISH],
+        );
+
+        self::assertSame(VoterInterface::ACCESS_GRANTED, $result);
+    }
+
+    public function testNonManagerCannotPublishApplication(): void
+    {
+        $result = $this->voter([])->vote(
+            $this->createStub(TokenInterface::class),
+            $this->application(),
             [ApplicationVoter::PUBLISH],
         );
 
