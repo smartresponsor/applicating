@@ -840,6 +840,23 @@
 - `composer test:unit`: PASS — 39 tests / 147 assertions.
 - `composer test:coverage`: PASS — 51 tests / 172 assertions. `ApplicationReleaseEntity` improved to 100% methods, paths, branches, and lines.
 - Repository aggregate coverage improved to 26.71% lines, 39.44% methods, and 61.89% branches. Canon040 remains warning-class `HIGH_TEST_DEBT`.
+
+## 2026-10-05 — Application root entity coverage hardening
+
+### Selection and verification
+
+- `ApplicationReadinessService` was initially reviewed as the next Canon040 target, but its constructor depends on concrete final `ApplicationRepository`. Achieving isolated unit coverage there would require Doctrine integration setup or a production dependency-seam refactor; coverage alone is not sufficient reason to mutate that production contract.
+- Selected the root `ApplicationEntity` instead because its lifecycle and relation logic is deterministic and testable without runtime or DI changes.
+- Added `tests/Unit/Entity/ApplicationEntityTest.php` covering metadata mutation, access/billing/sandbox/default-enable state, moderation/publish/suspend lifecycle transitions, relation de-duplication, and lifecycle timestamp callbacks.
+- `composer test:unit`: PASS — 41 tests / 171 assertions.
+- `composer test:coverage`: PASS — 53 tests / 196 assertions. `ApplicationEntity` improved to 96.67% lines, 93.94% methods, 95.12% branches, and 94.59% paths.
+- Repository aggregate coverage improved to 28.15% lines, 45.65% methods, and 67.23% branches; branch coverage is now close to the Canon040 70% target while line/method debt remains substantial.
+- `composer qa:style`: PASS after PHP-CS-Fixer normalized only the new test.
+- `composer qa:static`: PASS — PHPStan zero errors.
+- `composer qa:test`: PASS — 53 tests / 196 assertions; Canon042 evidence remains functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer gate:canon`: PASS with zero hard failures. Canon031/040/042 remain explicit warning-class debt.
+- `composer validate --strict --check-lock`: PASS.
+- No production source/runtime/UI behavior changed; new visual evidence is not applicable.
 - `composer qa:style`: PASS after PHP-CS-Fixer normalized only the new test.
 - `composer qa:static`: PASS — PHPStan zero errors.
 - `composer qa:test`: PASS — 51 tests / 172 assertions; Canon042 evidence remains functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
