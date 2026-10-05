@@ -9,12 +9,18 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+/**
+ * Seeds deterministic local administrator, manager, and viewer accounts for development fixtures.
+ */
 final class ApplicationUserFixtures extends Fixture
 {
     public function __construct(private readonly UserPasswordHasherInterface $passwordHasher)
     {
     }
 
+    /**
+     * Persists the canonical local fixture accounts with hashed passwords and role assignments.
+     */
     public function load(ObjectManager $manager): void
     {
         $this->createLocalUser(

@@ -97,6 +97,9 @@ final class ApplicationAdminLifecycleController extends AbstractController
         throw $this->createNotFoundException('Release not found for application.');
     }
 
+    /**
+     * Suspends the authorized application and returns the operator to its detail surface.
+     */
     #[Route('/admin/applications/suspend/{id}', name: 'applicating_application_suspend', methods: ['POST'])]
     public function suspend(
         ApplicationEntity $application,
@@ -110,6 +113,9 @@ final class ApplicationAdminLifecycleController extends AbstractController
         return $this->redirectToRoute('applicating_application_show', ['id' => $application->getId()]);
     }
 
+    /**
+     * Validates tenant assignment input and delegates creation through the lifecycle service.
+     */
     #[Route('/admin/applications/assign/{id}', name: 'applicating_application_assign', methods: ['POST'])]
     public function assign(
         ApplicationEntity $application,

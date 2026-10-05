@@ -14,6 +14,9 @@ use App\Applicating\ServiceInterface\ApplicationLifecycleServiceInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
+/**
+ * Seeds deterministic demo applications, releases, manifests, and tenant assignments for local validation.
+ */
 final class ApplicationFixtures extends Fixture
 {
     public function __construct(private readonly ApplicationLifecycleServiceInterface $applicationLifecycleService)
@@ -21,6 +24,8 @@ final class ApplicationFixtures extends Fixture
     }
 
     /**
+     * Creates the canonical demo lifecycle graph used by local validation and demonstrations.
+     *
      * @throws \JsonException
      */
     public function load(ObjectManager $manager): void

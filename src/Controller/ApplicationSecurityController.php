@@ -9,9 +9,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+/**
+ * Builds the login presentation payload while delegating logout execution to Symfony security.
+ */
 final class ApplicationSecurityController extends AbstractController
 {
-    /** @return array<string, mixed> */
+    /**
+     * Returns the neutral login view payload with the last identifier and authentication error state.
+     *
+     * @return array<string, mixed>
+     */
     #[Route('/login', name: 'applicating_security_login')]
     public function login(Request $request, AuthenticationUtils $authenticationUtils): array
     {
@@ -39,6 +46,9 @@ final class ApplicationSecurityController extends AbstractController
         ];
     }
 
+    /**
+     * Marks the Symfony firewall logout endpoint and rejects direct controller execution.
+     */
     #[Route('/logout', name: 'applicating_security_logout')]
     public function logout(): never
     {

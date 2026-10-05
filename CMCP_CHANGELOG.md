@@ -933,4 +933,26 @@
 - Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261005-200214.json`: PHPStan zero errors and the same seven medium non-autofixable design/maintainability observations; no hard regression.
 - No routes, forms, templates, navigation, or user-observable behavior changed; browser/mobile visual evidence is not applicable.
 
+## 2026-10-05 — Security, lifecycle, and fixture contract documentation
+
+### Selection and implementation
+
+- Continued the Canon031 remediation stream from synchronized `master` after the controller-contract commit was published; only generated `var/` remained outside Git at baseline.
+- Selected the next current representative gaps with no runtime redesign: `ApplicationSecurityController`, `ApplicationAdminLifecycleController::suspend()`, `ApplicationAdminLifecycleController::assign()`, `ApplicationFixtures`, and `ApplicationUserFixtures`.
+- Added semantic class/action/load documentation describing Symfony-owned logout behavior, lifecycle suspension/assignment delegation, deterministic demo lifecycle seeding, and local fixture-user creation.
+- No route signatures, service wiring, persistence semantics, forms, templates, navigation, or user-observable behavior were changed.
+
+### Verification
+
+- Changed PHP lint: PASS for `ApplicationSecurityController`, `ApplicationAdminLifecycleController`, `ApplicationFixtures`, and `ApplicationUserFixtures`.
+- `composer validate --strict --check-lock`: PASS.
+- `composer qa:static`: PASS; PHPStan zero errors.
+- `composer qa:test`: PASS — 74 tests / 334 assertions; behavioral evidence regenerated at functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- The first `composer test:coverage` run exposed transient SQLite schema-isolation errors (`application_listing already exists`) in two publish-command functional tests. An immediate rerun on the same source tree passed — 74 tests / 334 assertions — so the first result is retained as test-isolation instability rather than a documentation-source regression.
+- `composer gate:canon`: PASS with zero hard failures. Canon031 improved from classes 26/101 (25.7%) and contract methods 53/192 (27.6%) to classes 29/101 (28.7%) and contract methods 59/192 (30.7%).
+- Canon040 now measures 44.8% lines / 58.7% methods / 80.4% branches; warning debt remains because line and method thresholds are still below target.
+- Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261005-201308.json`: PHPStan zero errors and the same seven medium non-autofixable design/maintainability observations; no hard regression.
+- The synchronous `qa:style` request timed out before returning an exit code, so no PASS/FAIL claim is made from that invocation; the signed commit hook will independently run PHP-CS-Fixer against the staged PHP files.
+- No route, form, template, navigation, persistence, or user-observable behavior changed; browser/mobile visual evidence is not applicable.
+
 
