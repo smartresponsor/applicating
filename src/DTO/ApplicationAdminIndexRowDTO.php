@@ -6,6 +6,9 @@ namespace App\Applicating\DTO;
 
 use App\Applicating\Entity\Application\ApplicationEntity;
 
+/**
+ * Represents one application row in the administration index projection.
+ */
 final readonly class ApplicationAdminIndexRowDTO
 {
     public function __construct(
@@ -20,6 +23,9 @@ final readonly class ApplicationAdminIndexRowDTO
     ) {
     }
 
+    /**
+     * Projects persisted application state into the administration index row contract.
+     */
     public static function fromApplication(ApplicationEntity $application): self
     {
         return new self(

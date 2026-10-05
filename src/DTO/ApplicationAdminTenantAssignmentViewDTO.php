@@ -6,6 +6,9 @@ namespace App\Applicating\DTO;
 
 use App\Applicating\Entity\ApplicationTenantAssignmentEntity;
 
+/**
+ * Represents tenant installation, billing, enablement, and diagnostic state on the administration detail surface.
+ */
 final readonly class ApplicationAdminTenantAssignmentViewDTO
 {
     /** @param array<string, mixed> $diagnostics */
@@ -20,6 +23,9 @@ final readonly class ApplicationAdminTenantAssignmentViewDTO
     ) {
     }
 
+    /**
+     * Projects one persisted tenant assignment into the administration detail view contract.
+     */
     public static function fromTenantApplication(ApplicationTenantAssignmentEntity $tenantApplication): self
     {
         return new self(

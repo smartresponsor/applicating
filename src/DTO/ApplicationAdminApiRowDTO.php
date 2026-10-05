@@ -6,6 +6,9 @@ namespace App\Applicating\DTO;
 
 use App\Applicating\Entity\Application\ApplicationEntity;
 
+/**
+ * Represents one application row exposed by the manager-facing administration API.
+ */
 final readonly class ApplicationAdminApiRowDTO
 {
     public function __construct(
@@ -21,6 +24,9 @@ final readonly class ApplicationAdminApiRowDTO
     ) {
     }
 
+    /**
+     * Projects persisted application state into the manager API row contract.
+     */
     public static function fromApplication(ApplicationEntity $application): self
     {
         return new self(
@@ -36,7 +42,11 @@ final readonly class ApplicationAdminApiRowDTO
         );
     }
 
-    /** @return array{id:int,nameEntity:string,slug:string,packageName:string,developerName:string,publicationState:string,accessLevel:string,releaseCount:int,tenantAssignmentCount:int} */
+    /**
+     * Returns the stable JSON-ready administration row shape.
+     *
+     * @return array{id:int,nameEntity:string,slug:string,packageName:string,developerName:string,publicationState:string,accessLevel:string,releaseCount:int,tenantAssignmentCount:int}
+     */
     public function toArray(): array
     {
         return [

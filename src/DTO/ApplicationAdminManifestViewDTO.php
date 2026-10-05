@@ -6,6 +6,9 @@ namespace App\Applicating\DTO;
 
 use App\Applicating\Entity\ApplicationManifestEntity;
 
+/**
+ * Represents manifest governance and runtime metadata on the application detail surface.
+ */
 final readonly class ApplicationAdminManifestViewDTO
 {
     /**
@@ -22,6 +25,9 @@ final readonly class ApplicationAdminManifestViewDTO
     ) {
     }
 
+    /**
+     * Projects one persisted manifest into the administration detail view contract.
+     */
     public static function fromManifest(ApplicationManifestEntity $manifest): self
     {
         return new self(

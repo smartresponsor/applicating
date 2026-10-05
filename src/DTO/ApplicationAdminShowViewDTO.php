@@ -6,6 +6,9 @@ namespace App\Applicating\DTO;
 
 use App\Applicating\Entity\Application\ApplicationEntity;
 
+/**
+ * Aggregates the administration detail projection for one application and its lifecycle relations.
+ */
 final readonly class ApplicationAdminShowViewDTO
 {
     /**
@@ -27,6 +30,8 @@ final readonly class ApplicationAdminShowViewDTO
     }
 
     /**
+     * Combines one application with its pre-projected release, manifest, and tenant-assignment views.
+     *
      * @param list<ApplicationAdminReleaseViewDTO>          $releases
      * @param list<ApplicationAdminManifestViewDTO>         $manifests
      * @param list<ApplicationAdminTenantAssignmentViewDTO> $tenantAssignments

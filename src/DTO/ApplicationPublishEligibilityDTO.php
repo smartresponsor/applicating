@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Applicating\DTO;
 
+/**
+ * Carries the publish-eligibility decision and explanatory reason for one release.
+ */
 final readonly class ApplicationPublishEligibilityDTO
 {
     public function __construct(
@@ -13,7 +16,11 @@ final readonly class ApplicationPublishEligibilityDTO
     ) {
     }
 
-    /** @return array{releaseId:int,eligible:bool,reason:string} */
+    /**
+     * Returns the readiness-facing eligibility shape, synthesizing a positive reason when none is stored.
+     *
+     * @return array{releaseId:int,eligible:bool,reason:string}
+     */
     public function toReadinessArray(): array
     {
         return [
@@ -23,7 +30,11 @@ final readonly class ApplicationPublishEligibilityDTO
         ];
     }
 
-    /** @return array{eligible:bool,reason:string|null} */
+    /**
+     * Returns the legacy eligibility-map item used by the existing administration detail payload.
+     *
+     * @return array{eligible:bool,reason:string|null}
+     */
     public function toLegacyMapItem(): array
     {
         return [

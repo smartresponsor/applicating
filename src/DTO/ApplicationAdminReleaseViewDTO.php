@@ -6,6 +6,9 @@ namespace App\Applicating\DTO;
 
 use App\Applicating\Entity\ApplicationReleaseEntity;
 
+/**
+ * Represents release identity, channel, download, and publication state on the administration detail surface.
+ */
 final readonly class ApplicationAdminReleaseViewDTO
 {
     public function __construct(
@@ -17,6 +20,9 @@ final readonly class ApplicationAdminReleaseViewDTO
     ) {
     }
 
+    /**
+     * Projects one persisted release into the administration detail view contract.
+     */
     public static function fromRelease(ApplicationReleaseEntity $release): self
     {
         return new self(

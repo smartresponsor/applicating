@@ -955,4 +955,27 @@
 - The synchronous `qa:style` request timed out before returning an exit code, so no PASS/FAIL claim is made from that invocation; the signed commit hook will independently run PHP-CS-Fixer against the staged PHP files.
 - No route, form, template, navigation, persistence, or user-observable behavior changed; browser/mobile visual evidence is not applicable.
 
+## 2026-10-05 — Administration and readiness DTO contract documentation
+
+### Selection and implementation
+
+- Continued the Canon031 remediation stream from synchronized `master`; generated `var/` was the only pre-existing local state at baseline.
+- Selected eight current representative DTO gaps: `ApplicationAdminApiRowDTO`, `ApplicationAdminIndexRowDTO`, `ApplicationAdminManifestViewDTO`, `ApplicationAdminReleaseViewDTO`, `ApplicationAdminShowViewDTO`, `ApplicationAdminTenantAssignmentViewDTO`, `ApplicationPublishEligibilityDTO`, and `ApplicationReadinessDTO`.
+- Added semantic class/factory/serialization documentation while preserving every property, projection rule, array shape, and serialization contract.
+- A concurrent workstream appeared afterward in `ApplicationTenantAssignmentRepositoryInterface`, `ApplicationReportService`, and `ApplicationReportServiceTest`; those paths are preserved outside this integration set.
+- No runtime wiring, route, persistence rule, form, template, navigation, or user-observable behavior was changed.
+
+### Verification
+
+- Changed PHP lint: PASS for all eight DTO files. Concurrent `ApplicationTenantAssignmentRepositoryInterface` and `ApplicationReportService` changes also linted successfully but remain outside this workstream.
+- `composer validate --strict --check-lock`: PASS.
+- `composer qa:static`: PASS; PHPStan zero errors.
+- `composer qa:test`: PASS — 75 tests / 337 assertions; behavioral evidence regenerated at functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer test:coverage`: PASS after two initial Console MCP 502 launch failures and one capacity refusal; final execution completed 75 tests / 337 assertions with persistent coverage evidence refreshed.
+- `composer gate:canon`: PASS with zero hard failures. Canon031 improved from classes 29/101 (28.7%) and contract methods 59/192 (30.7%) to classes 37/101 (36.6%) and contract methods 69/193 (35.8%).
+- Canon040 now measures 45.2% lines / 59.0% methods / 80.7% branches; line/method warning debt remains while branch coverage is above target.
+- Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261005-205540.json`: PHPStan zero errors and the same seven medium non-autofixable design/maintainability observations; no hard regression.
+- `composer qa:style` is not GREEN on the shared worktree solely because the concurrent untracked `tests/Unit/Service/ApplicationReportServiceTest.php` needs PHP-CS-Fixer normalization. That file is outside this integration set and was not modified here; the scoped signed commit hook will independently validate staged DTO PHP.
+- No runtime wiring, route, persistence rule, form, template, navigation, or user-observable behavior changed; visual evidence is not applicable.
+
 

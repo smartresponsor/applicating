@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Applicating\DTO;
 
+/**
+ * Represents the complete publication-readiness decision, blockers, warnings, and diagnostic signals.
+ */
 final readonly class ApplicationReadinessDTO
 {
     /**
@@ -18,7 +21,11 @@ final readonly class ApplicationReadinessDTO
     ) {
     }
 
-    /** @return array{canPublish:bool,blockingReasons:list<string>,warnings:list<string>,signals:array{applicationFound:bool,applicationSlug:string,releaseCount:int,manifestCount:int,approvedManifestPresent:bool,eligibility:array<int, array{releaseId:int,eligible:bool,reason:string}>}} */
+    /**
+     * Returns the stable JSON-ready readiness contract consumed by the API and CLI surfaces.
+     *
+     * @return array{canPublish:bool,blockingReasons:list<string>,warnings:list<string>,signals:array{applicationFound:bool,applicationSlug:string,releaseCount:int,manifestCount:int,approvedManifestPresent:bool,eligibility:array<int, array{releaseId:int,eligible:bool,reason:string}>}}
+     */
     public function toArray(): array
     {
         return [
