@@ -34,6 +34,9 @@ final class ApplicatingExtension extends Extension implements PrependExtensionIn
         $loader->load('services.yaml');
     }
 
+    /**
+     * Prepends the repository-owned Symfony framework defaults required by Applicating forms and validation.
+     */
     public function prepend(ContainerBuilder $container): void
     {
         $frameworkConfigFile = __DIR__.'/../../config/packages/application_framework.yaml';

@@ -6,6 +6,9 @@ namespace App\Applicating\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Carries validated manifest metadata submitted to the application lifecycle service.
+ */
 final class ApplicationManifestDTO
 {
     #[Assert\NotBlank]

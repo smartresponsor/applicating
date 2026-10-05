@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Applicating\DTO;
 
+/**
+ * Carries the complete diagnostics payload for one tenant application assignment.
+ */
 final readonly class ApplicationTenantDiagnosticsDTO
 {
     public function __construct(
@@ -18,7 +21,11 @@ final readonly class ApplicationTenantDiagnosticsDTO
     ) {
     }
 
-    /** @return array{tenantKey:string,application:string,version:string,enabled:bool,billingActive:bool,installationState:string,checks:array{manifest_present:bool,release_present:bool,sandbox_profile:string,access_policy_keys:list<string>},reportedAt:string} */
+    /**
+     * Returns the stable JSON-ready tenant diagnostics shape.
+     *
+     * @return array{tenantKey:string,application:string,version:string,enabled:bool,billingActive:bool,installationState:string,checks:array{manifest_present:bool,release_present:bool,sandbox_profile:string,access_policy_keys:list<string>},reportedAt:string}
+     */
     public function toArray(): array
     {
         return [

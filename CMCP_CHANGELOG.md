@@ -978,4 +978,26 @@
 - `composer qa:style` is not GREEN on the shared worktree solely because the concurrent untracked `tests/Unit/Service/ApplicationReportServiceTest.php` needs PHP-CS-Fixer normalization. That file is outside this integration set and was not modified here; the scoped signed commit hook will independently validate staged DTO PHP.
 - No runtime wiring, route, persistence rule, form, template, navigation, or user-observable behavior changed; visual evidence is not applicable.
 
+## 2026-10-05 — Remaining DTO and extension contract documentation
+
+### Selection and implementation
+
+- Continued the Canon031 remediation stream from synchronized `master` after publication of the administration/readiness DTO slice.
+- Selected the remaining current DTO/extension representative gaps: `ApplicatingExtension::prepend()`, `ApplicationManifestDTO`, `ApplicationReadinessSignalsDTO`, `ApplicationReleaseDTO`, `ApplicationSummaryDTO`, `ApplicationTenantAssignmentDTO`, `ApplicationTenantDiagnosticsChecksDTO`, `ApplicationTenantDiagnosticsDTO`, and `ApplicationUpsertDTO`.
+- Added semantic class/method documentation while preserving validation constraints, Symfony container behavior, data shapes, serialization keys, and lifecycle semantics.
+- No runtime wiring behavior, route, persistence rule, form, template, navigation, or user-observable behavior changed.
+
+### Verification
+
+- Changed PHP lint: PASS for the eight DTO files and `ApplicatingExtension`.
+- `composer validate --strict --check-lock`: PASS.
+- `composer qa:style`: PASS; PHP lint and service/interface parity are GREEN, and PHP-CS-Fixer found 0/131 fixable files.
+- `composer qa:static`: PASS; PHPStan zero errors.
+- `composer qa:test`: PASS — 76 tests / 344 assertions; behavioral evidence regenerated at functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer test:coverage`: PASS — 76 tests / 344 assertions with persistent executable coverage refreshed.
+- `composer gate:canon`: PASS with zero hard failures. Canon031 improved from classes 37/101 (36.6%) and contract methods 69/193 (35.8%) to classes 45/101 (44.6%) and contract methods 74/193 (38.3%).
+- Canon040 now measures 47.7% lines / 61.2% methods / 82.2% branches; line/method warning debt remains while branch coverage is above target.
+- Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261005-210429.json`: seven medium non-autofixable php-structure observations, unchanged in qualitative contour. This Inspecting run returned only the php-structure analyzer; independent `qa:static` on the same tree reports PHPStan zero errors.
+- No runtime wiring behavior, route, persistence rule, form, template, navigation, or user-observable behavior changed; visual evidence is not applicable.
+
 

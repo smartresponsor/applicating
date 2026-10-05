@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Applicating\DTO;
 
+/**
+ * Carries the diagnostic signals used to explain an application's publication readiness.
+ */
 final readonly class ApplicationReadinessSignalsDTO
 {
     /** @param array<int, array{releaseId:int,eligible:bool,reason:string}> $eligibility */
@@ -17,7 +20,11 @@ final readonly class ApplicationReadinessSignalsDTO
     ) {
     }
 
-    /** @return array{applicationFound:bool,applicationSlug:string,releaseCount:int,manifestCount:int,approvedManifestPresent:bool,eligibility:array<int, array{releaseId:int,eligible:bool,reason:string}>} */
+    /**
+     * Returns the stable JSON-ready readiness-signal shape.
+     *
+     * @return array{applicationFound:bool,applicationSlug:string,releaseCount:int,manifestCount:int,approvedManifestPresent:bool,eligibility:array<int, array{releaseId:int,eligible:bool,reason:string}>}
+     */
     public function toArray(): array
     {
         return [

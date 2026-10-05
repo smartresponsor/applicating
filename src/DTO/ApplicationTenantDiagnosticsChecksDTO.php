@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Applicating\DTO;
 
+/**
+ * Carries the diagnostic checks derived from one tenant application assignment.
+ */
 final readonly class ApplicationTenantDiagnosticsChecksDTO
 {
     /** @param list<string> $accessPolicyKeys */
@@ -15,7 +18,11 @@ final readonly class ApplicationTenantDiagnosticsChecksDTO
     ) {
     }
 
-    /** @return array{manifest_present:bool,release_present:bool,sandbox_profile:string,access_policy_keys:list<string>} */
+    /**
+     * Returns the stable JSON-ready tenant diagnostic-check shape.
+     *
+     * @return array{manifest_present:bool,release_present:bool,sandbox_profile:string,access_policy_keys:list<string>}
+     */
     public function toArray(): array
     {
         return [

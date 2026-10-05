@@ -7,6 +7,9 @@ namespace App\Applicating\DTO;
 use App\Applicating\Enum\ApplicationAccessLevel;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Carries validated application metadata for create and update lifecycle operations.
+ */
 final class ApplicationUpsertDTO
 {
     #[Assert\NotBlank]

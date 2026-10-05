@@ -6,6 +6,9 @@ namespace App\Applicating\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Carries validated tenant-assignment state for application lifecycle operations.
+ */
 final class ApplicationTenantAssignmentDTO
 {
     #[Assert\NotBlank]
