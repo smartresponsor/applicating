@@ -815,6 +815,22 @@
 - `composer validate --strict --check-lock`: PASS.
 - No production source, runtime wiring, route, form, template, navigation, or browser interaction changed; new visual evidence is not applicable.
 
+## 2026-10-05 — Manifest entity coverage hardening
+
+### Implementation and verification
+
+- Continued the Canon040 remediation stream from clean tracked `master`; generated `var/` evidence remained untracked and untouched.
+- Added `tests/Unit/Entity/ApplicationManifestEntityTest.php` covering the complete persistence-facing manifest state contract: application relation, version, identifier, capabilities, permissions, runtime hooks, sandbox profile, governance state, raw manifest payload, and creation timestamp.
+- `composer test:unit`: PASS — 37 tests / 135 assertions.
+- `composer test:coverage`: PASS — 49 tests / 160 assertions. `ApplicationManifestEntity` improved to 100% methods, paths, branches, and lines.
+- Repository aggregate coverage improved to 26.29% lines, 37.27% methods, and 60.19% branches. Canon040 remains warning-class `HIGH_TEST_DEBT`.
+- `composer qa:style`: PASS after PHP-CS-Fixer normalized only the new test.
+- `composer qa:static`: PASS — PHPStan zero errors.
+- `composer qa:test`: PASS — 49 tests / 160 assertions; Canon042 evidence remains functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer gate:canon`: PASS with zero hard failures. Canon031/040/042 remain explicit warning-class debt.
+- `composer validate --strict --check-lock`: PASS.
+- No production runtime/UI behavior changed; new visual evidence is not applicable.
+
 
 
 
