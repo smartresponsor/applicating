@@ -20,5 +20,7 @@ interface ApplicationTenantAssignmentRepositoryInterface
 
     public function countEnabledAssignments(): int;
 
+    public function countBillingActiveAssignments(): int;
+
     public function save(ApplicationTenantAssignmentEntity $assignment): void;
 }

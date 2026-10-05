@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace App\Applicating\Service;
 
 use App\Applicating\DTO\ApplicationSummaryDTO;
-use App\Applicating\Repository\ApplicationRepository;
-use App\Applicating\Repository\ApplicationTenantAssignmentRepository;
+use App\Applicating\RepositoryInterface\ApplicationRepositoryInterface;
+use App\Applicating\RepositoryInterface\ApplicationTenantAssignmentRepositoryInterface;
 use App\Applicating\ServiceInterface\ApplicationReportServiceInterface;
 
 final readonly class ApplicationReportService implements ApplicationReportServiceInterface
 {
     public function __construct(
-        private ApplicationRepository $applicationRepository,
-        private ApplicationTenantAssignmentRepository $tenantApplicationRepository,
+        private ApplicationRepositoryInterface $applicationRepository,
+        private ApplicationTenantAssignmentRepositoryInterface $tenantApplicationRepository,
     ) {
     }
 
