@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require __DIR__ . '/../_support/bootstrap.php';
+require_once __DIR__ . '/../_support/bootstrap.php';
 
 $minScore = isset($_ENV['APP_READINESS_EVAL_MIN_SCORE']) ? (float) $_ENV['APP_READINESS_EVAL_MIN_SCORE'] : 1.0;
 $profile = $_ENV['APP_READINESS_EVAL_PROFILE'] ?? 'strict';

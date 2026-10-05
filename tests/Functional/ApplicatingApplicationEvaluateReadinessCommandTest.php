@@ -25,7 +25,30 @@ final class ApplicatingApplicationEvaluateReadinessCommandTest extends KernelTes
 
         $display = $tester->getDisplay();
 
+        self::assertSame(0, $tester->getStatusCode());
         self::assertStringContainsString('Evaluation total', $display);
         self::assertStringContainsString('Score', $display);
+        self::assertStringContainsString('Should fail: false', $display);
+    }
+
+    public function testCommandAcceptsSoftProfileAndClampsMinimumScore(): void
+    {
+        self::bootKernel();
+
+        /** @var KernelInterface $kernel */
+        $kernel = self::$kernel;
+        $application = new Application($kernel);
+        $command = $application->find('applicating:application:evaluate-readiness');
+
+        $tester = new CommandTester($command);
+        $tester->execute([
+            '--min-score' => '-5',
+            '--eval-profile' => 'soft',
+        ]);
+
+        $display = $tester->getDisplay();
+
+        self::assertStringContainsString('Profile: soft', $display);
+        self::assertStringContainsString('Delta:', $display);
     }
 }
