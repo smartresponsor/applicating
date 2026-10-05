@@ -11,8 +11,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * Exposes manager-authorized application inventory and reporting data as JSON.
+ */
 final class ApplicationApiController extends AbstractController
 {
+    /**
+     * Returns the ordered application inventory projected into the public admin API row contract.
+     */
     #[Route('/api/applicating/application', name: 'applicating_application_api_index', methods: ['GET'])]
     public function index(ApplicationRepository $applicationRepository): JsonResponse
     {
@@ -26,6 +32,9 @@ final class ApplicationApiController extends AbstractController
         return $this->json(['applications' => $rows]);
     }
 
+    /**
+     * Returns the current aggregate application report for authorized managers.
+     */
     #[Route('/api/applicating/application/report', name: 'applicating_application_api_report', methods: ['GET'])]
     public function report(ApplicationReportServiceInterface $applicationReportService): JsonResponse
     {

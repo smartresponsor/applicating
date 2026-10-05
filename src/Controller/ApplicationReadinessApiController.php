@@ -9,6 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * Exposes manager-authorized publication-readiness diagnostics for one application.
+ */
 final class ApplicationReadinessApiController extends AbstractController
 {
     public function __construct(
@@ -16,6 +19,9 @@ final class ApplicationReadinessApiController extends AbstractController
     ) {
     }
 
+    /**
+     * Returns the computed readiness contract for the requested application slug.
+     */
     #[Route('/api/applicating/application/readiness/{slug}', name: 'applicating_application_readiness_api', methods: ['GET'])]
     public function __invoke(string $slug): JsonResponse
     {

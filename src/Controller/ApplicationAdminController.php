@@ -27,9 +27,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * Builds the authorized application administration surfaces and delegates lifecycle changes to services.
+ */
 final class ApplicationAdminController extends AbstractController
 {
-    /** @return array<string, mixed> */
+    /**
+     * Returns the application administration index with projected rows and aggregate summary data.
+     *
+     * @return array<string, mixed>
+     */
     #[Route('/admin/applications', name: 'applicating_application_index', methods: ['GET'])]
     public function index(
         ApplicationRepository $applicationRepository,
@@ -44,7 +51,11 @@ final class ApplicationAdminController extends AbstractController
         ], 'Application administration index');
     }
 
-    /** @return Response|array<string, mixed> */
+    /**
+     * Handles creation input and returns either the creation form payload or the detail redirect.
+     *
+     * @return Response|array<string, mixed>
+     */
     #[Route('/admin/applications/new', name: 'applicating_application_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ApplicationLifecycleServiceInterface $applicationLifecycleService): Response|array
     {
@@ -66,7 +77,11 @@ final class ApplicationAdminController extends AbstractController
         ], 'Create application');
     }
 
-    /** @return array<string, mixed> */
+    /**
+     * Returns the aggregate administration report for authorized application viewers.
+     *
+     * @return array<string, mixed>
+     */
     #[Route('/admin/applications/report', name: 'applicating_application_report', methods: ['GET'])]
     public function report(ApplicationReportServiceInterface $applicationReportService): array
     {
@@ -77,7 +92,11 @@ final class ApplicationAdminController extends AbstractController
         ], 'Application report');
     }
 
-    /** @return array<string, mixed> */
+    /**
+     * Builds the application detail payload with lifecycle forms, eligibility, and authorization state.
+     *
+     * @return array<string, mixed>
+     */
     #[Route('/admin/applications/{id}', name: 'applicating_application_show', methods: ['GET', 'POST'])]
     public function show(
         ApplicationEntity $application,
@@ -127,7 +146,11 @@ final class ApplicationAdminController extends AbstractController
         ], 'Application detail');
     }
 
-    /** @return Response|array<string, mixed> */
+    /**
+     * Handles application metadata editing and redirects after a successful lifecycle update.
+     *
+     * @return Response|array<string, mixed>
+     */
     #[Route('/admin/applications/edit/{id}', name: 'applicating_application_edit', methods: ['GET', 'POST'])]
     public function edit(
         ApplicationEntity $application,

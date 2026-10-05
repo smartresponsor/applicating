@@ -911,4 +911,26 @@
 - `composer validate --strict --check-lock`: PASS.
 - No production source/runtime/UI behavior changed; new visual evidence is not applicable.
 
+## 2026-10-05 — Controller contract documentation hardening (`engine-20261004122010-applicating-93aaa4`)
+
+### Selection and implementation
+
+- Continued through Windows MCP from synchronized `master` while preserving concurrent `tests/Unit/DTO/` and generated `var/` state outside this workstream.
+- Current Canon hard rules remain GREEN. Canon031 before this slice measured classes 22/101 (21.8%) and contract methods 44/192 (22.9%).
+- Selected four high-yield controller boundaries from the current Canon031 representative gaps: `ApplicationAdminController`, `ApplicationApiController`, `ApplicationHealthController`, and `ApplicationReadinessApiController`.
+- Added semantic class and public-action documentation describing authorization, payload, health/readiness, lifecycle-form, and reporting responsibilities. No routes, request handling, forms, services, persistence, templates, navigation, or user-visible behavior were changed.
+
+### Verification
+
+- Changed PHP lint: PASS for the four controller files; one concurrently modified lifecycle service also linted successfully but remains outside this workstream.
+- `composer validate --strict --check-lock`: PASS.
+- `composer qa:style`: PASS.
+- `composer qa:static`: PASS; PHPStan zero errors.
+- `composer qa:test`: PASS — 70 tests / 324 assertions; behavioral evidence regenerated at functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer test:coverage`: PASS — 70 tests / 324 assertions; persistent executable coverage refreshed on the shared tree.
+- `composer gate:canon`: PASS with zero hard failures. Canon031 improved from classes 22/101 (21.8%) and contract methods 44/192 (22.9%) to classes 26/101 (25.7%) and contract methods 53/192 (27.6%).
+- Canon040 on the shared tree now reports 44.5% lines / 58.4% methods / 79.6% branches. This uplift includes concurrent lifecycle-service test work and is not attributed solely to this documentation slice.
+- Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261005-200214.json`: PHPStan zero errors and the same seven medium non-autofixable design/maintainability observations; no hard regression.
+- No routes, forms, templates, navigation, or user-observable behavior changed; browser/mobile visual evidence is not applicable.
+
 
