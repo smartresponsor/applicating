@@ -14,6 +14,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'applicating:tenant:toggle', description: 'Enable or disable an assigned tenant application')]
+/**
+ * Enables or disables one existing tenant application assignment through lifecycle policy.
+ */
 final class ApplicationTenantToggleCommand extends Command
 {
     public function __construct(
@@ -23,6 +26,9 @@ final class ApplicationTenantToggleCommand extends Command
         parent::__construct();
     }
 
+    /**
+     * Declares the tenant, application, and disable switch required by the lifecycle operation.
+     */
     protected function configure(): void
     {
         $this
@@ -31,6 +37,9 @@ final class ApplicationTenantToggleCommand extends Command
             ->addOption('disable', null, InputOption::VALUE_NONE, 'Disable the tenant application instead of enabling it');
     }
 
+    /**
+     * Applies the requested enabled state and reports the resulting installation status.
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $tenantKey = $input->getArgument('tenantKey');

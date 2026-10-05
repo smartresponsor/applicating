@@ -15,6 +15,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsCommand(name: 'applicating:user:create', description: 'Create or update a persistent Applicating local user')]
+/**
+ * Creates or updates one persistent local Applicating user with hashed credentials and roles.
+ */
 final class ApplicationUserCreateCommand extends Command
 {
     public function __construct(
@@ -24,6 +27,9 @@ final class ApplicationUserCreateCommand extends Command
         parent::__construct();
     }
 
+    /**
+     * Declares credential, profile, email, and role inputs for local user persistence.
+     */
     protected function configure(): void
     {
         $this
@@ -34,6 +40,9 @@ final class ApplicationUserCreateCommand extends Command
             ->addOption('role', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Role(s) to assign', ['ROLE_APPLICATION_VIEWER']);
     }
 
+    /**
+     * Validates input, persists the local user state, and reports whether it was created or updated.
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $arguments = $this->validatedArguments($input, $output);
