@@ -831,6 +831,22 @@
 - `composer validate --strict --check-lock`: PASS.
 - No production runtime/UI behavior changed; new visual evidence is not applicable.
 
+## 2026-10-05 — Release entity coverage hardening
+
+### Implementation and verification
+
+- Continued the Canon040 remediation stream from synchronized `master`; only generated `var/` evidence was untracked at baseline.
+- Added `tests/Unit/Entity/ApplicationReleaseEntityTest.php` covering the complete release metadata contract, default draft state, publication transition, and publication timestamp.
+- `composer test:unit`: PASS — 39 tests / 147 assertions.
+- `composer test:coverage`: PASS — 51 tests / 172 assertions. `ApplicationReleaseEntity` improved to 100% methods, paths, branches, and lines.
+- Repository aggregate coverage improved to 26.71% lines, 39.44% methods, and 61.89% branches. Canon040 remains warning-class `HIGH_TEST_DEBT`.
+- `composer qa:style`: PASS after PHP-CS-Fixer normalized only the new test.
+- `composer qa:static`: PASS — PHPStan zero errors.
+- `composer qa:test`: PASS — 51 tests / 172 assertions; Canon042 evidence remains functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer gate:canon`: PASS with zero hard failures. Canon031/040/042 remain explicit warning-class debt.
+- `composer validate --strict --check-lock`: PASS.
+- No production runtime/UI behavior changed; new visual evidence is not applicable.
+
 
 
 
