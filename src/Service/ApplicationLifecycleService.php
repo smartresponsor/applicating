@@ -13,10 +13,10 @@ use App\Applicating\Entity\ApplicationManifestEntity;
 use App\Applicating\Entity\ApplicationReleaseEntity;
 use App\Applicating\Entity\ApplicationTenantAssignmentEntity;
 use App\Applicating\Enum\ApplicationAccessLevel;
-use App\Applicating\Repository\ApplicationManifestRepository;
-use App\Applicating\Repository\ApplicationReleaseRepository;
-use App\Applicating\Repository\ApplicationRepository;
-use App\Applicating\Repository\ApplicationTenantAssignmentRepository;
+use App\Applicating\RepositoryInterface\ApplicationManifestRepositoryInterface;
+use App\Applicating\RepositoryInterface\ApplicationReleaseRepositoryInterface;
+use App\Applicating\RepositoryInterface\ApplicationRepositoryInterface;
+use App\Applicating\RepositoryInterface\ApplicationTenantAssignmentRepositoryInterface;
 use App\Applicating\ServiceInterface\ApplicationDiagnosticsServiceInterface;
 use App\Applicating\ServiceInterface\ApplicationLifecycleServiceInterface;
 use App\Applicating\ServiceInterface\ApplicationManifestServiceInterface;
@@ -27,12 +27,12 @@ use App\Applicating\ValueObject\ApplicationVersion;
 final readonly class ApplicationLifecycleService implements ApplicationLifecycleServiceInterface
 {
     public function __construct(
-        private ApplicationRepository $applicationRepository,
+        private ApplicationRepositoryInterface $applicationRepository,
         private ApplicationManifestServiceInterface $applicationManifestService,
         private ApplicationDiagnosticsServiceInterface $applicationDiagnosticsService,
-        private ApplicationReleaseRepository $applicationReleaseRepository,
-        private ApplicationManifestRepository $applicationManifestRepository,
-        private ApplicationTenantAssignmentRepository $tenantApplicationRepository,
+        private ApplicationReleaseRepositoryInterface $applicationReleaseRepository,
+        private ApplicationManifestRepositoryInterface $applicationManifestRepository,
+        private ApplicationTenantAssignmentRepositoryInterface $tenantApplicationRepository,
     ) {
     }
 

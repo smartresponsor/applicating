@@ -13,6 +13,18 @@ services:
         alias: App\Applicating\Repository\ApplicationRepository
         public: true
 
+    App\Applicating\RepositoryInterface\ApplicationReleaseRepositoryInterface:
+        alias: App\Applicating\Repository\ApplicationReleaseRepository
+        public: true
+
+    App\Applicating\RepositoryInterface\ApplicationManifestRepositoryInterface:
+        alias: App\Applicating\Repository\ApplicationManifestRepository
+        public: true
+
+    App\Applicating\RepositoryInterface\ApplicationTenantAssignmentRepositoryInterface:
+        alias: App\Applicating\Repository\ApplicationTenantAssignmentRepository
+        public: true
+
     App\Applicating\RepositoryInterface\ApplicationUserRepositoryInterface:
         alias: App\Applicating\Repository\ApplicationUserRepository
         public: true
