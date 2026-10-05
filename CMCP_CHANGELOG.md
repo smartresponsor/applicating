@@ -879,4 +879,20 @@
 - `composer gate:canon`: PASS with zero hard failures. Canon031/040/042 remain explicit warning-class debt.
 - No production runtime/UI behavior changed; visual evidence is not applicable.
 
+## 2026-10-05 — Security controller coverage hardening
+
+### Implementation and verification
+
+- Continued Canon040 remediation from synchronized `master`; only generated `var/` evidence was untracked at baseline.
+- Added `tests/Unit/Controller/ApplicationSecurityControllerTest.php` covering login payload projection for string and non-string route metadata plus Symfony-owned logout failure behavior.
+- `composer test:unit`: PASS — 47 tests / 190 assertions.
+- `composer test:coverage`: PASS — 59 tests / 215 assertions. `ApplicationSecurityController` now reports 100% methods, paths, branches, and lines.
+- Repository aggregate coverage improved to 28.21% lines, 46.27% methods, and 67.72% branches. Canon040 remains warning-class `HIGH_TEST_DEBT`.
+- Initial `qa:style` required PHP-CS-Fixer normalization of only the new test; repeat `qa:style` passed.
+- Initial `qa:static` exposed only nested-array shape ambiguity in the new test. Local PHPDoc shape annotations were added; repeat `qa:static` passed with PHPStan zero errors.
+- `composer qa:test`: PASS — 59 tests / 215 assertions; Canon042 evidence remains functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer gate:canon`: PASS with zero hard failures. Canon031/040/042 remain explicit warning-class debt.
+- `composer validate --strict --check-lock`: PASS.
+- No production source/runtime/UI behavior changed; new visual evidence is not applicable.
+
 
