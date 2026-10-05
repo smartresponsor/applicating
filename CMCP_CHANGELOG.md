@@ -895,4 +895,20 @@
 - `composer validate --strict --check-lock`: PASS.
 - No production source/runtime/UI behavior changed; new visual evidence is not applicable.
 
+## 2026-10-05 — Readiness service branch-threshold hardening
+
+### Implementation and verification
+
+- Continued Canon040 remediation from synchronized `master` using the existing deterministic SQLite/Doctrine test contour; no production dependency seam was changed.
+- Added `tests/Functional/ApplicationReadinessServiceTest.php` covering missing application readiness, a release blocked by an unapproved manifest, and an approved-manifest publish-eligible release through the real kernel, repositories, eligibility service, and Doctrine schema.
+- `composer test:functional`: PASS — 14 tests / 43 assertions.
+- `composer test:coverage`: PASS — 62 tests / 237 assertions. `ApplicationReadinessService` now reports 100% methods, branches, and lines; its paths improved to 22.22%.
+- Repository aggregate coverage improved to 32.23% lines, 48.14% methods, and 73.99% branches. The Canon040 branch target of 70% is now exceeded; line and method targets remain warning-class debt.
+- `composer qa:style`: PASS after PHP-CS-Fixer normalized only the new test.
+- `composer qa:static`: PASS — PHPStan zero errors.
+- `composer qa:test`: PASS — 62 tests / 237 assertions; Canon042 evidence remains functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer gate:canon`: PASS with zero hard failures. Canon040 now reports branches 74.0% against target 70%, while lines 32.2% and methods 48.1% remain below target; Canon031 and Canon042 remain explicit warning-class debt.
+- `composer validate --strict --check-lock`: PASS.
+- No production source/runtime/UI behavior changed; new visual evidence is not applicable.
+
 
