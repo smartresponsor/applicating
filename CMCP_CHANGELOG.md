@@ -776,5 +776,28 @@
 - Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261004-235106.json`: PHPStan zero errors; seven medium, non-autofixable design/maintainability observations, unchanged in qualitative contour; no hard regression.
 - No user-observable UI/navigation/form/template/route behavior changed; no new visual artifact is required for this documentation-only slice.
 
+## 2026-10-04 — Application user entity coverage hardening
+
+### Reconnaissance and selected work
+
+- Continued from synchronized `master` with only generated `var/` evidence untracked; no concurrent tracked-file mutation was present when this slice began.
+- Current persistent coverage identified `ApplicationUserEntity` as a bounded Canon040 target at 17.65% lines, 11.54% methods, and 11.54% branches.
+- **RC-critical:** add deterministic unit coverage for the security-facing user entity state contract without changing production behavior. **Growth:** broader repository coverage and behavioral/UI workflow expansion remain separate measured Canon040/042 remediation streams.
+- No runtime, route, template, form, navigation, or browser behavior changed; new visual evidence is not applicable.
+
+### Implementation and verification
+
+- Added `tests/Unit/Entity/ApplicationUserEntityTest.php` covering identity/profile mutation, role normalization, password/auth source/external subject state, activate/deactivate transitions, lifecycle timestamps, and explicit/default login timestamp behavior.
+- The first Composer worker attempt returned HTTP 502 before process start; it was treated as infrastructure failure, not a test result. A subsequent execution succeeded normally through the same Console MCP execution plane.
+- `composer test:unit`: PASS — 33 tests / 113 assertions.
+- `composer test:coverage`: PASS — 45 tests / 138 assertions. `ApplicationUserEntity` now reports 100% methods, paths, branches, and lines.
+- Repository aggregate persistent coverage is now 25.21% lines, 32.61% methods, and 56.07% branches. Canon040 remains warning-class `HIGH_TEST_DEBT`; no synthetic coverage claim is made.
+- `composer qa:style`: PASS after PHP-CS-Fixer normalized only the new test.
+- `composer qa:static`: PASS — PHPStan zero errors.
+- `composer qa:test`: PASS — 45 tests / 138 assertions; behavioral evidence remains factual at functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer gate:canon`: PASS with zero hard failures. Canon031 remains warning debt at classes 19/101 and contract methods 38/192; Canon040 and Canon042 remain measured warning-class debt.
+- `composer validate --strict --check-lock`: PASS.
+
+
 
 
