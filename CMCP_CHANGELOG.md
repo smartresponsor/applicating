@@ -1083,4 +1083,24 @@
 - Fresh Inspecting execution was attempted after mutation but the synchronous Console MCP call timed out before returning a report. Inspecting availability remains healthy; independent `qa:static` on the exact tree reports PHPStan zero errors.
 - No user-observable UI/navigation/form/template behavior changed, so new browser/mobile visual evidence is not applicable to this documentation-only slice.
 
+## 2026-10-06 — Administrative view builder coverage hardening (`engine-20261004115344-applicating-f4676a`)
+
+### Selection and implementation
+
+- Continued from synchronized `master` after Canon031 threshold closure; only generated `var/` evidence was present locally at baseline.
+- Selected `ApplicationAdminViewBuilder` as a bounded Canon040 target because its pure entity-to-DTO projection logic had no executable coverage while requiring no production seam or runtime change.
+- Added `tests/Unit/Builder/ApplicationAdminViewBuilderTest.php` covering index ordering/relation counts and detail projection of releases, manifests, tenant assignments, and diagnostics.
+- No production source, persistence behavior, route, form, template, navigation, or user-observable behavior changed.
+
+### Verification
+
+- New-test PHP lint: PASS.
+- `composer test:unit`: PASS — 62 tests / 309 assertions.
+- Initial `composer qa:style` correctly reported only PHP-CS-Fixer normalization for the new test; `composer cs:fix` changed that file and repeated `qa:style` passed.
+- `composer qa:static`: PASS; PHPStan zero errors.
+- `composer qa:test`: PASS — 87 tests / 443 assertions; behavioral evidence remains functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer test:coverage`: PASS — 87 tests / 443 assertions. Canon040 improved from 60.7% lines / 67.1% methods / 85.9% branches to 61.7% lines / 67.7% methods / 86.3% branches.
+- `composer gate:canon`: PASS with zero hard failures. Canon031 remains GREEN at 70.3% classes / 70.1% contract methods; only Canon040 and Canon042 remain warning-class coverage debt.
+- No UI behavior changed; visual evidence is not applicable to this test-only slice.
+
 
