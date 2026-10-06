@@ -1103,4 +1103,25 @@
 - `composer gate:canon`: PASS with zero hard failures. Canon031 remains GREEN at 70.3% classes / 70.1% contract methods; only Canon040 and Canon042 remain warning-class coverage debt.
 - No UI behavior changed; visual evidence is not applicable to this test-only slice.
 
+## 2026-10-06 — Operational command coverage hardening (`engine-20261004115344-applicating-f4676a`)
+
+### Selection and implementation
+
+- Reviewed Canon042 first and retained its warning debt honestly: the current Playwright contour runs `APP_ENV=test`, whose main firewall is intentionally disabled, while lifecycle controllers still enforce authorization. Existing controller coverage is not an end-to-end user workflow and was not relabeled as behavioral/critical evidence.
+- Continued Canon040 instead with a bounded, test-only slice across `ApplicationReadinessCommand`, `ApplicationRuntimeSetCommand`, and `ApplicationReportSummaryCommand`.
+- Added `tests/Unit/Command/ApplicationOperationalCommandTest.php` covering readiness success/failure diagnostics, canonical runtime assignment success, invalid runtime mode, domain failure reporting, and stable summary output.
+- No production source, security configuration, runtime wiring, routes, forms, templates, navigation, or user-observable behavior changed.
+
+### Verification
+
+- New-test PHP lint: PASS.
+- `composer test:unit`: PASS — 68 tests / 338 assertions.
+- Initial `composer qa:style` reported only PHP-CS-Fixer normalization for the new test; `composer cs:fix` changed that file and repeated `qa:style` passed.
+- `composer qa:static`: PASS; PHPStan zero errors.
+- `composer qa:test`: PASS — 93 tests / 472 assertions; Canon042 evidence remains factual at functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer test:coverage`: PASS — 93 tests / 472 assertions.
+- `composer gate:canon`: PASS with zero hard failures. Canon031 remains GREEN at 70.3% classes / 70.1% contract methods. Canon040 improved from 61.7% lines / 67.7% methods / 86.3% branches to 63.9% lines / 69.6% methods / 86.9% branches.
+- Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261006-131741.json`: seven medium, non-autofixable php-structure observations, unchanged in qualitative contour; no new structural regression.
+- No UI behavior changed; new browser/mobile visual evidence is not applicable to this test-only slice.
+
 
