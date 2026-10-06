@@ -24,7 +24,7 @@ final class ApplicationRuntimeAssignmentRepository extends ServiceEntityReposito
         $assignment = $this->createQueryBuilder('runtimeAssignment')
             ->innerJoin('runtimeAssignment.application', 'application')
             ->addSelect('application')
-            ->where('application.slug = :applicationSlug')
+            ->where('application.objectIdentity.slug = :applicationSlug')
             ->andWhere('runtimeAssignment.environment = :environment')
             ->setParameter('applicationSlug', trim($applicationSlug))
             ->setParameter('environment', trim($environment))

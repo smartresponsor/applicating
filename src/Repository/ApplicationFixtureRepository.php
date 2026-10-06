@@ -7,6 +7,7 @@ namespace App\Applicating\Repository;
 use App\Applicating\Entity\Application\ApplicationEntity;
 use App\Applicating\Entity\ApplicationManifestEntity;
 use App\Applicating\Entity\ApplicationReleaseEntity;
+use App\Applicating\Entity\ApplicationRuntimeAssignmentEntity;
 use App\Applicating\Entity\ApplicationTenantAssignmentEntity;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -35,6 +36,7 @@ final readonly class ApplicationFixtureRepository
     {
         foreach ([
             ApplicationTenantAssignmentEntity::class,
+            ApplicationRuntimeAssignmentEntity::class,
             ApplicationManifestEntity::class,
             ApplicationReleaseEntity::class,
             ApplicationEntity::class,
