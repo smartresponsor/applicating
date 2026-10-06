@@ -1042,4 +1042,24 @@
 - Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261006-023639.json`: PHPStan zero errors and the same seven medium non-autofixable php-structure observations; no new structural regression.
 - No enum values, event subscriptions, authentication behavior, persistence semantics, routes, forms, templates, navigation, or user-observable behavior changed; visual evidence is not applicable.
 
+## 2026-10-05 — Form and Kernel contract documentation
+
+### Selection and implementation
+
+- Continued from synchronized `master` after publishing the security/event documentation slice while preserving the concurrent lifecycle-controller coverage test outside this workstream.
+- Selected the next Canon031 representative gaps across `ApplicationManifestType`, `ApplicationReleaseType`, `ApplicationTenantAssignmentType`, `ApplicationType`, `ApplicationFrameworkConfigData`, `ApplicationFrameworkConfigFormType`, and the standalone `Kernel`.
+- Added semantic class/configuration/bootstrap documentation while preserving all fields, labels, choices, DTO bindings, route imports, package/service loading, and runtime behavior.
+- No submitted-value handling, validation constraints, route topology, container semantics, persistence, templates, navigation, or user-observable behavior changed.
+
+### Verification
+
+- Changed PHP lint: PASS for the four form types, framework-config data/form, and `Kernel`.
+- `composer validate --strict --check-lock`: PASS.
+- `composer qa:style`: PASS; PHP lint/service-interface parity are GREEN and PHP-CS-Fixer completed with no fixable files.
+- `composer qa:static`: PASS; PHPStan zero errors.
+- The first `composer qa:test` run hit the known transient SQLite schema-isolation failure (`application_listing already exists`) in the publish-command functional test. Immediate `composer test:coverage` then passed 84 tests / 417 assertions, and a repeated full `composer qa:test` also passed 84 tests / 417 assertions with behavioral evidence refreshed at functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer gate:canon`: PASS with zero hard failures. Canon031 improved from classes 57/101 (56.4%) and contract methods 99/193 (51.3%) to classes 64/101 (63.4%) and contract methods 107/193 (55.4%). Canon040 now measures 59.1% lines / 65.8% methods / 86.3% branches.
+- Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261006-024349.json`: PHPStan zero errors and the same seven medium non-autofixable php-structure observations; no new structural regression.
+- No submitted-value handling, validation constraints, route topology, container semantics, persistence, templates, navigation, or user-observable behavior changed; visual evidence is not applicable.
+
 

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Applicating\Form\Config;
 
+/**
+ * Carries editable framework, session, and throttling settings for the Applicating configuration form.
+ */
 final class ApplicationFrameworkConfigData
 {
     public string $csrfProtectionEnabled = '1';

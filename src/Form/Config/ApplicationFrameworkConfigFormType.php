@@ -12,9 +12,16 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/** @extends AbstractType<ApplicationFrameworkConfigData> */
+/**
+ * Builds the operator form for editable framework and session configuration.
+ *
+ * @extends AbstractType<ApplicationFrameworkConfigData>
+ */
 final class ApplicationFrameworkConfigFormType extends AbstractType
 {
+    /**
+     * Adds the editable framework/session fields and explicit save/apply actions.
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -77,6 +84,9 @@ final class ApplicationFrameworkConfigFormType extends AbstractType
             ->add('apply', SubmitType::class, ['label' => 'Apply now', 'attr' => ['class' => 'btn btn-primary']]);
     }
 
+    /**
+     * Binds submitted settings to the repository-owned framework configuration data contract.
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

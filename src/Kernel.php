@@ -10,11 +10,16 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
+/**
+ * Boots the standalone Applicating Symfony application and its repository-owned configuration surfaces.
+ */
 final class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
     /**
+     * Loads package and service configuration for the active runtime environment.
+     *
      * @throws \Throwable
      */
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
@@ -31,6 +36,8 @@ final class Kernel extends BaseKernel
     }
 
     /**
+     * Imports repository route configuration plus attribute routes from Applicating controllers.
+     *
      * @throws \Throwable
      */
     protected function configureRoutes(RoutingConfigurator $routes): void

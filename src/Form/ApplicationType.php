@@ -13,7 +13,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/** @extends AbstractType<ApplicationUpsertDTO> */
+/**
+ * Builds and validates the application metadata form bound to the lifecycle upsert DTO.
+ *
+ * @extends AbstractType<ApplicationUpsertDTO>
+ */
 final class ApplicationType extends AbstractType
 {
     /** @param array<string, mixed> $options */
@@ -43,6 +47,9 @@ final class ApplicationType extends AbstractType
             ->add('enabledByDefault', CheckboxType::class, ['required' => false, 'label' => 'Enabled by default']);
     }
 
+    /**
+     * Associates this form type with the application upsert DTO.
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

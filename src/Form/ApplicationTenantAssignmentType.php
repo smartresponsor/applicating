@@ -11,7 +11,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/** @extends AbstractType<ApplicationTenantAssignmentDTO> */
+/**
+ * Builds and validates the tenant-assignment form bound to the lifecycle assignment DTO.
+ *
+ * @extends AbstractType<ApplicationTenantAssignmentDTO>
+ */
 final class ApplicationTenantAssignmentType extends AbstractType
 {
     /** @param array<string, mixed> $options */
@@ -29,6 +33,9 @@ final class ApplicationTenantAssignmentType extends AbstractType
             ]);
     }
 
+    /**
+     * Binds submitted assignment fields to the validated tenant-assignment DTO contract.
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(['data_class' => ApplicationTenantAssignmentDTO::class]);

@@ -11,7 +11,11 @@ use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/** @extends AbstractType<ApplicationReleaseDTO> */
+/**
+ * Builds and validates the release-edit form bound to the lifecycle release DTO.
+ *
+ * @extends AbstractType<ApplicationReleaseDTO>
+ */
 final class ApplicationReleaseType extends AbstractType
 {
     /** @param array<string, mixed> $options */
@@ -28,6 +32,9 @@ final class ApplicationReleaseType extends AbstractType
             ]);
     }
 
+    /**
+     * Binds submitted release fields to the validated application release DTO contract.
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(['data_class' => ApplicationReleaseDTO::class]);

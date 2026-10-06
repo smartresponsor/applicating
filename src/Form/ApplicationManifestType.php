@@ -10,7 +10,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/** @extends AbstractType<ApplicationManifestDTO> */
+/**
+ * Builds and validates the manifest-edit form bound to the lifecycle manifest DTO.
+ *
+ * @extends AbstractType<ApplicationManifestDTO>
+ */
 final class ApplicationManifestType extends AbstractType
 {
     /** @param array<string, mixed> $options */
@@ -38,6 +42,9 @@ final class ApplicationManifestType extends AbstractType
             ->add('governanceState', null, ['label' => 'Governance state']);
     }
 
+    /**
+     * Binds submitted manifest fields to the validated application manifest DTO contract.
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(['data_class' => ApplicationManifestDTO::class]);
