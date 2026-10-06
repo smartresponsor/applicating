@@ -3,6 +3,7 @@ includes:
   - vendor/phpstan/phpstan-symfony/extension.neon
 
 parameters:
+  tmpDir: var/cache/phpstan
   level: max
   paths:
     - src

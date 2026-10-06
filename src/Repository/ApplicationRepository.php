@@ -38,7 +38,7 @@ final class ApplicationRepository extends ServiceEntityRepository implements App
         $result = $this->createQueryBuilder('application')
             ->leftJoin('application.releases', 'release')->addSelect('release')
             ->leftJoin('application.tenantApplications', 'tenantApplication')->addSelect('tenantApplication')
-            ->orderBy('application.updatedAt', 'DESC')
+            ->orderBy('application.objectAudit.modifiedAt', 'DESC')
             ->getQuery()
             ->getResult();
 
