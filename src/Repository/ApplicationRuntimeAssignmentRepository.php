@@ -10,7 +10,11 @@ use App\Applicating\RepositoryInterface\ApplicationRuntimeAssignmentRepositoryIn
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/** @extends ServiceEntityRepository<ApplicationRuntimeAssignmentEntity> */
+/**
+ * Persists environment-specific runtime assignments for application aggregates.
+ *
+ * @extends ServiceEntityRepository<ApplicationRuntimeAssignmentEntity>
+ */
 final class ApplicationRuntimeAssignmentRepository extends ServiceEntityRepository implements ApplicationRuntimeAssignmentRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)

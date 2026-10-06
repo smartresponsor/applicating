@@ -11,6 +11,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * Persists and queries tenant-to-application lifecycle assignments for Applicating.
+ *
  * @extends ServiceEntityRepository<ApplicationTenantAssignmentEntity>
  */
 final class ApplicationTenantAssignmentRepository extends ServiceEntityRepository implements ApplicationTenantAssignmentRepositoryInterface
@@ -20,7 +22,11 @@ final class ApplicationTenantAssignmentRepository extends ServiceEntityRepositor
         parent::__construct($registry, ApplicationTenantAssignmentEntity::class);
     }
 
-    /** @return list<ApplicationTenantAssignmentEntity> */
+    /**
+     * Return assignments for one tenant ordered from newest to oldest.
+     *
+     * @return list<ApplicationTenantAssignmentEntity>
+     */
     public function findForTenant(string $tenantKey): array
     {
         /** @var list<ApplicationTenantAssignmentEntity> $result */
@@ -35,6 +41,9 @@ final class ApplicationTenantAssignmentRepository extends ServiceEntityRepositor
         return $result;
     }
 
+    /**
+     * Resolve one tenant assignment by tenant key and application slug.
+     */
     public function findOneForTenantAndApplication(string $tenantKey, string $applicationSlug): ?ApplicationTenantAssignmentEntity
     {
         /** @var ApplicationTenantAssignmentEntity|null $tenantApplication */
@@ -51,6 +60,9 @@ final class ApplicationTenantAssignmentRepository extends ServiceEntityRepositor
         return $tenantApplication;
     }
 
+    /**
+     * Resolve one tenant assignment by tenant key and application entity identity.
+     */
     public function findOneForTenantAndApplicationEntity(string $tenantKey, ApplicationEntity $application): ?ApplicationTenantAssignmentEntity
     {
         /** @var ApplicationTenantAssignmentEntity|null $tenantApplication */
@@ -62,6 +74,9 @@ final class ApplicationTenantAssignmentRepository extends ServiceEntityRepositor
         return $tenantApplication;
     }
 
+    /**
+     * Count every persisted application assignment across all tenants.
+     */
     public function countAllAssignments(): int
     {
         return (int) $this->createQueryBuilder('tenantApplication')
@@ -70,6 +85,9 @@ final class ApplicationTenantAssignmentRepository extends ServiceEntityRepositor
             ->getSingleScalarResult();
     }
 
+    /**
+     * Count assignments currently enabled for tenant access.
+     */
     public function countEnabledAssignments(): int
     {
         return (int) $this->createQueryBuilder('tenantApplication')
@@ -80,6 +98,9 @@ final class ApplicationTenantAssignmentRepository extends ServiceEntityRepositor
             ->getSingleScalarResult();
     }
 
+    /**
+     * Count assignments whose billing lifecycle is currently active.
+     */
     public function countBillingActiveAssignments(): int
     {
         return (int) $this->createQueryBuilder('tenantApplication')
@@ -90,6 +111,9 @@ final class ApplicationTenantAssignmentRepository extends ServiceEntityRepositor
             ->getSingleScalarResult();
     }
 
+    /**
+     * Persist an assignment and flush the unit of work immediately.
+     */
     public function save(ApplicationTenantAssignmentEntity $assignment): void
     {
         $this->getEntityManager()->persist($assignment);

@@ -11,6 +11,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * Owns persistence and aggregate queries for the Applicating root application entity.
+ *
  * @extends ServiceEntityRepository<ApplicationEntity>
  */
 final class ApplicationRepository extends ServiceEntityRepository implements ApplicationRepositoryInterface
@@ -20,6 +22,9 @@ final class ApplicationRepository extends ServiceEntityRepository implements App
         parent::__construct($registry, ApplicationEntity::class);
     }
 
+    /**
+     * Resolve an application through the canonical Objecting slug identity.
+     */
     public function findOneBySlug(string $slug): ?ApplicationEntity
     {
         $result = $this->createQueryBuilder('application')
@@ -31,7 +36,11 @@ final class ApplicationRepository extends ServiceEntityRepository implements App
         return $result instanceof ApplicationEntity ? $result : null;
     }
 
-    /** @return list<ApplicationEntity> */
+    /**
+     * Return applications with admin-view relations ordered by latest modification.
+     *
+     * @return list<ApplicationEntity>
+     */
     public function findOrderedForAdmin(): array
     {
         /** @var list<ApplicationEntity> $result */
@@ -45,6 +54,9 @@ final class ApplicationRepository extends ServiceEntityRepository implements App
         return $result;
     }
 
+    /**
+     * Count all persisted applications regardless of publication state.
+     */
     public function countAllApplications(): int
     {
         return (int) $this->createQueryBuilder('application')
@@ -53,6 +65,9 @@ final class ApplicationRepository extends ServiceEntityRepository implements App
             ->getSingleScalarResult();
     }
 
+    /**
+     * Count applications currently in the published lifecycle state.
+     */
     public function countPublished(): int
     {
         return (int) $this->createQueryBuilder('application')
@@ -63,6 +78,9 @@ final class ApplicationRepository extends ServiceEntityRepository implements App
             ->getSingleScalarResult();
     }
 
+    /**
+     * Persist an application aggregate and flush the unit of work immediately.
+     */
     public function save(ApplicationEntity $application): void
     {
         $this->getEntityManager()->persist($application);

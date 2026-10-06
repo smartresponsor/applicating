@@ -1062,4 +1062,25 @@
 - Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261006-024349.json`: PHPStan zero errors and the same seven medium non-autofixable php-structure observations; no new structural regression.
 - No submitted-value handling, validation constraints, route topology, container semantics, persistence, templates, navigation, or user-observable behavior changed; visual evidence is not applicable.
 
+## 2026-10-06 — Repository contract documentation threshold closure (`engine-20261004115344-applicating-f4676a`)
+
+### Selection and implementation
+
+- Continued from synchronized `master` with only generated `var/` outside Git at baseline.
+- Selected the current Canon031 repository-layer gaps because they were contract-significant, semantically stable, and could be documented without altering Doctrine queries, flush behavior, authorization, or runtime semantics.
+- Added meaningful responsibility and method documentation across `ApplicationRepository`, `ApplicationTenantAssignmentRepository`, `ApplicationUserRepository`, their corresponding repository interfaces, plus the runtime-assignment repository class responsibility.
+- No query predicates, result ordering, persistence calls, password-upgrade behavior, entity mapping, service wiring, routes, forms, templates, navigation, or user-observable behavior changed.
+
+### Verification
+
+- Changed PHP lint: PASS for all seven touched PHP files.
+- `composer validate --strict --check-lock`: PASS.
+- `composer qa:style`: PASS; 138 PHP files linted and PHP-CS-Fixer found 0/138 fixable files.
+- `composer qa:static`: PASS; PHPStan zero errors.
+- `composer qa:test`: PASS — 85 tests / 426 assertions; behavioral evidence regenerated at functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer test:coverage`: PASS — 85 tests / 426 assertions; persistent executable coverage refreshed.
+- `composer gate:canon`: PASS with zero hard failures. Canon031 crossed the canonical threshold and is GREEN at classes 71/101 (70.3%) and contract methods 136/194 (70.1%). Canon040 remains warning-class at 60.7% lines / 67.1% methods / 85.9% branches; Canon042 remains warning-class HIGH_BEHAVIORAL_TEST_DEBT.
+- Fresh Inspecting execution was attempted after mutation but the synchronous Console MCP call timed out before returning a report. Inspecting availability remains healthy; independent `qa:static` on the exact tree reports PHPStan zero errors.
+- No user-observable UI/navigation/form/template behavior changed, so new browser/mobile visual evidence is not applicable to this documentation-only slice.
+
 

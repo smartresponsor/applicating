@@ -13,6 +13,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
+ * Persists Applicating users and exposes the Symfony password-upgrade boundary.
+ *
  * @extends ServiceEntityRepository<ApplicationUserEntity>
  */
 final class ApplicationUserRepository extends ServiceEntityRepository implements ApplicationUserRepositoryInterface, PasswordUpgraderInterface
@@ -22,6 +24,9 @@ final class ApplicationUserRepository extends ServiceEntityRepository implements
         parent::__construct($registry, ApplicationUserEntity::class);
     }
 
+    /**
+     * Resolve one application user by the Symfony security identifier.
+     */
     public function findOneByIdentifier(string $userIdentifier): ?ApplicationUserEntity
     {
         /** @var ApplicationUserEntity|null $user */
@@ -30,6 +35,9 @@ final class ApplicationUserRepository extends ServiceEntityRepository implements
         return $user;
     }
 
+    /**
+     * Count application users currently marked active.
+     */
     public function countActiveUsers(): int
     {
         return (int) $this->createQueryBuilder('applicationUser')
@@ -40,12 +48,18 @@ final class ApplicationUserRepository extends ServiceEntityRepository implements
             ->getSingleScalarResult();
     }
 
+    /**
+     * Persist an application user and flush the unit of work immediately.
+     */
     public function save(ApplicationUserEntity $user): void
     {
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
 
+    /**
+     * Replace the hashed password for a supported Applicating user instance.
+     */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
         if (!$user instanceof ApplicationUserEntity) {
