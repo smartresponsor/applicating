@@ -18,6 +18,9 @@ use Doctrine\ORM\Mapping as ORM;
     ],
     uniqueConstraints: [new ORM\UniqueConstraint(name: 'uniq_application_release_version_per_application', columns: ['application_id', 'version'])],
 )]
+/**
+ * Persists one application release together with publication state and release artifacts.
+ */
 class ApplicationReleaseEntity
 {
     #[ORM\Id]
@@ -104,6 +107,9 @@ class ApplicationReleaseEntity
         return $this->publicationState;
     }
 
+    /**
+     * Marks the release published and records the publication timestamp.
+     */
     public function publish(): void
     {
         $this->publicationState = ApplicationPublicationState::Published;

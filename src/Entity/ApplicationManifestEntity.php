@@ -13,6 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(name: 'idx_application_manifest_application_id', columns: ['application_id'])]
 #[ORM\Index(name: 'idx_application_manifest_governance_state', columns: ['governance_state'])]
 #[ORM\UniqueConstraint(name: 'uniq_application_manifest_identifier_per_application', columns: ['application_id', 'identifier'])]
+/**
+ * Persists one governed application manifest and its declared runtime capabilities.
+ */
 class ApplicationManifestEntity
 {
     #[ORM\Id]

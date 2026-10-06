@@ -25,6 +25,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 )]
 #[ORM\HasLifecycleCallbacks]
 #[UniqueEntity(fields: ['userIdentifier'])]
+/**
+ * Persists local application-user identity, authentication source, roles, activity state, and login timestamps.
+ */
 class ApplicationUserEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -87,7 +90,11 @@ class ApplicationUserEntity implements UserInterface, PasswordAuthenticatedUserI
         return $this->userIdentifier;
     }
 
-    /** @param non-empty-string $userIdentifier */
+    /**
+     * Replaces the unique local user identifier used by Symfony security.
+     *
+     * @param non-empty-string $userIdentifier
+     */
     public function renameIdentifier(string $userIdentifier): void
     {
         $this->userIdentifier = $userIdentifier;
@@ -98,6 +105,9 @@ class ApplicationUserEntity implements UserInterface, PasswordAuthenticatedUserI
         return $this->displayName;
     }
 
+    /**
+     * Replaces the human-facing display name associated with this local user.
+     */
     public function renameDisplayName(string $displayName): void
     {
         $this->displayName = $displayName;
@@ -108,6 +118,9 @@ class ApplicationUserEntity implements UserInterface, PasswordAuthenticatedUserI
         return $this->email;
     }
 
+    /**
+     * Replaces the optional contact email associated with this local user.
+     */
     public function changeEmail(?string $email): void
     {
         $this->email = $email;
@@ -194,11 +207,17 @@ class ApplicationUserEntity implements UserInterface, PasswordAuthenticatedUserI
         return $this->lastLoginAt;
     }
 
+    /**
+     * Records the most recent successful login time, defaulting to the current instant.
+     */
     public function markLogin(?\DateTimeImmutable $loggedAt = null): void
     {
         $this->lastLoginAt = $loggedAt ?? new \DateTimeImmutable();
     }
 
+    /**
+     * Initializes persistence timestamps immediately before the user is first stored.
+     */
     #[ORM\PrePersist]
     public function onCreate(): void
     {
@@ -207,6 +226,9 @@ class ApplicationUserEntity implements UserInterface, PasswordAuthenticatedUserI
         $this->updatedAt = $now;
     }
 
+    /**
+     * Refreshes the persisted update timestamp immediately before Doctrine writes user changes.
+     */
     #[ORM\PreUpdate]
     public function onUpdate(): void
     {

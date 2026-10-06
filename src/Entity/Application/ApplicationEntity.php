@@ -28,6 +28,9 @@ use Doctrine\ORM\Mapping as ORM;
     ],
 )]
 #[ORM\HasLifecycleCallbacks]
+/**
+ * Owns canonical application metadata, publication lifecycle state, and related release, manifest, and tenant-assignment aggregates.
+ */
 class ApplicationEntity implements ObjectEntityInterface
 {
     use ObjectIdentityEmbeddableTrait;
@@ -230,6 +233,9 @@ class ApplicationEntity implements ObjectEntityInterface
         return $this->releases;
     }
 
+    /**
+     * Adds a release to the aggregate once while preserving collection identity semantics.
+     */
     public function addRelease(ApplicationReleaseEntity $release): void
     {
         if (!$this->releases->contains($release)) {
@@ -243,6 +249,9 @@ class ApplicationEntity implements ObjectEntityInterface
         return $this->manifests;
     }
 
+    /**
+     * Adds a manifest to the aggregate once while preserving collection identity semantics.
+     */
     public function addManifest(ApplicationManifestEntity $manifest): void
     {
         if (!$this->manifests->contains($manifest)) {
@@ -256,6 +265,9 @@ class ApplicationEntity implements ObjectEntityInterface
         return $this->tenantApplications;
     }
 
+    /**
+     * Adds a tenant assignment to the aggregate once while preserving collection identity semantics.
+     */
     public function addTenantApplication(ApplicationTenantAssignmentEntity $tenantApplication): void
     {
         if (!$this->tenantApplications->contains($tenantApplication)) {
@@ -268,6 +280,9 @@ class ApplicationEntity implements ObjectEntityInterface
         return $this->getModifiedAt() ?? $this->getCreatedAt();
     }
 
+    /**
+     * Ensures the Objecting modification timestamp is initialized before first persistence.
+     */
     #[ORM\PrePersist]
     public function onCreate(): void
     {
@@ -276,6 +291,9 @@ class ApplicationEntity implements ObjectEntityInterface
         }
     }
 
+    /**
+     * Refreshes the Objecting modification timestamp before Doctrine updates the aggregate.
+     */
     #[ORM\PreUpdate]
     public function onUpdate(): void
     {

@@ -1000,4 +1000,26 @@
 - Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261005-210429.json`: seven medium non-autofixable php-structure observations, unchanged in qualitative contour. This Inspecting run returned only the php-structure analyzer; independent `qa:static` on the same tree reports PHPStan zero errors.
 - No runtime wiring behavior, route, persistence rule, form, template, navigation, or user-observable behavior changed; visual evidence is not applicable.
 
+## 2026-10-05 — Entity contract documentation hardening
+
+### Selection and implementation
+
+- Continued from synchronized `master` with only generated `var/` outside Git.
+- Selected the current Canon031 Entity-layer representative gaps: root `ApplicationEntity`, manifest/release/runtime-assignment/tenant-assignment/user entities, and their aggregate/lifecycle mutation methods.
+- Added semantic class and lifecycle-method documentation for aggregate relation additions, Doctrine timestamp callbacks, release publication, runtime-mode transition, tenant enable/disable/update, and user identity/profile/login timestamp mutations.
+- No Doctrine mapping, field definition, state transition, timestamp rule, persistence behavior, route, form, template, navigation, or user-observable behavior changed.
+
+### Verification
+
+- Changed PHP lint: PASS for all six Entity files. A concurrent `ApplicationRepository.php` also linted successfully but remained outside this workstream.
+- `composer validate --strict --check-lock`: PASS.
+- `composer qa:style`: PASS; PHP lint/service-interface parity are GREEN and PHP-CS-Fixer found 0/132 fixable files.
+- `composer qa:static`: PASS on the final shared tree; PHPStan completed successfully after the earlier `%TEMP%` capacity issue was removed by concurrent infrastructure work.
+- `composer qa:test`: PASS — 77 tests / 353 assertions; behavioral evidence regenerated at functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer test:coverage`: PASS — 77 tests / 353 assertions with persistent coverage refreshed.
+- `composer gate:canon`: PASS with zero hard failures. Canon031 improved from classes 45/101 (44.6%) and contract methods 74/193 (38.3%) to classes 51/101 (50.5%) and contract methods 90/193 (46.6%). Canon040 measures 49.3% lines / 63.0% methods / 83.5% branches.
+- Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261006-013305.json`: the same seven medium non-autofixable php-structure observations; no new structural regression.
+- Concurrent repository/PHPStan coverage work landed independently and advanced `master`; final tracked dirty state for this workstream contains only the six Entity files plus this journal entry.
+- No Doctrine mapping, field definition, state transition, timestamp rule, persistence behavior, route, form, template, navigation, or user-observable behavior changed; visual evidence is not applicable.
+
 

@@ -21,6 +21,9 @@ use Doctrine\ORM\Mapping as ORM;
         new ORM\UniqueConstraint(name: 'uniq_application_runtime_assignment', columns: ['application_id', 'environment']),
     ],
 )]
+/**
+ * Persists one application's runtime mode assignment for a named deployment environment.
+ */
 class ApplicationRuntimeAssignmentEntity
 {
     #[ORM\Id]
@@ -78,6 +81,9 @@ class ApplicationRuntimeAssignmentEntity
         return $this->runtimeMode;
     }
 
+    /**
+     * Changes the assigned runtime mode and refreshes the assignment timestamp when state actually changes.
+     */
     public function changeRuntimeMode(ApplicationRuntimeMode $runtimeMode): void
     {
         if ($this->runtimeMode === $runtimeMode) {

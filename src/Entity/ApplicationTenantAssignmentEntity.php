@@ -21,6 +21,9 @@ use Doctrine\ORM\Mapping as ORM;
     ],
     uniqueConstraints: [new ORM\UniqueConstraint(name: 'uniq_tenant_application_assignment', columns: ['application_id', 'tenant_key'])],
 )]
+/**
+ * Persists tenant-specific installation, enablement, billing, policy, and diagnostic state for one application.
+ */
 class ApplicationTenantAssignmentEntity implements ObjectRelationEntityInterface
 {
     use ObjectAuditEmbeddableTrait;
@@ -101,7 +104,11 @@ class ApplicationTenantAssignmentEntity implements ObjectRelationEntityInterface
         return $this->installedVersion;
     }
 
-    /** @param array<string, mixed> $accessPolicy */
+    /**
+     * Replaces the tenant assignment state and routes enablement through the canonical lifecycle transition.
+     *
+     * @param array<string, mixed> $accessPolicy
+     */
     public function updateAssignment(string $installedVersion, bool $enabled, bool $billingActive, array $accessPolicy): void
     {
         $this->installedVersion = $installedVersion;
@@ -151,6 +158,9 @@ class ApplicationTenantAssignmentEntity implements ObjectRelationEntityInterface
         $this->lastCheckedAt = new \DateTimeImmutable();
     }
 
+    /**
+     * Marks the tenant assignment installed and records its first installation timestamp.
+     */
     public function enable(): void
     {
         $this->enabled = true;
@@ -158,6 +168,9 @@ class ApplicationTenantAssignmentEntity implements ObjectRelationEntityInterface
         $this->installedAt ??= new \DateTimeImmutable();
     }
 
+    /**
+     * Marks the tenant assignment disabled while preserving installation history.
+     */
     public function disable(): void
     {
         $this->enabled = false;
