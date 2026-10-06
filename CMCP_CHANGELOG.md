@@ -1124,4 +1124,26 @@
 - Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261006-131741.json`: seven medium, non-autofixable php-structure observations, unchanged in qualitative contour; no new structural regression.
 - No UI behavior changed; new browser/mobile visual evidence is not applicable to this test-only slice.
 
+## 2026-10-06 — Manifest and import-map command coverage hardening (`engine-20261004115344-applicating-f4676a`)
+
+### Selection and implementation
+
+- Continued from synchronized `master` and selected two repository-owned CLI contracts that require no database or browser runtime: `ApplicationManifestValidateCommand` and `ApplicationImportMapAuditCommand`.
+- Added `tests/Unit/Command/ApplicationManifestAndImportMapCommandTest.php` covering manifest payload normalization, invalid empty identifier handling, default capability normalization, and the intentional empty import-map audit result.
+- During verification, a concurrent unowned edit briefly introduced `ConfigToolDescriptor` into `ApplicationFrameworkConfigService`; current Administering exposes only `AdministrationConfigToolDescriptor`, so the transient PHPStan failure was correctly classified as concurrent drift rather than attributed to this test slice. The concurrent source edit resolved independently before final static/gate verification.
+- A concurrent `composer.lock` modification remained outside this slice and is intentionally excluded from integration.
+- No production source, dependency manifest, runtime wiring, security configuration, routes, forms, templates, navigation, or user-observable behavior was changed by this slice.
+
+### Verification
+
+- New-test PHP lint: PASS.
+- `composer test:unit`: PASS — 72 tests / 353 assertions.
+- Initial `composer qa:style` reported only PHP-CS-Fixer normalization for the new test; `composer cs:fix` changed that file and repeated `qa:style` passed.
+- Final `composer qa:static`: PASS; PHPStan zero errors after concurrent source drift resolved.
+- `composer qa:test`: PASS — 97 tests / 487 assertions; Canon042 evidence remains functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- `composer test:coverage`: PASS — Canon040 evidence improved to lines 1083/1667 (65.0%), methods 227/322 (70.5%), branches 489/626 (78.1%).
+- `composer gate:canon`: PASS with zero hard failures; Canon031 remains GREEN at 70.3% classes / 70.1% contract methods. Canon040 and Canon042 remain warning-class only.
+- Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261006-134045.json`: PHPStan 0 errors; seven medium, non-autofixable php-structure observations; no new structural regression.
+- No UI behavior changed; new browser/mobile visual evidence is not applicable to this test-only slice.
+
 
