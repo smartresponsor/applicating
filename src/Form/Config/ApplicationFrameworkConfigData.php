@@ -9,9 +9,9 @@ namespace App\Applicating\Form\Config;
  */
 final class ApplicationFrameworkConfigData
 {
-    public string $csrfProtectionEnabled = '1';
-    public string $formEnabled = '1';
-    public string $validationEnabled = '1';
+    public bool $csrfProtectionEnabled = true;
+    public bool $formEnabled = true;
+    public bool $validationEnabled = true;
     public string $sessionCookieSecure = 'auto';
     public string $sessionCookieSameSite = 'lax';
     public string $loginThrottleLimit = '5';

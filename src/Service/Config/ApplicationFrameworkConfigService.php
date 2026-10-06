@@ -69,9 +69,9 @@ final readonly class ApplicationFrameworkConfigService implements Administration
         $adminApiLimiter = $this->arrayValue($rateLimiter, 'applicating_admin_api');
         $adminApiRate = $this->arrayValue($adminApiLimiter, 'rate');
 
-        $data->csrfProtectionEnabled = !empty($csrfProtection['enabled'] ?? true) ? '1' : '0';
-        $data->formEnabled = !empty($form['enabled'] ?? true) ? '1' : '0';
-        $data->validationEnabled = !empty($validation['enabled'] ?? true) ? '1' : '0';
+        $data->csrfProtectionEnabled = !empty($csrfProtection['enabled'] ?? true);
+        $data->formEnabled = !empty($form['enabled'] ?? true);
+        $data->validationEnabled = !empty($validation['enabled'] ?? true);
         $data->sessionCookieSecure = $this->scalarString($session['cookie_secure'] ?? null, $data->sessionCookieSecure);
         $data->sessionCookieSameSite = $this->scalarString($session['cookie_samesite'] ?? null, $data->sessionCookieSameSite);
         $data->loginThrottleLimit = $this->scalarString($loginLimiter['limit'] ?? null, $data->loginThrottleLimit);
@@ -88,9 +88,9 @@ final readonly class ApplicationFrameworkConfigService implements Administration
         $payload = $this->assertData($data);
         $values = $this->stateRows($payload, 'pending');
         $masked = [
-            'framework_csrf_protection_enabled' => $payload->csrfProtectionEnabled,
-            'framework_form_enabled' => $payload->formEnabled,
-            'framework_validation_enabled' => $payload->validationEnabled,
+            'framework_csrf_protection_enabled' => $this->boolFlag($payload->csrfProtectionEnabled),
+            'framework_form_enabled' => $this->boolFlag($payload->formEnabled),
+            'framework_validation_enabled' => $this->boolFlag($payload->validationEnabled),
             'framework_session_cookie_secure' => $payload->sessionCookieSecure,
             'framework_session_cookie_same_site' => $payload->sessionCookieSameSite,
             'framework_login_throttle_limit' => $payload->loginThrottleLimit,
@@ -164,13 +164,13 @@ final readonly class ApplicationFrameworkConfigService implements Administration
                 'http_method_override' => false,
                 'handle_all_throwables' => true,
                 'form' => [
-                    'enabled' => '1' === $data->formEnabled,
+                    'enabled' => $data->formEnabled,
                     'csrf_protection' => [
-                        'enabled' => '1' === $data->csrfProtectionEnabled,
+                        'enabled' => $data->csrfProtectionEnabled,
                     ],
                 ],
                 'validation' => [
-                    'enabled' => '1' === $data->validationEnabled,
+                    'enabled' => $data->validationEnabled,
                     'email_validation_mode' => 'html5',
                 ],
                 'session' => [
@@ -206,9 +206,9 @@ final readonly class ApplicationFrameworkConfigService implements Administration
     private function stateRows(ApplicationFrameworkConfigData $data, string $status): array
     {
         return [
-            'framework_csrf_protection_enabled' => ['fieldType' => 'checkbox', 'secret' => false, 'current' => $data->csrfProtectionEnabled, 'pending' => $data->csrfProtectionEnabled, 'masked' => null, 'status' => $status],
-            'framework_form_enabled' => ['fieldType' => 'checkbox', 'secret' => false, 'current' => $data->formEnabled, 'pending' => $data->formEnabled, 'masked' => null, 'status' => $status],
-            'framework_validation_enabled' => ['fieldType' => 'checkbox', 'secret' => false, 'current' => $data->validationEnabled, 'pending' => $data->validationEnabled, 'masked' => null, 'status' => $status],
+            'framework_csrf_protection_enabled' => ['fieldType' => 'checkbox', 'secret' => false, 'current' => $this->boolFlag($data->csrfProtectionEnabled), 'pending' => $this->boolFlag($data->csrfProtectionEnabled), 'masked' => null, 'status' => $status],
+            'framework_form_enabled' => ['fieldType' => 'checkbox', 'secret' => false, 'current' => $this->boolFlag($data->formEnabled), 'pending' => $this->boolFlag($data->formEnabled), 'masked' => null, 'status' => $status],
+            'framework_validation_enabled' => ['fieldType' => 'checkbox', 'secret' => false, 'current' => $this->boolFlag($data->validationEnabled), 'pending' => $this->boolFlag($data->validationEnabled), 'masked' => null, 'status' => $status],
             'framework_session_cookie_secure' => ['fieldType' => 'choice', 'secret' => false, 'current' => $data->sessionCookieSecure, 'pending' => $data->sessionCookieSecure, 'masked' => null, 'status' => $status],
             'framework_session_cookie_same_site' => ['fieldType' => 'choice', 'secret' => false, 'current' => $data->sessionCookieSameSite, 'pending' => $data->sessionCookieSameSite, 'masked' => null, 'status' => $status],
             'framework_login_throttle_limit' => ['fieldType' => 'integer', 'secret' => false, 'current' => $data->loginThrottleLimit, 'pending' => $data->loginThrottleLimit, 'masked' => null, 'status' => $status],
@@ -255,6 +255,11 @@ final readonly class ApplicationFrameworkConfigService implements Administration
     private function scalarString(mixed $value, string $fallback): string
     {
         return is_scalar($value) ? (string) $value : $fallback;
+    }
+
+    private function boolFlag(bool $value): string
+    {
+        return $value ? '1' : '0';
     }
 
     /**
