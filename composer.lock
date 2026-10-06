@@ -12,7 +12,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Administering",
-                "reference": "bdf0e4d3f5bf359b777110a1f7b527bcaf5e0f3b"
+                "reference": "754f8c2c6d4970571c603385a0c53aaf2805728d"
             },
             "require": {
                 "collectioning/collection": "dev-master",
@@ -339,7 +339,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Collectioning",
-                "reference": "82194f4f9f67bb53a2536c5a15e1d924f0ec8991"
+                "reference": "33502be7bcd67bf7bb59ba5d63157b34d8892709"
             },
             "require": {
                 "doctrine/doctrine-bundle": "^3.2",
@@ -356,7 +356,9 @@
                 "friendsofphp/php-cs-fixer": "^3.95",
                 "gating/gate": "dev-master",
                 "phpstan/phpstan": "^2.2",
-                "phpunit/phpunit": "^13.3"
+                "phpunit/phpunit": "^13.3",
+                "symfony/panther": "^2.4",
+                "symfony/test-pack": "^1.2"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -394,10 +396,21 @@
                 "gate": [
                     "@php vendor/bin/gating check --target=."
                 ],
+                "scan": [
+                    "@php vendor/bin/gating scan --target=."
+                ],
+                "quality:ui": [
+                    "npm test"
+                ],
+                "test:behavioral-coverage": [
+                    "@php tool/behavioral-coverage.php"
+                ],
                 "quality": [
                     "@cs:check",
                     "@phpstan",
                     "@test",
+                    "@quality:ui",
+                    "@test:behavioral-coverage",
                     "@gate"
                 ]
             },
@@ -493,13 +506,13 @@
             "dist": {
                 "type": "path",
                 "url": "../Cruding",
-                "reference": "1c291877721e7db57be69e5f9577534b023c279c"
+                "reference": "f4bac830274f1599ef537e2e4cc98ca875d89925"
             },
             "require": {
                 "collectioning/collection": "dev-master",
                 "doctrine/doctrine-bundle": "^3.2",
                 "doctrine/orm": "^3.0",
-                "failing/failure": "dev-master",
+                "nelmio/api-doc-bundle": "^5.0",
                 "php": "^8.4",
                 "symfony/config": "^8.1",
                 "symfony/dependency-injection": "^8.1",
@@ -517,7 +530,6 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.95",
-                "gating/gate": "dev-master",
                 "phpstan/phpstan": "^2.0",
                 "phpunit/phpunit": "^12.0",
                 "symfony/dotenv": "^8.1"
@@ -546,9 +558,6 @@
                 "test:coverage": [
                     "@php -r \"if (!is_dir('var/coverage')) { mkdir('var/coverage', 0777, true); }\"",
                     "@php -d xdebug.mode=coverage vendor/bin/phpunit --path-coverage --coverage-text=var/coverage/summary.txt"
-                ],
-                "validate:prod": [
-                    "composer validate --strict --no-check-all composer.prod.json"
                 ],
                 "cs:check": [
                     "@php vendor/bin/php-cs-fixer fix --dry-run --diff"
@@ -594,19 +603,10 @@
                     "@canon:cruding",
                     "@smoke:cruding",
                     "@test"
-                ],
-                "gate": [
-                    "@php vendor/bin/gating check --target=."
-                ],
-                "quality": [
-                    "@cs:check",
-                    "@phpstan",
-                    "@test",
-                    "@gate"
                 ]
             },
             "license": [
-                "PolyForm-Noncommercial-1.0.0"
+                "proprietary"
             ],
             "description": "Universal CRUD route processor bundle for Symfony host applications.",
             "transport-options": {
@@ -1847,7 +1847,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Failing",
-                "reference": "9bc085b96f2ebc670202849da85c37f5bd8a7c6c"
+                "reference": "64923640c4f277e57458b4b1b5dfde9ea93a2b8d"
             },
             "require": {
                 "php": "^8.4",
@@ -1893,7 +1893,7 @@
                 ],
                 "test:coverage": [
                     "@php -r \"if (!is_dir('var/coverage')) { mkdir('var/coverage', 0777, true); }\"",
-                    "@php -d xdebug.mode=coverage vendor/bin/phpunit --branch-coverage --coverage-text=var/coverage/summary.txt"
+                    "@php -d xdebug.mode=coverage vendor/bin/phpunit --path-coverage --coverage-text=var/coverage/summary.txt"
                 ],
                 "phpstan": [
                     "@php vendor/bin/phpstan analyse src tests --level=max"
@@ -1931,7 +1931,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Interfacing",
-                "reference": "0f3353dc5a4d06bd2c2b04fa46b918e8e42f4c84"
+                "reference": "15ced56faf040f6982d33929904a669649ad3d11"
             },
             "require": {
                 "collectioning/collection": "dev-master",
@@ -2367,7 +2367,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Objecting",
-                "reference": "4f25833b58ac64fb61b9a3d734d7d546f13ca4ab"
+                "reference": "e318b6be0a7acebb1bb6d7499ae076752cc0b76f"
             },
             "require": {
                 "doctrine/orm": "^3.3",
@@ -9036,21 +9036,30 @@
             "dist": {
                 "type": "path",
                 "url": "../Tabling",
-                "reference": "e42a781348a0150f25e9775b6faf2a67f80cf69a"
+                "reference": "646c32bd2f12fa5303e9382a4af83275c47d190c"
             },
             "require": {
                 "collectioning/collection": "dev-master",
+                "cruding/crud": "dev-master",
+                "easycorp/easyadmin-bundle": "^5.5",
+                "failing/failure": "dev-master",
+                "interfacing/interface": "dev-master",
+                "objecting/object": "dev-master",
                 "php": "^8.4",
                 "symfony/dependency-injection": "^8.1",
                 "symfony/framework-bundle": "^8.1",
                 "symfony/http-kernel": "^8.1",
-                "symfony/security-bundle": "^8.1"
+                "symfony/security-bundle": "^8.1",
+                "viewing/view": "dev-master"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.95",
                 "gating/gate": "dev-master",
                 "phpstan/phpstan": "^2.2",
-                "phpunit/phpunit": "^13.3"
+                "phpunit/phpunit": "^13.3",
+                "symfony/browser-kit": "^8.1",
+                "symfony/css-selector": "^8.1",
+                "symfony/panther": "^2.4"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -9332,7 +9341,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Viewing",
-                "reference": "14872bdb40d7ace831585c42e7409d20cca32cf3"
+                "reference": "e671ad8433fefe9169848efb705f9f97302a70e2"
             },
             "require": {
                 "collectioning/collection": "dev-master",
@@ -10315,7 +10324,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Gating",
-                "reference": "a1b70c7e5d089fea4f94390f559c0e04cb393652"
+                "reference": "6baa5e9925e60fbb801814e81392f176292c751e"
             },
             "require": {
                 "php": "^8.4",
