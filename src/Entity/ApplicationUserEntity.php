@@ -148,11 +148,17 @@ class ApplicationUserEntity implements UserInterface, PasswordAuthenticatedUserI
         return $this->password;
     }
 
+    /**
+     * Replaces the stored password hash used for local authentication.
+     */
     public function changePassword(?string $password): void
     {
         $this->password = $password;
     }
 
+    /**
+     * Satisfies Symfony's transient-credential cleanup hook; no temporary credentials are stored.
+     */
     public function eraseCredentials(): void
     {
     }
@@ -162,6 +168,9 @@ class ApplicationUserEntity implements UserInterface, PasswordAuthenticatedUserI
         return $this->authSource;
     }
 
+    /**
+     * Replaces the authentication-source identifier associated with this user.
+     */
     public function changeAuthSource(string $authSource): void
     {
         $this->authSource = $authSource;
@@ -172,6 +181,9 @@ class ApplicationUserEntity implements UserInterface, PasswordAuthenticatedUserI
         return $this->externalSubject;
     }
 
+    /**
+     * Replaces the optional external-provider subject linked to this user.
+     */
     public function changeExternalSubject(?string $externalSubject): void
     {
         $this->externalSubject = $externalSubject;
@@ -182,11 +194,17 @@ class ApplicationUserEntity implements UserInterface, PasswordAuthenticatedUserI
         return $this->active;
     }
 
+    /**
+     * Marks the local user active for application access.
+     */
     public function activate(): void
     {
         $this->active = true;
     }
 
+    /**
+     * Marks the local user inactive without deleting persisted identity state.
+     */
     public function deactivate(): void
     {
         $this->active = false;

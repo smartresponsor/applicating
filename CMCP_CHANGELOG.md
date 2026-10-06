@@ -1022,4 +1022,24 @@
 - Concurrent repository/PHPStan coverage work landed independently and advanced `master`; final tracked dirty state for this workstream contains only the six Entity files plus this journal entry.
 - No Doctrine mapping, field definition, state transition, timestamp rule, persistence behavior, route, form, template, navigation, or user-observable behavior changed; visual evidence is not applicable.
 
+## 2026-10-05 — Security enum and subscriber contract documentation
+
+### Selection and implementation
+
+- Continued from synchronized `master` after the Entity lifecycle documentation commit; only generated `var/` was present locally at baseline.
+- Selected the next Canon031 representative gaps: remaining `ApplicationUserEntity` mutation hooks, the four application enums, `ApplicationRequestCorrelationSubscriber`, and `ApplicationUserLoginSubscriber`.
+- Added semantic documentation for password/auth-source/external-subject/activity transitions, enum responsibilities, request/response correlation propagation, and successful-login persistence.
+- Preserved all enum values, event subscriptions, security behavior, persistence calls, routes, templates, forms, and runtime semantics.
+
+### Verification
+
+- Changed PHP lint: PASS for the user entity, four enums, and two event subscribers.
+- `composer validate --strict --check-lock`: PASS.
+- `composer qa:style`: PASS; PHP lint/service-interface parity are GREEN and PHP-CS-Fixer completed with no fixable files.
+- The first `composer qa:static` invocation timed out before an exit code after reaching 88%; an immediate later rerun completed successfully with PHPStan zero errors.
+- The first `composer qa:test` invocation returned exit 255 without PHPUnit diagnostics; targeted `composer test:unit` then passed 60 tests / 292 assertions, `composer test:coverage` passed 83 tests / 403 assertions, and the repeated full `composer qa:test` passed 83 tests / 403 assertions with behavioral evidence refreshed at functional 7/7, behavioral 0/5, UI 1/4, critical 0/2. The initial exit 255 is therefore retained as a transient runner failure, not a reproducible source regression.
+- `composer gate:canon`: PASS with zero hard failures. Canon031 improved from classes 51/101 (50.5%) and contract methods 90/193 (46.6%) to classes 57/101 (56.4%) and contract methods 99/193 (51.3%). Canon040 now measures 55.6% lines / 64.9% methods / 82.8% branches.
+- Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261006-023639.json`: PHPStan zero errors and the same seven medium non-autofixable php-structure observations; no new structural regression.
+- No enum values, event subscriptions, authentication behavior, persistence semantics, routes, forms, templates, navigation, or user-observable behavior changed; visual evidence is not applicable.
+
 

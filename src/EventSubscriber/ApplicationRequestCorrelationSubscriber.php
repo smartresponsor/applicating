@@ -10,6 +10,9 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
+/**
+ * Propagates a stable request correlation identifier from inbound HTTP requests to responses.
+ */
 final class ApplicationRequestCorrelationSubscriber implements EventSubscriberInterface
 {
     public const string ATTRIBUTE = '_applicating_request_id';
@@ -24,6 +27,8 @@ final class ApplicationRequestCorrelationSubscriber implements EventSubscriberIn
     }
 
     /**
+     * Preserves a valid inbound request ID or generates one and stores it on request attributes.
+     *
      * @throws RandomException
      */
     public function onRequest(RequestEvent $event): void
@@ -38,6 +43,9 @@ final class ApplicationRequestCorrelationSubscriber implements EventSubscriberIn
         $request->attributes->set(self::ATTRIBUTE, $requestId);
     }
 
+    /**
+     * Mirrors the request correlation identifier onto the HTTP response when one is available.
+     */
     public function onResponse(ResponseEvent $event): void
     {
         $requestId = $event->getRequest()->attributes->get(self::ATTRIBUTE);
