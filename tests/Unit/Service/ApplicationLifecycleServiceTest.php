@@ -172,6 +172,58 @@ final class ApplicationLifecycleServiceTest extends TestCase
         self::assertNotSame([], $assignment->getDiagnostics());
     }
 
+    public function testPublishRejectsReleaseOwnedByAnotherApplicationWithoutPersistence(): void
+    {
+        $application = $this->application();
+        $foreignApplication = new ApplicationEntity('Other Application', 'other-application', 'other/application', 'Other Developer', 'Other summary.');
+        $release = new ApplicationReleaseEntity($foreignApplication, '1.2.3', 'stable', 'abc123', 'https://example.test/other.zip', 'Other release.');
+
+        $this->releaseRepository->expects(self::never())->method('save');
+
+        $this->assertLogicException(
+            fn () => $this->service->publishApplication($application, $release),
+            'Application release does not belong to the selected application.',
+        );
+    }
+
+    public function testCreateManifestRejectsDuplicateIdentifierWithoutPersistence(): void
+    {
+        $application = $this->application();
+        $data = new ApplicationManifestDTO();
+        $data->identifier = 'demo.manifest';
+        $payload = [
+            'manifestVersion' => '1.0.0',
+            'identifier' => 'demo.manifest',
+            'capabilities' => [],
+            'permissions' => [],
+            'runtimeHooks' => [],
+            'sandboxProfile' => 'default',
+            'governanceState' => 'approved',
+        ];
+        $existing = new ApplicationManifestEntity($application, '1.0.0', 'demo.manifest', [], [], [], 'default', 'approved', $payload);
+
+        $this->manifestService->method('normalizeManifestPayload')->willReturn($payload);
+        $this->manifestRepository->method('findOneForApplicationAndIdentifier')->willReturn($existing);
+        $this->manifestRepository->expects(self::never())->method('save');
+
+        $this->assertLogicException(
+            fn () => $this->service->createManifest($application, $data),
+            'Manifest demo.manifest is already attached to application demo-application.',
+        );
+    }
+
+    public function testTenantAssignmentRejectsMalformedAccessPolicyWithoutPersistence(): void
+    {
+        $data = new ApplicationTenantAssignmentDTO();
+        $data->accessPolicy = '{not-json';
+
+        $this->tenantRepository->expects(self::never())->method('save');
+        $this->tenantRepository->expects(self::never())->method('findOneForTenantAndApplicationEntity');
+        $this->expectException(\JsonException::class);
+
+        $this->service->assignTenant($this->application(), $data);
+    }
+
     private function upsertData(): ApplicationUpsertDTO
     {
         $data = new ApplicationUpsertDTO();

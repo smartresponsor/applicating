@@ -1133,6 +1133,27 @@
 - Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261006-131741.json`: seven medium, non-autofixable php-structure observations, unchanged in qualitative contour; no new structural regression.
 - No UI behavior changed; new browser/mobile visual evidence is not applicable to this test-only slice.
 
+## 2026-10-11 — Lifecycle rejection regression verification (engine-20261004100739-applicating-541991)
+
+### Baseline and canonical mapping
+- Windows Console MCP resolved the Applicating workspace; master was clean at 8987a4e6145d6333f1458de29d519a996719f07f and matched origin/master at the start.
+- Read local AGENTS.md, README.md, Composer scripts, PHPUnit configuration, lifecycle source and tests; consulted neighboring Objecting, Cruding, Viewing, Interfacing, Gating, Inspecting and Canonization package/README contours.
+- Canonization normative sources consulted: Canon039PhpTestToolingRule.md, Canon040PhpTestCoverageRule.md, and Canon042BehavioralUiCoverageRule.md. Their mapping: PHPUnit branch-coverage tooling is already canonical; line/method/branch executable coverage and real workflow/browser evidence remain distinct warning-level remediation streams.
+- Original 2026-09-29 CanonScanning RED (Canon039/052/056/063) is superseded by the current 84-rule Canon gate with zero failed rules. Current Canon040/042 warnings remain valid. The historical Inspecting snapshot has seven medium structural observations and is not a new runtime failure.
+- Dependency boundaries remain unchanged: Objecting field packs, Cruding generic CRUD ownership, Viewing view boundary, Interfacing shell/templates; no application dependency on Inspecting. No runtime startup/restart was needed.
+
+### RC-critical implementation
+- Extended ApplicationLifecycleServiceTest with rejection coverage for publication of a foreign application's release, duplicate manifest identity, and malformed tenant access-policy JSON; verified that rejects do not persist entities.
+- No production behavior, dependencies, routes, UI, templates, navigation or persistence schema were changed. This is independent of post-RC growth proposals.
+
+### Verification and remaining work
+- composer test:unit: PASS (77 tests, 390 assertions).
+- composer qa:style: PASS; composer qa:static: PASS (zero PHPStan errors).
+- composer qa:test: PASS (102 tests, 524 assertions); composer test:coverage: PASS (102 tests, 524 assertions).
+- composer gate:canon: PASS (84 rules, zero failures, two warnings, 19 skipped).
+- Canon040 remains below thresholds; Canon042 remains functional 7/7, behavioral 0/5, UI 1/4, critical 0/2. Future RC work requires genuine end-to-end user-workflow execution and evidence rather than fabricated coverage markers.
+- No UI behavior changed, so a new screenshot is not applicable to this test-only update. Growth stream: product administration maturity and diagnostics enhancements deferred until RC evidence is stronger.
+
 ## 2026-10-06 — Manifest and import-map command coverage hardening (`engine-20261004115344-applicating-f4676a`)
 
 ### Selection and implementation
