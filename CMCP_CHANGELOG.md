@@ -1,5 +1,14 @@
 # CMCP execution journal
 
+## 2026-10-11 — Canon039 branch coverage correction
+
+- Initial baseline: clean master HEAD 380304e09c98c63b9327de7bd2de8b7a51252621 synchronized with origin/master.
+- Reviewed Applicating AGENTS.md, README.md, composer.json, phpunit.xml.dist; CanonScanning Gating/Inspecting reports (2026-09-29); Objecting, Cruding, Viewing, Interfacing, Gating and Canonization package contracts.
+- Normative Canonization files read: Canon039PhpTestToolingRule.md (branch coverage), Canon052GatingIntegrationRule.md (artifact-only consumer .gating), Canon056ExternalApiOpenApiParityRule.md (external API parity). Canon021/022 baseline green: Cruding owns generic CRUD and Applicating consumes mandatory helpers.
+- Baseline RED: Canon039, Canon052, Canon056, Canon063; Inspecting seven medium advisories, Semgrep timeout. Warnings: PHPDoc and coverage evidence.
+- RC verification: attempted --branch-coverage, but installed PHPUnit 11.5.55 rejects the flag; restored supported --path-coverage. Coverage suite PASS (99 tests, 518 assertions); Gating canon PASS (84 rules, 0 failed, 2 warnings). Current Canon039/052/056/063 all GREEN; the archived RED reports are stale relative to this worktree. Growth track: lifecycle UX/API examples/diagnostics after RC.
+- Gates: Gating canon, Composer validation, PHPUnit tests and coverage, lint/static analysis; no UI source changed.
+
 ## 2026-09-15 — Applicating RC hardening
 
 ### Reconnaissance baseline
