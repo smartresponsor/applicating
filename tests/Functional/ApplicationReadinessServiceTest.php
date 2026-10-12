@@ -112,6 +112,36 @@ final class ApplicationReadinessServiceTest extends KernelTestCase
         self::assertFalse($readiness->signals->eligibility[0]['eligible']);
     }
 
+    public function testPublishedReleaseDoesNotBlockAnotherEligibleRelease(): void
+    {
+        [$service, $entityManager] = $this->bootReadinessService();
+        $application = $this->application('mixed-readiness');
+        $published = $this->release($application, '1.0.0');
+        $published->publish();
+        $draft = $this->release($application, '2.0.0');
+        $manifest = $this->manifest($application, 'approved');
+
+        $application->addRelease($published);
+        $application->addRelease($draft);
+        $application->addManifest($manifest);
+        $entityManager->persist($application);
+        $entityManager->persist($published);
+        $entityManager->persist($draft);
+        $entityManager->persist($manifest);
+        $entityManager->flush();
+
+        $readiness = $service->buildReadiness('mixed-readiness');
+
+        self::assertTrue($readiness->canPublish);
+        self::assertSame([], $readiness->blockingReasons);
+        self::assertSame(2, $readiness->signals->releaseCount);
+        self::assertCount(2, $readiness->signals->eligibility);
+        self::assertCount(1, array_filter(
+            $readiness->signals->eligibility,
+            static fn (array $item): bool => true === $item['eligible'],
+        ));
+    }
+
     public function testUnapprovedManifestBlocksRelease(): void
     {
         [$service, $entityManager] = $this->bootReadinessService();

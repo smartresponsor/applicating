@@ -41,10 +41,13 @@ final readonly class ApplicationReadinessService implements ApplicationReadiness
         $eligibility = [];
 
         $blocking = [];
+        $hasEligibleRelease = false;
         foreach ($eligibilityItems as $item) {
             $eligibility[] = $item->toReadinessArray();
 
-            if (!$item->eligible) {
+            if ($item->eligible) {
+                $hasEligibleRelease = true;
+            } else {
                 $blocking[] = $item->reason ?? sprintf('Release %d is not publish-eligible.', $item->releaseId);
             }
         }
@@ -59,6 +62,8 @@ final readonly class ApplicationReadinessService implements ApplicationReadiness
 
         if ([] === $eligibility) {
             $blocking[] = 'Publish requires at least one release.';
+        } elseif ($hasEligibleRelease) {
+            $blocking = [];
         }
 
         return new ApplicationReadinessDTO(
