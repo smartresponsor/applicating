@@ -12,6 +12,19 @@ use PHPUnit\Framework\TestCase;
 
 final class ApplicationHealthServiceTest extends TestCase
 {
+    public function testBuildReadinessReturnsReadyWhenDatabaseQuerySucceeds(): void
+    {
+        $repository = $this->createMock(ApplicationRepositoryInterface::class);
+        $repository->expects(self::once())->method('countAllApplications')->willReturn(0);
+
+        $payload = (new ApplicationHealthService($repository))->buildReadiness();
+
+        self::assertSame('ready', $payload['status']);
+        self::assertSame('up', $payload['checks']['database']['status']);
+        self::assertSame('Doctrine ORM query verified.', $payload['checks']['database']['message']);
+        self::assertNotFalse(\DateTimeImmutable::createFromFormat(DATE_ATOM, $payload['generatedAt']));
+    }
+
     public function testBuildHealthReturnsExpectedLivenessPayload(): void
     {
         $repository = $this->createMock(ApplicationRepositoryInterface::class);
