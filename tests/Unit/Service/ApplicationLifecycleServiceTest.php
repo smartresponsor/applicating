@@ -212,6 +212,22 @@ final class ApplicationLifecycleServiceTest extends TestCase
         );
     }
 
+    public function testTenantAssignmentAcceptsWhitespacePrefixedJsonObject(): void
+    {
+        $data = new ApplicationTenantAssignmentDTO();
+        $data->tenantKey = 'tenant-1';
+        $data->installedVersion = '1.2.3';
+        $data->accessPolicy = " \n ".'{"scope":"tenant"}';
+
+        $this->tenantRepository->method('findOneForTenantAndApplicationEntity')->willReturn(null);
+        $this->diagnosticsService->method('buildTenantDiagnostics')->willReturn($this->diagnostics());
+        $this->tenantRepository->expects(self::once())->method('save');
+
+        $assignment = $this->service->assignTenant($this->application(), $data);
+
+        self::assertSame(['scope' => 'tenant'], $assignment->getAccessPolicy());
+    }
+
     public function testTenantAssignmentRejectsMalformedAccessPolicyWithoutPersistence(): void
     {
         $data = new ApplicationTenantAssignmentDTO();
