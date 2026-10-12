@@ -57,6 +57,10 @@ final readonly class ApplicationReadinessService implements ApplicationReadiness
             }
         }
 
+        if ([] === $eligibility) {
+            $blocking[] = 'Publish requires at least one release.';
+        }
+
         return new ApplicationReadinessDTO(
             canPublish: [] === $blocking,
             blockingReasons: array_values(array_unique($blocking)),
