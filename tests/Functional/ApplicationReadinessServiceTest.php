@@ -49,6 +49,49 @@ final class ApplicationReadinessServiceTest extends KernelTestCase
         self::assertSame([], $readiness->signals->eligibility);
     }
 
+    public function testMissingManifestBlocksRelease(): void
+    {
+        [$service, $entityManager] = $this->bootReadinessService();
+        $application = $this->application('missing-manifest-readiness');
+        $release = $this->release($application, '1.1.0');
+
+        $application->addRelease($release);
+        $entityManager->persist($application);
+        $entityManager->persist($release);
+        $entityManager->flush();
+
+        $readiness = $service->buildReadiness('missing-manifest-readiness');
+
+        self::assertFalse($readiness->canPublish);
+        self::assertSame(['Publish requires an attached manifest.'], $readiness->blockingReasons);
+        self::assertSame(1, $readiness->signals->releaseCount);
+        self::assertSame(0, $readiness->signals->manifestCount);
+        self::assertFalse($readiness->signals->eligibility[0]['eligible']);
+    }
+
+    public function testAlreadyPublishedReleaseIsNotPublishReady(): void
+    {
+        [$service, $entityManager] = $this->bootReadinessService();
+        $application = $this->application('published-readiness');
+        $release = $this->release($application, '3.0.0');
+        $release->publish();
+        $manifest = $this->manifest($application, 'approved');
+
+        $application->addRelease($release);
+        $application->addManifest($manifest);
+        $entityManager->persist($application);
+        $entityManager->persist($release);
+        $entityManager->persist($manifest);
+        $entityManager->flush();
+
+        $readiness = $service->buildReadiness('published-readiness');
+
+        self::assertFalse($readiness->canPublish);
+        self::assertSame(['Release is already published.'], $readiness->blockingReasons);
+        self::assertTrue($readiness->signals->approvedManifestPresent);
+        self::assertFalse($readiness->signals->eligibility[0]['eligible']);
+    }
+
     public function testUnapprovedManifestBlocksRelease(): void
     {
         [$service, $entityManager] = $this->bootReadinessService();
