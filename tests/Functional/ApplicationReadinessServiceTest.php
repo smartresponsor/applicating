@@ -142,6 +142,30 @@ final class ApplicationReadinessServiceTest extends KernelTestCase
         ));
     }
 
+    public function testMultipleBlockedReleasesReportOneDistinctBlockingReason(): void
+    {
+        [$service, $entityManager] = $this->bootReadinessService();
+        $application = $this->application('multi-blocked-readiness');
+        $first = $this->release($application, '1.0.0');
+        $second = $this->release($application, '2.0.0');
+
+        $application->addRelease($first);
+        $application->addRelease($second);
+        $entityManager->persist($application);
+        $entityManager->persist($first);
+        $entityManager->persist($second);
+        $entityManager->flush();
+
+        $readiness = $service->buildReadiness('multi-blocked-readiness');
+
+        self::assertFalse($readiness->canPublish);
+        self::assertSame(['Publish requires an attached manifest.'], $readiness->blockingReasons);
+        self::assertSame(2, $readiness->signals->releaseCount);
+        self::assertCount(2, $readiness->signals->eligibility);
+        self::assertFalse($readiness->signals->eligibility[0]['eligible']);
+        self::assertFalse($readiness->signals->eligibility[1]['eligible']);
+    }
+
     public function testUnapprovedManifestBlocksRelease(): void
     {
         [$service, $entityManager] = $this->bootReadinessService();
