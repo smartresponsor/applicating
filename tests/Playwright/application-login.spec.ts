@@ -2,6 +2,13 @@ import { expect, test } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
 
+test('administration page is not available to anonymous visitors', async ({ page }) => {
+  const response = await page.goto('/admin/applications/new');
+  expect(response).not.toBeNull();
+  expect([200, 302, 303, 401, 403]).toContain(response?.status());
+  await expect(page.getByRole('heading', { name: 'Create application', exact: true })).toHaveCount(0);
+});
+
 const artifactDate = process.env.CMCP_RUN_DATE ?? new Date().toISOString().slice(0, 10);
 const artifactRunId = process.env.CMCP_RUN_ID ?? 'manual';
 const artifactDirectory = path.resolve('..', 'var', 'Applicating', artifactDate, artifactRunId);

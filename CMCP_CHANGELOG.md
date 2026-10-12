@@ -1133,6 +1133,14 @@
 - Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261006-131741.json`: seven medium, non-autofixable php-structure observations, unchanged in qualitative contour; no new structural regression.
 - No UI behavior changed; new browser/mobile visual evidence is not applicable to this test-only slice.
 
+## 2026-10-11 — Browser authorization regression (engine-20261004100739-applicating-541991)
+
+- Baseline: clean master at ff4bafc0f56ff0ec12ed0c4e4c1d7d2ee46457a3, synchronized with origin/master.
+- Canon042 guided a real Chromium regression for anonymous access to /admin/applications/new; it asserts that the application creation heading is absent. This does not establish successful authenticated creation, release publication, or tenant assignment.
+- Existing login browser check retained; composer test:playwright PASS (2/2). Playwright-managed test server used; no healthy managed server was restarted.
+- No production PHP, service, API, persistence schema, forms, routes or templates changed. No new workflow:coverage marker is claimed. Canon040 and Canon042 remain open until their independently measured thresholds are met.
+- Playwright screenshot from the existing login test uses the configured var/Applicating/<date>/<run-id> artifact directory.
+
 ## 2026-10-11 — Lifecycle rejection regression verification (engine-20261004100739-applicating-541991)
 
 ### Baseline and canonical mapping
