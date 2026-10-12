@@ -1133,6 +1133,15 @@
 - Fresh Inspecting report `D--PhpstormProjects-www-Applicating-20261006-131741.json`: seven medium, non-autofixable php-structure observations, unchanged in qualitative contour; no new structural regression.
 - No UI behavior changed; new browser/mobile visual evidence is not applicable to this test-only slice.
 
+## 2026-10-11 — Tenant access policy type validation (engine-20261004100739-applicating-541991)
+
+- Baseline: clean master b4df3f607cc381f18f923397eac1f3bd32484a49, synchronized with origin/master before changes. Prior Composer/Gating and Canonization contract inventory retained.
+- RC-critical lifecycle hardening: reject valid JSON scalar or list inputs to tenant assignment policy before repository lookup/save; require JSON object at the public application-operation boundary. A policy encoded as an empty JSON object remains accepted.
+- New unit regression covers [], non-empty list, string, boolean, and null. No route, browser UI, form or template was changed. The browser-authentication scenario remains future Canon042 debt.
+- composer test:unit PASS 78 tests/396 assertions; composer qa:static PASS; composer qa:style PASS; composer qa:test PASS 103 tests/530 assertions, with Canon042 unchanged at functional 7/7, behavioral 0/5, UI 1/4, critical 0/2.
+- Canon gate now runs 85 checks and surfaces a newly enforced Canon069 merged-master integrity failure: local security/gitleaks-semgrep and multiple origin/wave branches contain commits absent from master. Preserve all branch history pending semantic inspection; do not merge or delete blindly. Canon040 warning remains below target for line/method coverage.
+- Scope: ApplicationLifecycleService and its unit regression only. Growth stream: richer admin workflow and UX coverage deferred beyond the bounded correctness fix.
+
 ## 2026-10-11 — Browser authorization regression (engine-20261004100739-applicating-541991)
 
 - Baseline: clean master at ff4bafc0f56ff0ec12ed0c4e4c1d7d2ee46457a3, synchronized with origin/master.

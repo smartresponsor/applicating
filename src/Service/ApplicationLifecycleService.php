@@ -162,8 +162,11 @@ final readonly class ApplicationLifecycleService implements ApplicationLifecycle
      */
     public function assignTenant(ApplicationEntity $application, ApplicationTenantAssignmentDTO $data): ApplicationTenantAssignmentEntity
     {
-        /** @var array<string, mixed> $policy */
         $policy = json_decode($data->accessPolicy, true, 512, JSON_THROW_ON_ERROR);
+        if (!is_array($policy) || !str_starts_with(ltrim($data->accessPolicy), '{')) {
+            throw new \InvalidArgumentException('Tenant access policy must be a JSON object.');
+        }
+        /** @var array<string, mixed> $policy */
         $version = (new ApplicationVersion($data->installedVersion))->toString();
 
         $tenantApplication = $this->tenantApplicationRepository->findOneForTenantAndApplicationEntity($data->tenantKey, $application);

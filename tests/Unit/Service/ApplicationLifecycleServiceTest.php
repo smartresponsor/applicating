@@ -224,6 +224,23 @@ final class ApplicationLifecycleServiceTest extends TestCase
         $this->service->assignTenant($this->application(), $data);
     }
 
+    public function testTenantAssignmentRejectsNonObjectJsonPolicy(): void
+    {
+        foreach (['[]', '["scope"]', '"literal"', 'true', 'null'] as $invalidPolicy) {
+            $data = new ApplicationTenantAssignmentDTO();
+            $data->accessPolicy = $invalidPolicy;
+
+            try {
+                $this->service->assignTenant($this->application(), $data);
+                self::fail('Expected rejection for '.$invalidPolicy);
+            } catch (\InvalidArgumentException $exception) {
+                self::assertSame('Tenant access policy must be a JSON object.', $exception->getMessage());
+            }
+        }
+
+        $this->tenantRepository->expects(self::never())->method('save');
+    }
+
     private function upsertData(): ApplicationUpsertDTO
     {
         $data = new ApplicationUpsertDTO();
