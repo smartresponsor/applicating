@@ -49,6 +49,26 @@ final class ApplicationReadinessServiceTest extends KernelTestCase
         self::assertSame([], $readiness->signals->eligibility);
     }
 
+    public function testApprovedManifestWithoutReleaseStillBlocksPublication(): void
+    {
+        [$service, $entityManager] = $this->bootReadinessService();
+        $application = $this->application('manifest-only-readiness');
+        $manifest = $this->manifest($application, 'approved');
+
+        $application->addManifest($manifest);
+        $entityManager->persist($application);
+        $entityManager->persist($manifest);
+        $entityManager->flush();
+
+        $readiness = $service->buildReadiness('manifest-only-readiness');
+
+        self::assertFalse($readiness->canPublish);
+        self::assertSame(['Publish requires at least one release.'], $readiness->blockingReasons);
+        self::assertTrue($readiness->signals->approvedManifestPresent);
+        self::assertSame(1, $readiness->signals->manifestCount);
+        self::assertSame(0, $readiness->signals->releaseCount);
+    }
+
     public function testMissingManifestBlocksRelease(): void
     {
         [$service, $entityManager] = $this->bootReadinessService();
